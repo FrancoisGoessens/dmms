@@ -343,3 +343,105 @@ export async function getAllItemsForSalesForm() {
   if (error) throw error
   return data
 }
+
+// --- Requêtes groupées (perf) : remplace les boucles avec await un par un ---
+
+export async function getMonsterItemsForDungeons(dungeonIds) {
+  if (dungeonIds.length === 0) return []
+  const { data, error } = await supabase
+    .from('cache_monster_items')
+    .select('*, cache_items(*)')
+    .in('dungeon_id', dungeonIds)
+  if (error) throw error
+  return data
+}
+
+// Renvoie { item_id: dernierPrix } en UNE requête au lieu d'une par item
+// (price_log est trié desc, donc la première occurrence par item = la plus récente).
+export async function getLatestPricesForItems(itemIds) {
+  if (itemIds.length === 0) return {}
+  const { data, error } = await supabase
+    .from('price_log')
+    .select('item_id, valeur, created_at')
+    .in('item_id', itemIds)
+    .order('created_at', { ascending: false })
+  if (error) throw error
+  const map = {}
+  for (const row of data) {
+    if (!(row.item_id in map)) map[row.item_id] = row
+  }
+  return map
+}
+
+// --- Liens entre donjons (ex. Blop Royaux) ---
+export async function getLinkedDungeons(dungeonId) {
+  const { data, error } = await supabase
+    .from('dungeon_links')
+    .select('linked_dungeon_id')
+    .eq('dungeon_id', dungeonId)
+  if (error) throw error
+  return data.map((d) => d.linked_dungeon_id)
+}
+
+export async function propagateFait(characterId, dungeonId) {
+  const linked = await getLinkedDungeons(dungeonId)
+  for (const id of linked) {
+    await setDungeonFlag(characterId, id, 'fait_cette_semaine', true)
+  }
+}
+
+// --- Volume de ventes /30j (optionnel, saisi à la main) ---
+export async function updateItemVentes30j(itemId, value) {
+  const { error } = await supabase.from('cache_items').update({ ventes_30j: value }).eq('id', itemId)
+  if (error) throw error
+}
+export async function getItemVentes30j(itemId) {
+  const { data, error } = await supabase.from('cache_items').select('ventes_30j').eq('id', itemId).maybeSingle()
+  if (error) throw error
+  return data?.ventes_30j ?? null
+}
+
+// --- Routes (zones + donjons ordonnés) ---
+export async function getRouteZones() {
+  const { data, error } = await supabase.from('route_zones').select('*').order('name')
+  if (error) throw error
+  return data
+}
+export async function createRouteZone(name) {
+  const { data, error } = await supabase.from('route_zones').insert({ name }).select().single()
+  if (error) throw error
+  return data
+}
+export async function deleteRouteZone(id) {
+  const { error } = await supabase.from('route_zones').delete().eq('id', id)
+  if (error) throw error
+}
+export async function getAllRouteZoneDungeons() {
+  const { data, error } = await supabase
+    .from('route_zone_dungeons')
+    .select('*, cache_dungeons(*)')
+    .order('ordre')
+  if (error) throw error
+  return data
+}
+export async function addDungeonToZone(zoneId, dungeonId, ordre) {
+  const { error } = await supabase.from('route_zone_dungeons').insert({ zone_id: zoneId, dungeon_id: dungeonId, ordre })
+  if (error) throw error
+}
+export async function removeDungeonFromZone(zoneId, dungeonId) {
+  const { error } = await supabase.from('route_zone_dungeons').delete().eq('zone_id', zoneId).eq('dungeon_id', dungeonId)
+  if (error) throw error
+}
+export async function reorderZoneDungeon(zoneId, dungeonId, ordre) {
+  const { error } = await supabase.from('route_zone_dungeons').update({ ordre }).eq('zone_id', zoneId).eq('dungeon_id', dungeonId)
+  if (error) throw error
+}
+
+// --- À vérifier : tous les items suivis, avec leur dernier prix connu ---
+export async function getAllMonsterItemsFull() {
+  const { data, error } = await supabase
+    .from('cache_monster_items')
+    .select('*, cache_items(*), cache_dungeons(*)')
+  if (error) throw error
+  return data
+}

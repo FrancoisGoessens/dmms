@@ -1,37 +1,65 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { getAllMonsterItemsFull, getLatestPricesForItems } from '../lib/db.js'
 
 const router = useRouter()
+const loading = ref(true)
+const rows = ref([])
 
-// Données factices — remplacées ce soir par price_log (dernière entrée > 30j).
-const rows = ref([
-  { id: 'd1', name: 'Kanigrula', type: 'capture', price: 600, days: 60 },
-  { id: 'd2', name: 'Perle Noire', type: 'item', price: 700, days: 70 },
-  { id: 'd3', name: 'Comte Harebourg', type: 'capture', price: 2600, days: 50 },
-  { id: 'd4', name: 'Larve Rousse', type: 'capture', price: 900, days: 45 },
-  { id: 'd5', name: 'Éclat de Craqueleur', type: 'item', price: 60, days: 40 },
-  { id: 'd6', name: 'Griffe Glacée', type: 'item', price: 15, days: 38 },
-  { id: 'd7', name: 'Corne de Minotoror', type: 'item', price: 75, days: 33 },
-])
+function daysAgo(dateStr) {
+  if (!dateStr) return null
+  return Math.floor((Date.now() - new Date(dateStr).getTime()) / 86400000)
+}
+
+async function load() {
+  loading.value = true
+  const monsterItems = await getAllMonsterItemsFull()
+  const itemIds = monsterItems.map((mi) => mi.item_id)
+  const prices = await getLatestPricesForItems(itemIds)
+
+  const built = monsterItems
+    .filter((mi) => mi.cache_items)
+    .map((mi) => {
+      const p = prices[mi.item_id]
+      return {
+        itemId: mi.item_id,
+        dungeonId: mi.dungeon_id,
+        name: mi.cache_items.name,
+        type: mi.categorie === 'capture' ? 'Capture' : 'Item',
+        price: p?.valeur ?? null,
+        days: p ? daysAgo(p.created_at) : null, // null = jamais mis à jour, le pire cas
+      }
+    })
+    .filter((r) => r.days === null || r.days >= 30)
+    .sort((a, b) => (b.days ?? 99999) - (a.days ?? 99999))
+
+  rows.value = built
+  loading.value = false
+}
+onMounted(load)
 
 function severity(days) {
+  if (days === null) return 'red'
   return days >= 60 ? 'red' : 'amber'
 }
-function open(id) {
-  router.push({ name: 'detail', params: { id } })
+function open(dungeonId) {
+  router.push({ name: 'detail', params: { id: dungeonId } })
 }
 </script>
 
 <template>
   <div class="panel">
-    <div v-for="row in rows" :key="row.id" class="row" :class="severity(row.days)" @click="open(row.id)">
-      <div class="type-tag" :class="severity(row.days)">{{ row.type === 'capture' ? 'Capture' : 'Item' }}</div>
-      <div class="name">{{ row.name }}</div>
-      <div class="price">{{ row.price.toLocaleString('fr-FR') }} kamas</div>
-      <div class="badge-days" :class="severity(row.days)">{{ row.days }} j</div>
-    </div>
-    <div v-if="rows.length === 0" class="empty">Tout est à jour, rien à vérifier 🎉</div>
+    <p v-if="loading">Chargement…</p>
+    <template v-else>
+      <div v-for="row in rows" :key="row.itemId" class="row" :class="severity(row.days)" @click="open(row.dungeonId)">
+        <div class="type-tag" :class="severity(row.days)">{{ row.type }}</div>
+        <div class="name">{{ row.name }}</div>
+        <div class="price">{{ row.price == null ? 'aucun prix' : `${row.price.toLocaleString('fr-FR')} kamas` }}</div>
+        <div class="badge-days" :class="severity(row.days)">{{ row.days === null ? 'jamais' : `${row.days} j` }}</div>
+      </div>
+      <div v-if="rows.length === 0" class="empty">Tout est à jour, rien à vérifier 🎉</div>
+    </template>
   </div>
 </template>
 

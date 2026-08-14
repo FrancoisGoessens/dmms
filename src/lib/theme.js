@@ -35,10 +35,14 @@ export const DARK = {
   accentText: 'oklch(0.82 0.13 125)',
 }
 
-export function priorityColor(score) {
-  if (score >= 66) return GREEN
-  if (score >= 33) return AMBER
-  return RED
+// Paliers exacts donnés par François, sur le profit net (pas le %) :
+// <=0 on oublie, 1-20k pas très worth, 20k-50k worth, 50k-100k beau
+// bénéfice, 100k+ jackpot. On a 3 couleurs dispo -> on regroupe
+// (oublie=rouge, pas très worth/worth=ambre, beau bénéfice/jackpot=vert).
+export function priorityColor(netCapture) {
+  if (netCapture <= 0) return RED
+  if (netCapture <= 50000) return AMBER
+  return GREEN
 }
 
 // Styles partagés entre écrans — repris à l'identique du design.

@@ -1,12 +1,20 @@
 <script setup>
 import { ref } from 'vue'
-import { useRoute } from 'vue-router'
-import RentSettingsModal from './RentSettingsModal.vue'
+import { useRoute, useRouter } from 'vue-router'
 import SoulStonesModal from './SoulStonesModal.vue'
+import { session } from '../lib/session.js'
+import { invalidateDungeonCache } from '../lib/dungeonCache.js'
 
 const route = useRoute()
-const showRentSettings = ref(false)
+const router = useRouter()
 const showSoulStones = ref(false)
+
+function goHome() {
+  // Force un rechargement propre des données au lieu de réutiliser le cache,
+  // vu que c'est un "reset" volontaire demandé par le clic sur le logo.
+  invalidateDungeonCache(session.characterId)
+  router.push('/dashboard')
+}
 
 const navDonjons = [
   { to: '/dashboard', label: 'Dashboard', section: 'Donjons' },
@@ -29,7 +37,7 @@ function isActive(to) {
 
 <template>
   <nav class="sidebar">
-    <div class="logo">D<span class="accent">MMS</span></div>
+    <img src="/logo.png" alt="DMMS" class="logo-img" @click="goHome" title="Retour au dashboard" />
 
     <template v-for="item in [...navDonjons, ...navMetiers]" :key="item.to">
       <div v-if="item.section" class="section-label">{{ item.section }}</div>
@@ -41,11 +49,9 @@ function isActive(to) {
 
     <div class="sidebar-footer">
       <div class="footer-btn" @click="showSoulStones = true">💠 Prix des pierres d'âme</div>
-      <div class="footer-btn" @click="showRentSettings = true">⚙ Paramètres rentabilité</div>
       <div class="reset-note">Reset hebdo : mardi 12h</div>
     </div>
   </nav>
-  <RentSettingsModal :open="showRentSettings" @close="showRentSettings = false" />
   <SoulStonesModal :open="showSoulStones" @close="showSoulStones = false" />
 </template>
 
@@ -59,14 +65,15 @@ function isActive(to) {
   padding: 20px 14px;
   gap: 2px;
 }
-.logo {
-  color: #fff;
-  font-weight: 800;
-  font-size: 15px;
-  letter-spacing: 0.3px;
-  padding: 8px 10px 20px;
+.logo-img {
+  width: 168px;
+  height: auto;
+  align-self: flex-start;
+  flex-shrink: 0;
+  display: block;
+  cursor: pointer;
+  margin: 8px 0 24px;
 }
-.accent { color: #BFD75B; }
 .section-label {
   font-size: 10px;
   font-weight: 700;
@@ -110,7 +117,5 @@ function isActive(to) {
   color: oklch(0.8 0.01 150);
   font-weight: 600;
 }
-.theme-dot { width: 10px; height: 10px; border-radius: 50%; background: oklch(0.9 0.02 90); }
-.theme-dot.dark { background: oklch(0.3 0.01 250); }
 .reset-note { padding: 0 10px; font-size: 11px; color: oklch(0.55 0.02 150); }
 </style>

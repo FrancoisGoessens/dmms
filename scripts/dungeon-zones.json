@@ -1,0 +1,632 @@
+[
+  {
+    "monsterId": 147,
+    "dungeonName": "Cour du Bouftou Royal",
+    "zone": "Cour du Bouftou Royal"
+  },
+  {
+    "monsterId": 289,
+    "dungeonName": "Bibliothèque du Maître Corbac",
+    "zone": "Salle de lecture du Maître Corbac"
+  },
+  {
+    "monsterId": 121,
+    "dungeonName": "Centre du Labyrinthe du Minotoror",
+    "zone": "Centre du labyrinthe du Minotoror"
+  },
+  {
+    "monsterId": 113,
+    "dungeonName": "Antre du Dragon Cochon",
+    "zone": "Antre du Dragon Cochon"
+  },
+  {
+    "monsterId": 854,
+    "dungeonName": "Antre de Crocabulia",
+    "zone": "Antre de Crocabulia"
+  },
+  {
+    "monsterId": 799,
+    "dungeonName": "Grange du Tournesol Affamé",
+    "zone": "Grange du Tournesol Affamé"
+  },
+  {
+    "monsterId": 173,
+    "dungeonName": "Domaine Ancestral",
+    "zone": "Domaine Ancestral"
+  },
+  {
+    "monsterId": 257,
+    "dungeonName": "Clairière du Chêne Mou",
+    "zone": "Clairière du Chêne Mou"
+  },
+  {
+    "monsterId": 1184,
+    "dungeonName": "Clos des Blops",
+    "zone": "Clos des Blops"
+  },
+  {
+    "monsterId": 792,
+    "dungeonName": "Donjon des Bworks",
+    "zone": "Donjon des Bworks"
+  },
+  {
+    "monsterId": 478,
+    "dungeonName": "Grotte du Bworker",
+    "zone": "Grotte du Bworker"
+  },
+  {
+    "monsterId": 232,
+    "dungeonName": "Tanière du Meulou",
+    "zone": "Tanière du Meulou"
+  },
+  {
+    "monsterId": 3460,
+    "dungeonName": "Terrier du Wa Wabbit",
+    "zone": "Terrier du Wa Wabbit"
+  },
+  {
+    "monsterId": 669,
+    "dungeonName": "Pitons Rocheux des Craqueleurs",
+    "zone": "Pitons Rocheux des Craqueleurs"
+  },
+  {
+    "monsterId": 928,
+    "dungeonName": "Château Ensablé",
+    "zone": "Château Ensablé"
+  },
+  {
+    "monsterId": 252,
+    "dungeonName": "Donjon des Forgerons",
+    "zone": "Donjon des Forgerons"
+  },
+  {
+    "monsterId": 1159,
+    "dungeonName": "Temple du Grand Ougah",
+    "zone": "Temple du Grand Ougah"
+  },
+  {
+    "monsterId": 58,
+    "dungeonName": "Gelaxième Dimension",
+    "zone": "Gelaxième dimension"
+  },
+  {
+    "monsterId": 1027,
+    "dungeonName": "Grotte Hesque",
+    "zone": "Grotte Hesque"
+  },
+  {
+    "monsterId": 2960,
+    "dungeonName": "Village Kanniboul",
+    "zone": "Village Kanniboul"
+  },
+  {
+    "monsterId": 1045,
+    "dungeonName": "Canopée du Kimbo",
+    "zone": "Canopée du Kimbo"
+  },
+  {
+    "monsterId": 670,
+    "dungeonName": "Caverne du Koulosse",
+    "zone": "Caverne du Koulosse"
+  },
+  {
+    "monsterId": 423,
+    "dungeonName": "Antre du Kralamoure Géant",
+    "zone": "Antre du Kralamoure Géant"
+  },
+  {
+    "monsterId": 2995,
+    "dungeonName": "Nid du Kwakwa",
+    "zone": "Nid du Kwakwa"
+  },
+  {
+    "monsterId": 457,
+    "dungeonName": "Donjon des Larves",
+    "zone": "Donjon des Larves"
+  },
+  {
+    "monsterId": 2975,
+    "dungeonName": "Maison Fantôme",
+    "zone": "Maison Fantôme"
+  },
+  {
+    "monsterId": 3100,
+    "dungeonName": "Laboratoire de Brumen Tinctorias",
+    "zone": "Laboratoire de Brumen Tinctorias"
+  },
+  {
+    "monsterId": 1179,
+    "dungeonName": "Donjon de Nowel",
+    "zone": "Donjon de Nowel"
+  },
+  {
+    "monsterId": 1194,
+    "dungeonName": "Caverne de Nowel",
+    "zone": "Caverne de Nowel"
+  },
+  {
+    "monsterId": 872,
+    "dungeonName": "Maison du Papa Nowel",
+    "zone": "Maison du Papa Nowel"
+  },
+  {
+    "monsterId": 1051,
+    "dungeonName": "Cale de l'Arche d'Otomaï",
+    "zone": "Cale de l'arche d'Otomaï"
+  },
+  {
+    "monsterId": 1071,
+    "dungeonName": "Goulet du Rasboul",
+    "zone": "Goulet du Rasboul"
+  },
+  {
+    "monsterId": 940,
+    "dungeonName": "Garde-manger du Rat Blanc",
+    "zone": "Garde-manger du Rat Blanc"
+  },
+  {
+    "monsterId": 939,
+    "dungeonName": "Sousouricière du Rat Noir",
+    "zone": "Sousouricière du Rat Noir"
+  },
+  {
+    "monsterId": 943,
+    "dungeonName": "Repaire de Sphincter Cell",
+    "zone": "Repaire de Sphincter Cell"
+  },
+  {
+    "monsterId": 797,
+    "dungeonName": "Donjon des Scarafeuilles",
+    "zone": "Donjon des Scarafeuilles"
+  },
+  {
+    "monsterId": 780,
+    "dungeonName": "Repaire de Skeunk",
+    "zone": "Repaire de Skeunk"
+  },
+  {
+    "monsterId": 3238,
+    "dungeonName": "Donjon des Squelettes",
+    "zone": "Donjon des Squelettes"
+  },
+  {
+    "monsterId": 800,
+    "dungeonName": "Donjon des Tofus",
+    "zone": "Donjon des Tofus"
+  },
+  {
+    "monsterId": 1188,
+    "dungeonName": "Antre du Blop Multicolore Royal",
+    "zone": "Antre du Blop Multicolore Royal"
+  },
+  {
+    "monsterId": 382,
+    "dungeonName": "Tofulailler Royal",
+    "zone": "Tofulailler Royal"
+  },
+  {
+    "monsterId": 1087,
+    "dungeonName": "Laboratoire du Tynril",
+    "zone": "Laboratoire du Tynril"
+  },
+  {
+    "monsterId": 180,
+    "dungeonName": "Château du Wa Wabbit",
+    "zone": "Château du Wa Wabbit"
+  },
+  {
+    "monsterId": 827,
+    "dungeonName": "Salle du Minotot",
+    "zone": "Centre du labyrinthe du Minotoror"
+  },
+  {
+    "monsterId": 2854,
+    "dungeonName": "Serre du Royalmouth",
+    "zone": "Serre du Royalmouth"
+  },
+  {
+    "monsterId": 2848,
+    "dungeonName": "Excavation du Mansot Royal",
+    "zone": "Excavation du Mansot Royal"
+  },
+  {
+    "monsterId": 2877,
+    "dungeonName": "Épave du Grolandais violent",
+    "zone": "Épave du Grolandais violent"
+  },
+  {
+    "monsterId": 2924,
+    "dungeonName": "Hypogée de l'Obsidiantre",
+    "zone": "Hypogée de l'Obsidiantre"
+  },
+  {
+    "monsterId": 2967,
+    "dungeonName": "Tanière Givrefoux",
+    "zone": "Tanière Givrefoux"
+  },
+  {
+    "monsterId": 2968,
+    "dungeonName": "Antre du Korriandre",
+    "zone": "Antre du Korriandre"
+  },
+  {
+    "monsterId": 2986,
+    "dungeonName": "Cavernes du Kolosso",
+    "zone": "Cavernes du Kolosso"
+  },
+  {
+    "monsterId": 2864,
+    "dungeonName": "Antichambre des Gloursons",
+    "zone": "Antichambre des Gloursons"
+  },
+  {
+    "monsterId": 2942,
+    "dungeonName": "Donjon de la mine de Sakaï",
+    "zone": "Mine abandonnée de Sakaï"
+  },
+  {
+    "monsterId": 3306,
+    "dungeonName": "Potager d'Halouine",
+    "zone": "Potager d'Halouine"
+  },
+  {
+    "monsterId": 3409,
+    "dungeonName": "Transporteur de Sylargh",
+    "zone": "Transporteur de Sylargh"
+  },
+  {
+    "monsterId": 3384,
+    "dungeonName": "Salons privés de Klime",
+    "zone": "Salons privés de Klime"
+  },
+  {
+    "monsterId": 3391,
+    "dungeonName": "Forgefroide de Missiz Frizz",
+    "zone": "Forgefroide de Missiz Frizz"
+  },
+  {
+    "monsterId": 3397,
+    "dungeonName": "Laboratoire de Nileza",
+    "zone": "Laboratoire de Nileza"
+  },
+  {
+    "monsterId": 3416,
+    "dungeonName": "Donjon du Comte Harebourg",
+    "zone": "Donjon du Comte Harebourg"
+  },
+  {
+    "monsterId": 3476,
+    "dungeonName": "Théâtre de Dramak",
+    "zone": "Théâtre de Dramak"
+  },
+  {
+    "monsterId": 3534,
+    "dungeonName": "Aquadôme de Merkator",
+    "zone": "Aquadôme de Merkator"
+  },
+  {
+    "monsterId": 3564,
+    "dungeonName": "Pyramide d'Ombre",
+    "zone": "Pyramide d'Ombre"
+  },
+  {
+    "monsterId": 3556,
+    "dungeonName": "Grotte de Kanigroula",
+    "zone": "Grotte de Kanigroula"
+  },
+  {
+    "monsterId": 3648,
+    "dungeonName": "Palais du roi Nidas",
+    "zone": "Palais du roi Nidas"
+  },
+  {
+    "monsterId": 3652,
+    "dungeonName": "Fabrique de Malléfisk",
+    "zone": "Fabrique de Malléfisk"
+  },
+  {
+    "monsterId": 3651,
+    "dungeonName": "Galerie du Phossile",
+    "zone": "Galerie du Phossile"
+  },
+  {
+    "monsterId": 3618,
+    "dungeonName": "Volière de la Haute Truche",
+    "zone": "Volière de la Haute Truche"
+  },
+  {
+    "monsterId": 3753,
+    "dungeonName": "Ring du Capitaine Ekarlatte",
+    "zone": "Ring du Capitaine Ekarlatte"
+  },
+  {
+    "monsterId": 3752,
+    "dungeonName": "Cave du Toxoliath",
+    "zone": "Cave du Toxoliath"
+  },
+  {
+    "monsterId": 3726,
+    "dungeonName": "Trône de la Cour Sombre",
+    "zone": "Trône de la Cour Sombre"
+  },
+  {
+    "monsterId": 3828,
+    "dungeonName": "Ventre de la Baleine",
+    "zone": "Ventre de la Baleine"
+  },
+  {
+    "monsterId": 3852,
+    "dungeonName": "Mégalithe de Fraktale",
+    "zone": "Mégalithe de Fraktale"
+  },
+  {
+    "monsterId": 3849,
+    "dungeonName": "Horologium de XLII",
+    "zone": "Horologium de XLII"
+  },
+  {
+    "monsterId": 3835,
+    "dungeonName": "Œil de Vortex",
+    "zone": "Œil de Vortex"
+  },
+  {
+    "monsterId": 3945,
+    "dungeonName": "Cache de Kankreblath",
+    "zone": "Cache de Kankreblath"
+  },
+  {
+    "monsterId": 3996,
+    "dungeonName": "Antre de la Reine Nyée",
+    "zone": "Antre de la Reine Nyée"
+  },
+  {
+    "monsterId": 4051,
+    "dungeonName": "Crypte de Kardorim",
+    "zone": "Crypte de Kardorim"
+  },
+  {
+    "monsterId": 230,
+    "dungeonName": "Bateau du Chouque",
+    "zone": "Bateau du Chouque"
+  },
+  {
+    "monsterId": 226,
+    "dungeonName": "Arbre de Moon",
+    "zone": "Arbre de Moon"
+  },
+  {
+    "monsterId": 4278,
+    "dungeonName": "Miausolée du Pounicheur",
+    "zone": "Miausolée du Pounicheur"
+  },
+  {
+    "monsterId": 4264,
+    "dungeonName": "Plateau de Ush",
+    "zone": "Plateau de Ush"
+  },
+  {
+    "monsterId": 4263,
+    "dungeonName": "Défi du Chalœil",
+    "zone": "Défi du Chalœil"
+  },
+  {
+    "monsterId": 4460,
+    "dungeonName": "Vaisseau du Capitaine Meno",
+    "zone": "Vaisseau du Capitaine Meno"
+  },
+  {
+    "monsterId": 4453,
+    "dungeonName": "Temple de Koutoulou",
+    "zone": "Temple de Koutoulou"
+  },
+  {
+    "monsterId": 4444,
+    "dungeonName": "Palais de Dantinéa",
+    "zone": "Palais de Dantinéa"
+  },
+  {
+    "monsterId": 4621,
+    "dungeonName": "Cimetière des Mastodontes",
+    "zone": "Cimetière des Mastodontes"
+  },
+  {
+    "monsterId": 4609,
+    "dungeonName": "Caverne d'El Piko",
+    "zone": "Caverne d'El Piko"
+  },
+  {
+    "monsterId": 4726,
+    "dungeonName": "Boyau du Père Ver",
+    "zone": "Boyau du Père Ver"
+  },
+  {
+    "monsterId": 4744,
+    "dungeonName": "Chambre de Tal Kasha",
+    "zone": "Chambre de Tal Kasha"
+  },
+  {
+    "monsterId": 4803,
+    "dungeonName": "Camp du Comte Razof",
+    "zone": "Camp du Comte Razof"
+  },
+  {
+    "monsterId": 4860,
+    "dungeonName": "Chapiteau des Magik Riktus",
+    "zone": "Chapiteau des Magik Riktus"
+  },
+  {
+    "monsterId": 4882,
+    "dungeonName": "Manoir des Katrepat",
+    "zone": "Manoir des Katrepat"
+  },
+  {
+    "monsterId": 4967,
+    "dungeonName": "Belvédère d'Ilyzaelle",
+    "zone": "Belvédère d'Ilyzaelle"
+  },
+  {
+    "monsterId": 5110,
+    "dungeonName": "Tour de Bethel",
+    "zone": "Tour de Bethel"
+  },
+  {
+    "monsterId": 5100,
+    "dungeonName": "Tour de Solar",
+    "zone": "Tour de Solar"
+  },
+  {
+    "monsterId": 5319,
+    "dungeonName": "Brasserie du roi Dazak",
+    "zone": "Brasserie du roi Dazak"
+  },
+  {
+    "monsterId": 5666,
+    "dungeonName": "Temple du dieu Kao",
+    "zone": "Temple du dieu Kao"
+  },
+  {
+    "monsterId": 5664,
+    "dungeonName": "Croquanterie",
+    "zone": "Croquanterie"
+  },
+  {
+    "monsterId": 5653,
+    "dungeonName": "Fonderie des Waddicts",
+    "zone": "Fonderie des Waddicts"
+  },
+  {
+    "monsterId": 5806,
+    "dungeonName": "Sanctuaire de Torkélonia",
+    "zone": "Sanctuaire de Torkélonia"
+  },
+  {
+    "monsterId": 5819,
+    "dungeonName": "Repaire du Kharnozor",
+    "zone": "Repaire du Kharnozor"
+  },
+  {
+    "monsterId": 5823,
+    "dungeonName": "Épreuve de Draegnerys",
+    "zone": "Épreuve de Draegnerys"
+  },
+  {
+    "monsterId": 6026,
+    "dungeonName": "Arbre de Mort",
+    "zone": "Arbre de mort"
+  },
+  {
+    "monsterId": 5955,
+    "dungeonName": "Fers de la Tyrannie",
+    "zone": "Fers de la Tyrannie"
+  },
+  {
+    "monsterId": 5990,
+    "dungeonName": "Sentence de la Balance",
+    "zone": "Sentence de la Balance"
+  },
+  {
+    "monsterId": 6014,
+    "dungeonName": "Trône de Sang",
+    "zone": "Trône de sang"
+  },
+  {
+    "monsterId": 6014,
+    "dungeonName": "Tempête de l'Eliocalypse",
+    "zone": "Tempête de l'Eliocalypse"
+  },
+  {
+    "monsterId": 6204,
+    "dungeonName": "Dojo du Vent",
+    "zone": "Dojo du Vent"
+  },
+  {
+    "monsterId": 6256,
+    "dungeonName": "Vallée de la Dame des eaux",
+    "zone": "Vallée de la Dame des eaux"
+  },
+  {
+    "monsterId": 6249,
+    "dungeonName": "Fabrique de foux d'artifice",
+    "zone": "Fabrique de foux d'artifice"
+  },
+  {
+    "monsterId": 6326,
+    "dungeonName": "Bambusaie de Damadrya",
+    "zone": "Bambusaie de Damadrya"
+  },
+  {
+    "monsterId": 6218,
+    "dungeonName": "Atelier du Tanukouï San",
+    "zone": "Atelier du Tanukouï San"
+  },
+  {
+    "monsterId": 6394,
+    "dungeonName": "Demeure des Esprits",
+    "zone": "Demeure des Esprits"
+  },
+  {
+    "monsterId": 6388,
+    "dungeonName": "Tombe du Shogun Tofugawa",
+    "zone": "Tombe du Shogun Tofugawa"
+  },
+  {
+    "monsterId": 6472,
+    "dungeonName": "Mémoire d'Orukam",
+    "zone": "Mémoire d'Orukam"
+  },
+  {
+    "monsterId": 6478,
+    "dungeonName": "Souvenir d'Imagiro",
+    "zone": "Souvenir d'Imagiro"
+  },
+  {
+    "monsterId": 6654,
+    "dungeonName": "Rituel de Kabahal",
+    "zone": "Rituel de Kabahal"
+  },
+  {
+    "monsterId": 6792,
+    "dungeonName": "Bataille de l'Aurore Pourpre",
+    "zone": "Bataille de l'Aurore Pourpre"
+  },
+  {
+    "monsterId": 6903,
+    "dungeonName": "Akadémie des Gobs",
+    "zone": "Akadémie des Gobs"
+  },
+  {
+    "monsterId": 107,
+    "dungeonName": "Tertre du long sommeil",
+    "zone": "Tertre du long sommeil"
+  },
+  {
+    "monsterId": 7210,
+    "dungeonName": "Chambre des maléfices",
+    "zone": "Chambre des maléfices"
+  },
+  {
+    "monsterId": 7219,
+    "dungeonName": "Bastion des Marteaux-Aigris",
+    "zone": "Bastion des Marteaux-Aigris"
+  },
+  {
+    "monsterId": 7197,
+    "dungeonName": "Refuge sylvestre",
+    "zone": "Refuge sylvestre"
+  },
+  {
+    "monsterId": 8052,
+    "dungeonName": "Poste de contrôle du Supervizœuf",
+    "zone": "Poste de contrôle du Supervizœuf"
+  },
+  {
+    "monsterId": 8047,
+    "dungeonName": "Breuil du Vénérable",
+    "zone": "Breuil du Vénérable"
+  },
+  {
+    "monsterId": 8037,
+    "dungeonName": "Autel de la Déchireuse",
+    "zone": "Autel de la Déchireuse"
+  }
+]

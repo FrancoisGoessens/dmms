@@ -20,8 +20,12 @@ function onChange(stone, val) {
   stone.dirty = true
 }
 async function saveAll() {
-  for (const s of stones.value) {
-    if (s.dirty) { await setStonePrice(s.item_id, s.price); s.dirty = false }
+  try {
+    for (const s of stones.value) {
+      if (s.dirty) { await setStonePrice(s.item_id, s.price); s.dirty = false }
+    }
+  } catch (e) {
+    alert("Erreur à l'enregistrement : " + e.message)
   }
   emit('close')
 }

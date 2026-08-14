@@ -3,14 +3,13 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { session } from '../lib/session.js'
 import {
-  getCharacter,
-  getCharacterDungeons,
-  getMonsterItems,
-  getLatestPrice,
-  getSoulStoneForLevel,
-  setDungeonFlag,
+  getCharacter, getCharacterDungeons, getMonsterItemsForDungeons,
+  getLatestPricesForItems, getSoulStones, setDungeonFlag, propagateFait,
 } from '../lib/db.js'
-import { applyRentCoefs } from '../lib/rentCoefs.js'
+import { computeDungeonRentabilities } from '../lib/rentability.js'
+import { getCachedRentabilities } from '../lib/dungeonCache.js'
+import SkeletonRows from '../components/SkeletonRows.vue'
+import { priorityColor } from '../lib/theme.js'
 
 const router = useRouter()
 const loading = ref(true)
@@ -18,78 +17,22 @@ const character = ref(null)
 const rows = ref([])
 const filterMode = ref('rentability') // 'rentability' | 'todo'
 
-function priorityColor(score) {
-  if (score >= 66) return 'var(--accent)'
-  if (score >= 33) return 'var(--amber)'
-  return 'var(--red)'
-}
-
 async function load() {
   loading.value = true
   character.value = await getCharacter(session.characterId)
 
-  const charDungeons = await getCharacterDungeons(session.characterId)
-
-  const built = []
-  for (const cd of charDungeons) {
-    const dungeon = cd.cache_dungeons
-    if (!dungeon) continue
-
-    const monsterItems = await getMonsterItems(dungeon.id)
-    const byCategorie = Object.fromEntries(monsterItems.map((mi) => [mi.categorie, mi]))
-
-    const capturePrice = byCategorie.capture
-      ? await getLatestPrice(byCategorie.capture.item_id)
-      : 0
-    const stoneId = dungeon.soul_stone_item_id
-    const stonePrice = stoneId
-      ? await getLatestPrice(stoneId)
-      : await (async () => {
-          const s = await getSoulStoneForLevel(dungeon.niveau)
-          return s ? getLatestPrice(s.item_id) : 0
-        })()
-    const pierrePrice = stonePrice
-    const simplePrice = byCategorie.simple
-      ? await getLatestPrice(byCategorie.simple.item_id)
-      : 0
-    const rarePrice = byCategorie.rare
-      ? await getLatestPrice(byCategorie.rare.item_id)
-      : 0
-
-    const pp = character.value.prospection || 0
-    const applyPP = (taux, affectePP) =>
-      affectePP === false ? taux : Math.min(100, (taux * pp) / 100)
-
-    const simpleRate = byCategorie.simple
-      ? applyPP(byCategorie.simple.taux_drop_base, byCategorie.simple.affecte_par_pp)
-      : 0
-    const rareRate = byCategorie.rare
-      ? applyPP(byCategorie.rare.taux_drop_base, byCategorie.rare.affecte_par_pp)
-      : 0
-
-    const netCapture = capturePrice - pierrePrice
-    const dropValue = (simplePrice * simpleRate) / 100 + (rarePrice * rareRate) / 100
-    const rawScore = applyRentCoefs(netCapture, dropValue, dungeon.niveau)
-
-    built.push({
-      dungeonId: dungeon.id,
-      name: dungeon.name,
-      zone: dungeon.zone,
-      done: cd.fait_cette_semaine,
-      captured: cd.capture,
-      rawScore,
+  rows.value = await getCachedRentabilities(session.characterId, async () => {
+    const [charDungeons, soulStones] = await Promise.all([
+      getCharacterDungeons(session.characterId),
+      getSoulStones(),
+    ])
+    return computeDungeonRentabilities({
+      charDungeons, character: character.value, soulStones,
+      getMonsterItemsForDungeons, getLatestPricesForItems,
     })
-  }
-
-  const maxScore = Math.max(...built.map((r) => r.rawScore), 1)
-  rows.value = built.map((r) => ({
-    ...r,
-    rentability: Math.max(1, Math.round((r.rawScore / maxScore) * 100)),
-  }))
-
+  })
   loading.value = false
 }
-
 onMounted(load)
 
 function sortedFilteredRows() {
@@ -101,11 +44,18 @@ function sortedFilteredRows() {
 async function toggleCaptured(row) {
   row.captured = !row.captured
   await setDungeonFlag(session.characterId, row.dungeonId, 'capture', row.captured)
+  // Capturer un donjon le marque aussi comme fait.
+  if (row.captured && !row.done) {
+    row.done = true
+    await setDungeonFlag(session.characterId, row.dungeonId, 'fait_cette_semaine', true)
+  }
+  if (row.done) await propagateFait(session.characterId, row.dungeonId)
 }
 
 async function toggleDone(row) {
   row.done = !row.done
   await setDungeonFlag(session.characterId, row.dungeonId, 'fait_cette_semaine', row.done)
+  if (row.done) await propagateFait(session.characterId, row.dungeonId)
 }
 
 function openDetail(row) {
@@ -129,7 +79,7 @@ function openDetail(row) {
       </div>
     </div>
 
-    <p v-if="loading">Chargement…</p>
+    <SkeletonRows v-if="loading" :count="6" />
 
     <div v-else-if="rows.length === 0" class="empty">
       Aucun donjon assigné — ajoute-en depuis la fiche de {{ character?.name }}.
@@ -143,7 +93,7 @@ function openDetail(row) {
         :class="{ done: row.done }"
         @click="openDetail(row)"
       >
-        <div class="priority-bar" :style="{ background: priorityColor(row.rentability) }"></div>
+        <div class="priority-bar" :style="{ background: priorityColor(row.netCapture) }"></div>
         <div class="name-block">
           <div class="name" :class="{ done: row.done }">{{ row.name }}</div>
           <div class="zone">{{ row.zone }}</div>
@@ -154,8 +104,8 @@ function openDetail(row) {
         <div class="badge" :class="{ on: row.done }" @click.stop="toggleDone(row)">
           {{ row.done ? 'Fait' : 'À faire' }}
         </div>
-        <div class="rent" :style="{ color: priorityColor(row.rentability) }">
-          {{ row.rentability }}%
+        <div class="rent" :style="{ color: priorityColor(row.netCapture) }">
+          {{ Math.round(row.rentability) }}%
         </div>
       </div>
     </div>
@@ -189,7 +139,7 @@ function openDetail(row) {
   color: var(--text-secondary);
 }
 .segmented div.active {
-  background: var(--accent);
+  background: #4f9e2f;
   color: #fff;
 }
 .panel {
@@ -248,7 +198,7 @@ function openDetail(row) {
   background: var(--panel-2);
 }
 .badge.on {
-  color: var(--accent);
+  color: var(--accent-text);
   background: var(--soft-accent-bg);
 }
 .rent {

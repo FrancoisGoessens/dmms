@@ -50,7 +50,7 @@ function openHistoryEntry(h) {
 }
 
 const sorted = computed(() => rows.value.slice().sort((a, b) => b.noFocusNet - a.noFocusNet))
-function netColor(net) { return priorityColor(net > 0 ? 100 : 0) }
+function netColor(net) { return priorityColor(net) }
 </script>
 
 <template>

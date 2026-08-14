@@ -3,10 +3,13 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { session } from '../lib/session.js'
 import {
-  getCharacter, getCharacterDungeons, getMonsterItems, getLatestPrice, getSoulStoneForLevel,
+  getCharacter, getCharacterDungeons, getMonsterItemsForDungeons,
+  getLatestPricesForItems, getSoulStones,
 } from '../lib/db.js'
-import { applyRentCoefs } from '../lib/rentCoefs.js'
+import { computeDungeonRentabilities } from '../lib/rentability.js'
+import { getCachedRentabilities } from '../lib/dungeonCache.js'
 import { priorityColor } from '../lib/theme.js'
+import SkeletonRows from '../components/SkeletonRows.vue'
 
 const router = useRouter()
 const loading = ref(true)
@@ -14,45 +17,17 @@ const rows = ref([])
 
 async function load() {
   loading.value = true
-  const character = await getCharacter(session.characterId)
-  const charDungeons = await getCharacterDungeons(session.characterId)
-
-  const built = []
-  for (const cd of charDungeons) {
-    const dungeon = cd.cache_dungeons
-    if (!dungeon) continue
-
-    const monsterItems = await getMonsterItems(dungeon.id)
-    const byCategorie = Object.fromEntries(monsterItems.map((mi) => [mi.categorie, mi]))
-
-    const capturePrice = byCategorie.capture ? await getLatestPrice(byCategorie.capture.item_id) : 0
-    const stoneId = dungeon.soul_stone_item_id
-    const pierrePrice = stoneId
-      ? await getLatestPrice(stoneId)
-      : await (async () => {
-          const s = await getSoulStoneForLevel(dungeon.niveau)
-          return s ? getLatestPrice(s.item_id) : 0
-        })()
-    const simplePrice = byCategorie.simple ? await getLatestPrice(byCategorie.simple.item_id) : 0
-    const rarePrice = byCategorie.rare ? await getLatestPrice(byCategorie.rare.item_id) : 0
-
-    const pp = character.prospection || 0
-    const applyPP = (taux, affectePP) => (affectePP === false ? taux : Math.min(100, (taux * pp) / 100))
-    const simpleRate = byCategorie.simple ? applyPP(byCategorie.simple.taux_drop_base, byCategorie.simple.affecte_par_pp) : 0
-    const rareRate = byCategorie.rare ? applyPP(byCategorie.rare.taux_drop_base, byCategorie.rare.affecte_par_pp) : 0
-
-    const netCapture = capturePrice - pierrePrice
-    const dropValue = (simplePrice * simpleRate) / 100 + (rarePrice * rareRate) / 100
-    const rawScore = applyRentCoefs(netCapture, dropValue, dungeon.niveau)
-
-    built.push({
-      dungeonId: dungeon.id, name: dungeon.name, zone: dungeon.zone,
-      done: cd.fait_cette_semaine, captured: cd.capture, rawScore,
+  rows.value = await getCachedRentabilities(session.characterId, async () => {
+    const [character, charDungeons, soulStones] = await Promise.all([
+      getCharacter(session.characterId),
+      getCharacterDungeons(session.characterId),
+      getSoulStones(),
+    ])
+    return computeDungeonRentabilities({
+      charDungeons, character, soulStones,
+      getMonsterItemsForDungeons, getLatestPricesForItems,
     })
-  }
-
-  const maxScore = Math.max(...built.map((r) => r.rawScore), 1)
-  rows.value = built.map((r) => ({ ...r, rentability: Math.max(1, Math.round((r.rawScore / maxScore) * 100)) }))
+  })
   loading.value = false
 }
 onMounted(load)
@@ -69,7 +44,12 @@ function openDetail(row) {
 
 <template>
   <div>
-    <p v-if="loading">Chargement…</p>
+    <div v-if="loading" class="board">
+      <div v-for="i in 3" :key="i" class="column">
+        <div class="col-head-skel"></div>
+        <SkeletonRows :count="2" :height="70" />
+      </div>
+    </div>
     <div v-else class="board">
       <div v-for="col in ['À faire', 'Fait', 'Capturé']" :key="col" class="column">
         <div class="col-head">{{ col }} <span class="count">{{ rows.filter(r => column(r) === col).length }}</span></div>
@@ -79,13 +59,13 @@ function openDetail(row) {
           class="card"
           @click="openDetail(row)"
         >
-          <div class="priority-bar" :style="{ background: priorityColor(row.rentability) }"></div>
+          <div class="priority-bar" :style="{ background: priorityColor(row.netCapture) }"></div>
           <div class="card-body">
             <div class="name">{{ row.name }}</div>
             <div class="zone">{{ row.zone }}</div>
             <div class="card-footer">
               <div class="badge" :class="{ on: row.captured }">{{ row.captured ? 'Capturé' : 'Pas capturé' }}</div>
-              <div class="rent" :style="{ color: priorityColor(row.rentability) }">{{ row.rentability }}%</div>
+              <div class="rent" :style="{ color: priorityColor(row.netCapture) }">{{ Math.round(row.rentability) }}%</div>
             </div>
           </div>
         </div>
@@ -97,6 +77,8 @@ function openDetail(row) {
 <style scoped>
 .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .column { background: var(--page-bg); border-radius: 12px; }
+.col-head-skel { width: 80px; height: 16px; border-radius: 4px; background: var(--panel-2); margin-bottom: 12px; animation: pulse 1.3s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 .col-head { font-size: 13px; font-weight: 700; margin-bottom: 12px; color: var(--text); display: flex; align-items: center; gap: 8px; }
 .count { font-size: 11px; font-weight: 600; color: var(--text-secondary); background: var(--panel-2); padding: 2px 8px; border-radius: 20px; }
 .card {

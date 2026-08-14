@@ -8,17 +8,31 @@ const DOFUSDB_BASE = 'https://api.dofusdb.fr'
 export async function refreshDofusDbCache() {
   const { data: cachedItems, error: e1 } = await supabase.from('cache_items').select('id')
   if (e1) throw e1
-  const ids = cachedItems.map((i) => i.id)
+
+  // On exclut nos pseudo-items de capture ("capture-6212"...) qui n'existent
+  // pas côté DofusDB — les envoyer fait planter leur API.
+  const ids = cachedItems.map((i) => i.id).filter((id) => /^\d+$/.test(id))
   if (ids.length === 0) return { updated: 0 }
 
-  const query = ids.map((id) => `id[$in][]=${id}`).join('&')
-  const res = await fetch(`${DOFUSDB_BASE}/items?${query}&lang=fr&$limit=${ids.length}`)
-  const json = await res.json()
+  let updated = 0
+  const CHUNK = 40 // évite une URL trop longue
+  for (let i = 0; i < ids.length; i += CHUNK) {
+    const chunk = ids.slice(i, i + CHUNK)
+    const query = chunk.map((id) => `id[$in][]=${id}`).join('&')
+    const res = await fetch(`${DOFUSDB_BASE}/items?${query}&lang=fr&$limit=${chunk.length}`)
+    const json = await res.json()
 
-  for (const item of json.data) {
-    await supabase.from('cache_items').update({ name: item.name.fr }).eq('id', String(item.id))
+    if (!Array.isArray(json.data)) {
+      console.warn('Réponse DofusDB inattendue pour ce lot :', json)
+      continue
+    }
+    for (const item of json.data) {
+      await supabase.from('cache_items').update({ name: item.name.fr }).eq('id', String(item.id))
+      updated++
+    }
+    await new Promise((r) => setTimeout(r, 150))
   }
-  return { updated: json.data.length }
+  return { updated }
 }
 
 // TODO : à compléter dès que la vraie forme de l'API DoFocus est connue
