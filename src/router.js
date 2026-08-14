@@ -1,11 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { isLoggedIn } from './lib/session.js'
 
-// createWebHashHistory : indispensable sur GitHub Pages (pas de rewrite
-// serveur possible sur de l'hébergement statique), les URLs ressembleront
-// à https://.../dmms/#/dashboard — sans souci de 404 au refresh.
 const routes = [
   { path: '/', redirect: '/dashboard' },
-  { path: '/login', name: 'login', component: () => import('./views/LoginView.vue') },
+  { path: '/login', name: 'login', component: () => import('./views/LoginView.vue'), meta: { public: true } },
 
   { path: '/dashboard', name: 'dashboard', component: () => import('./views/DashboardView.vue') },
   { path: '/kanban', name: 'kanban', component: () => import('./views/KanbanView.vue') },
@@ -22,7 +20,16 @@ const routes = [
   { path: '/runes', name: 'runes', component: () => import('./views/RunesView.vue') },
 ]
 
-export default createRouter({
+const router = createRouter({
   history: createWebHashHistory(),
   routes,
 })
+
+// Toutes les routes exigent un personnage actif, sauf /login.
+router.beforeEach((to) => {
+  if (!to.meta.public && !isLoggedIn()) {
+    return { name: 'login' }
+  }
+})
+
+export default router

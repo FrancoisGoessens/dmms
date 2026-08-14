@@ -1,0 +1,2038 @@
+[
+  {
+    "id": 58,
+    "name": "Gelée Royale Bleuet",
+    "level": 60,
+    "image": "https://api.dofusdb.fr/img/monsters/20.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 85,
+    "name": "Gelée Royale Menthe",
+    "level": 60,
+    "image": "https://api.dofusdb.fr/img/monsters/38.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 86,
+    "name": "Gelée Royale Fraise",
+    "level": 60,
+    "image": "https://api.dofusdb.fr/img/monsters/39.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 107,
+    "name": "Hell Mina",
+    "level": 150,
+    "image": "https://api.dofusdb.fr/img/monsters/55.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Un élément apparait sur vos personnages. Il faut faire un sort dans cet élément pour déclencher un état sur Hell Mina. Passé l'état V, celle-ci passe vulnérable."
+    ]
+  },
+  {
+    "id": 113,
+    "name": "Dragon Cochon",
+    "level": 100,
+    "image": "https://api.dofusdb.fr/img/monsters/60.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 121,
+    "name": "Minotoror",
+    "level": 120,
+    "image": "https://api.dofusdb.fr/img/monsters/67.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 147,
+    "name": "Bouftou Royal",
+    "level": 30,
+    "image": "https://api.dofusdb.fr/img/monsters/74.png",
+    "actif": [
+      "Soigne en priorité ses alliés si ces derniers ont subi des dommages, 2 fois par tour."
+    ],
+    "passif": []
+  },
+  {
+    "id": 173,
+    "name": "Abraknyde Ancestral",
+    "level": 90,
+    "image": "https://api.dofusdb.fr/img/monsters/97.png",
+    "actif": [
+      "Se soigne du 2000 quand il aura perdu un certain nombre de HP."
+    ],
+    "passif": []
+  },
+  {
+    "id": 180,
+    "name": "Wa Wabbit",
+    "level": 60,
+    "image": "https://api.dofusdb.fr/img/monsters/101.png",
+    "actif": [
+      "Réduit les statistiques des personnages du combat."
+    ],
+    "passif": []
+  },
+  {
+    "id": 226,
+    "name": "Moon",
+    "level": 100,
+    "image": "https://api.dofusdb.fr/img/monsters/123.png",
+    "actif": [],
+    "passif": [
+      "Invoque unDarkli Moonqui invoque un Totem de chaque élément à chaque tour.",
+      "Le Moon réduit ses résistances d'un élément lorsqu'un Totem est placé sur la case associé à sa couleur."
+    ]
+  },
+  {
+    "id": 230,
+    "name": "Le Chouque",
+    "level": 90,
+    "image": "https://api.dofusdb.fr/img/monsters/126.png",
+    "actif": [
+      "Échange de place avec les entités du terrain",
+      "OS en mêlée les personnages avec moins de 30% de HP."
+    ],
+    "passif": []
+  },
+  {
+    "id": 232,
+    "name": "Meulou",
+    "level": 100,
+    "image": "https://api.dofusdb.fr/img/monsters/128.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Passe vulnérable lorsqu'un dégât lui a été infligé."
+    ]
+  },
+  {
+    "id": 252,
+    "name": "Coffre des Forgerons",
+    "level": 50,
+    "image": "https://api.dofusdb.fr/img/monsters/98.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 257,
+    "name": "Chêne Mou",
+    "level": 140,
+    "image": "https://api.dofusdb.fr/img/monsters/147.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 289,
+    "name": "Maître Corbac",
+    "level": 110,
+    "image": "https://api.dofusdb.fr/img/monsters/177.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 382,
+    "name": "Tofu Royal",
+    "level": 120,
+    "image": "https://api.dofusdb.fr/img/monsters/204.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 423,
+    "name": "Kralamoure Géant",
+    "level": 640,
+    "image": "https://api.dofusdb.fr/img/monsters/227.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 430,
+    "name": "Gelée Royale Citron",
+    "level": 60,
+    "image": "https://api.dofusdb.fr/img/monsters/232.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 446,
+    "name": "Aermyne 'Braco' Scalptaras",
+    "level": 80,
+    "image": "https://api.dofusdb.fr/img/monsters/240.png",
+    "actif": [],
+    "passif": [
+      "Gagne PA/PM quand on tente de lui en retirer."
+    ]
+  },
+  {
+    "id": 457,
+    "name": "Shin Larve",
+    "level": 50,
+    "image": "https://api.dofusdb.fr/img/monsters/248.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 459,
+    "name": "Padgref Demoël",
+    "level": 130,
+    "image": "https://api.dofusdb.fr/img/monsters/249.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 460,
+    "name": "Frakacia Leukocytine",
+    "level": 30,
+    "image": "https://api.dofusdb.fr/img/monsters/250.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 462,
+    "name": "Ogivol Scalarcin",
+    "level": 50,
+    "image": "https://api.dofusdb.fr/img/monsters/252.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 463,
+    "name": "Fouduglen l'Écureuil",
+    "level": 20,
+    "image": "https://api.dofusdb.fr/img/monsters/206.png",
+    "actif": [],
+    "passif": [
+      "Passe Invisible"
+    ]
+  },
+  {
+    "id": 464,
+    "name": "Brumen Tinctorias",
+    "level": 60,
+    "image": "https://api.dofusdb.fr/img/monsters/253.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 478,
+    "name": "Bworker",
+    "level": 180,
+    "image": "https://api.dofusdb.fr/img/monsters/264.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 481,
+    "name": "Qil Bil",
+    "level": 70,
+    "image": "https://api.dofusdb.fr/img/monsters/266.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 550,
+    "name": "Rok Gnorok",
+    "level": 90,
+    "image": "https://api.dofusdb.fr/img/monsters/268.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 552,
+    "name": "Musha L'Oni",
+    "level": 80,
+    "image": "https://api.dofusdb.fr/img/monsters/141.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 554,
+    "name": "Marzwel le Gobelin",
+    "level": 60,
+    "image": "https://api.dofusdb.fr/img/monsters/99.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 555,
+    "name": "Zatoïshwan",
+    "level": 150,
+    "image": "https://api.dofusdb.fr/img/monsters/294.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 669,
+    "name": "Craqueleur Légendaire",
+    "level": 70,
+    "image": "https://api.dofusdb.fr/img/monsters/183.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 670,
+    "name": "Koulosse",
+    "level": 100,
+    "image": "https://api.dofusdb.fr/img/monsters/358.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 780,
+    "name": "Skeunk",
+    "level": 120,
+    "image": "https://api.dofusdb.fr/img/monsters/431.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 792,
+    "name": "Bworkette",
+    "level": 50,
+    "image": "https://api.dofusdb.fr/img/monsters/265.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 797,
+    "name": "Scarabosse Doré",
+    "level": 40,
+    "image": "https://api.dofusdb.fr/img/monsters/443.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 799,
+    "name": "Tournesol Affamé",
+    "level": 20,
+    "image": "https://api.dofusdb.fr/img/monsters/445.png",
+    "actif": [
+      "Inflige des dommages de type vol de vie en mêlée."
+    ],
+    "passif": []
+  },
+  {
+    "id": 800,
+    "name": "Batofu",
+    "level": 40,
+    "image": "https://api.dofusdb.fr/img/monsters/446.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 827,
+    "name": "Minotot",
+    "level": 160,
+    "image": "https://api.dofusdb.fr/img/monsters/459.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 854,
+    "name": "Crocabulia",
+    "level": 120,
+    "image": "https://api.dofusdb.fr/img/monsters/479.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 872,
+    "name": "Papa Nowel",
+    "level": 110,
+    "image": "https://api.dofusdb.fr/img/monsters/487.png",
+    "actif": [
+      "Attire de3 casesen lignes.",
+      "OSen mêlée."
+    ],
+    "passif": []
+  },
+  {
+    "id": 928,
+    "name": "Mob l'Éponge",
+    "level": 20,
+    "image": "https://api.dofusdb.fr/img/monsters/513.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 939,
+    "name": "Rat Noir",
+    "level": 110,
+    "image": "https://api.dofusdb.fr/img/monsters/519.png",
+    "actif": [
+      "LanceKackituà 1 PO : OS au premier dégât pris en mêlée",
+      "LanceKackisoigneà 8 PO sur un monstre: Recons en cas de dommage Neutre ou Terre subi",
+      "LancePeste Noire: Occasionnent 50% des HP d'un personnage si celui-ci est soigné."
+    ],
+    "passif": []
+  },
+  {
+    "id": 940,
+    "name": "Rat Blanc",
+    "level": 110,
+    "image": "https://api.dofusdb.fr/img/monsters/520.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 943,
+    "name": "Sphincter Cell",
+    "level": 150,
+    "image": "https://api.dofusdb.fr/img/monsters/523.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 1027,
+    "name": "Corailleur Magistral",
+    "level": 50,
+    "image": "https://api.dofusdb.fr/img/monsters/563.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 1045,
+    "name": "Kimbo",
+    "level": 160,
+    "image": "https://api.dofusdb.fr/img/monsters/569.png",
+    "actif": [],
+    "passif": [
+      "Infligez des dégâts au Kimbo dans les éléments FEU/AIR ou EAU/TERRE pour déclencher un Glyphe.",
+      "Le Kimbo perd 400% Résistance si il commence son tour dans le Glyphe. Ce Glyphe OS les personnages qui commencent leur tour dedans."
+    ]
+  },
+  {
+    "id": 1051,
+    "name": "Gourlo le Terrible",
+    "level": 70,
+    "image": "https://api.dofusdb.fr/img/monsters/575.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 1071,
+    "name": "Silf le Rasboul Majeur",
+    "level": 110,
+    "image": "https://api.dofusdb.fr/img/monsters/595.png",
+    "actif": [],
+    "passif": [
+      "Quand le Rasboul a joué son premier tour de jeu, le retrait PA lui en donne.",
+      "À 14 PA, le Rasboul déclenche Hololole; il perd 50% résistance dans l'élément dans le quel il subit des dommages.",
+      "Les Rasbouls Mineurs qu'il invoque le recons en mêlée"
+    ]
+  },
+  {
+    "id": 1072,
+    "name": "Tynril Consterné",
+    "level": 140,
+    "image": "https://api.dofusdb.fr/img/monsters/596.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 1085,
+    "name": "Tynril Déconcerté",
+    "level": 140,
+    "image": "https://api.dofusdb.fr/img/monsters/596.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 1086,
+    "name": "Tynril Perfide",
+    "level": 140,
+    "image": "https://api.dofusdb.fr/img/monsters/596.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 1087,
+    "name": "Tynril Ahuri",
+    "level": 140,
+    "image": "https://api.dofusdb.fr/img/monsters/596.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 1159,
+    "name": "Ougah",
+    "level": 180,
+    "image": "https://api.dofusdb.fr/img/monsters/640.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 1179,
+    "name": "Sapik",
+    "level": 50,
+    "image": "https://api.dofusdb.fr/img/monsters/476.png",
+    "actif": [],
+    "passif": [
+      "Ne peut être porté..",
+      "Ne peut être poussé.",
+      "Ne peut échanger de position.",
+      "Ne peut utiliser un portail."
+    ]
+  },
+  {
+    "id": 1184,
+    "name": "Blop Coco Royal",
+    "level": 60,
+    "image": "https://api.dofusdb.fr/img/monsters/645.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 1185,
+    "name": "Blop Griotte Royal",
+    "level": 60,
+    "image": "https://api.dofusdb.fr/img/monsters/646.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 1186,
+    "name": "Blop Indigo Royal",
+    "level": 60,
+    "image": "https://api.dofusdb.fr/img/monsters/647.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 1187,
+    "name": "Blop Reinette Royal",
+    "level": 60,
+    "image": "https://api.dofusdb.fr/img/monsters/648.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 1188,
+    "name": "Blop Multicolore Royal",
+    "level": 120,
+    "image": "https://api.dofusdb.fr/img/monsters/649.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 1194,
+    "name": "Père Fwetar",
+    "level": 180,
+    "image": "https://api.dofusdb.fr/img/monsters/651.png",
+    "actif": [
+      "Attire de3 casesen ligne",
+      "OSen mêlée"
+    ],
+    "passif": []
+  },
+  {
+    "id": 2848,
+    "name": "Mansot Royal",
+    "level": 140,
+    "image": "https://api.dofusdb.fr/img/monsters/769.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Passe vulnérable lorsqu'un allié est soigné à son corps à corps.",
+      "Les personnages prennent des dommages si un allié est soigné à leur corps à corps.",
+      "Le Mansot Royal se boost en dommage et en vitalité quand vous tuez un monstre."
+    ]
+  },
+  {
+    "id": 2854,
+    "name": "Royalmouth",
+    "level": 120,
+    "image": "https://api.dofusdb.fr/img/monsters/775.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Devient vulnérable lorsqu'il est poussé.",
+      "OSles personnages en ligne si il subit des dommages de poussée."
+    ]
+  },
+  {
+    "id": 2864,
+    "name": "Glourséleste",
+    "level": 190,
+    "image": "https://api.dofusdb.fr/img/monsters/785.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️*",
+      "Subir des dommages de poussée tue vos personnages.",
+      "Le Retrait PM, PO et les déplacements sur le Glourséleste déclenchent Résuglours: le Boss réinvoque les monstres morts.",
+      "Le Glourséleste repousse de 4 cases les personnages à 3 cases ou moins en ligne lorsqu'il subid es dommages en mêlée",
+      "Le Glourséleste passe vulnérable pour le tour en cours après avoir subi un dommage en mêlée"
+    ]
+  },
+  {
+    "id": 2877,
+    "name": "Ben le Ripate",
+    "level": 150,
+    "image": "https://api.dofusdb.fr/img/monsters/794.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Devient vulnérable lorsque le Hamrack explose à sa mêlée. Ce dernier rush sur le Ben si il peut l'atteindre.",
+      "Retirer des PM au Hamrack lui en donne."
+    ]
+  },
+  {
+    "id": 2901,
+    "name": "Bouflouth",
+    "level": 120,
+    "image": "https://api.dofusdb.fr/img/monsters/814.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 2902,
+    "name": "Monsieur Pingouin",
+    "level": 130,
+    "image": "https://api.dofusdb.fr/img/monsters/815.png",
+    "actif": [],
+    "passif": [
+      "Tue les cibles sous l'état Gelé au tour suivant (1 PO)"
+    ]
+  },
+  {
+    "id": 2903,
+    "name": "Katigrou",
+    "level": 140,
+    "image": "https://api.dofusdb.fr/img/monsters/816.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 2904,
+    "name": "Fantômayte",
+    "level": 150,
+    "image": "https://api.dofusdb.fr/img/monsters/817.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 2905,
+    "name": "Vengeuse Masquée",
+    "level": 160,
+    "image": "https://api.dofusdb.fr/img/monsters/529.png",
+    "actif": [],
+    "passif": [
+      "Gagne 50% résistance par retrait PO."
+    ]
+  },
+  {
+    "id": 2906,
+    "name": "YeCh'Ti",
+    "level": 170,
+    "image": "https://api.dofusdb.fr/img/monsters/760.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 2908,
+    "name": "Dremoan",
+    "level": 180,
+    "image": "https://api.dofusdb.fr/img/monsters/818.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Devient vulnérable si un monstre est tué. Il sera ressuscité en Zombi, retué et transformé en Germe.",
+      "Si il n'y a pas de monstre, il faudra invoquer, attendre que Dremoan mette l'état Zombi sur l'invocation, qu'il l'a tue et la transforme en Germe."
+    ]
+  },
+  {
+    "id": 2909,
+    "name": "Flasho",
+    "level": 190,
+    "image": "https://api.dofusdb.fr/img/monsters/819.png",
+    "actif": [
+      "Attire en ligne à 6 PO",
+      "OS en mêlée"
+    ],
+    "passif": []
+  },
+  {
+    "id": 2910,
+    "name": "Viti Glourson",
+    "level": 190,
+    "image": "https://api.dofusdb.fr/img/monsters/820.png",
+    "actif": [],
+    "passif": [
+      "Gagne 100% résistances dans un élément aléatoire tous les 2 tours.",
+      "Gagne 50% résistances dans un élément lorsqu'il subit un dommage dans cet élément.",
+      "Soignes les monstres si vous le tuez.",
+      "Gagne 3 PA par monstre tué qui l'accompagne."
+    ]
+  },
+  {
+    "id": 2924,
+    "name": "Obsidiantre",
+    "level": 160,
+    "image": "https://api.dofusdb.fr/img/monsters/825.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Devient vulnérable lorsqu'un allié est poussé sur lui.",
+      "La Pougnette explose et tue les personnages à plus de 7 cases d'elle au tour 5."
+    ]
+  },
+  {
+    "id": 2942,
+    "name": "Grolloum",
+    "level": 190,
+    "image": "https://api.dofusdb.fr/img/monsters/834.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Le Grolloum réinvoque les monstres morts.",
+      "Le Boss passe vulnérable lorsqu'on tue un monstre réinvoqué sur lequel l'étatGelée Blancheest posé à son corps à corps.",
+      "Retirer des PM au Grolloum lui donne 8000 résistances."
+    ]
+  },
+  {
+    "id": 2960,
+    "name": "Kanniboul Ebil",
+    "level": 60,
+    "image": "https://api.dofusdb.fr/img/monsters/837.png",
+    "actif": [
+      "Invoque une poupée qui échange sa position avec un personnage lors de son apparition."
+    ],
+    "passif": []
+  },
+  {
+    "id": 2967,
+    "name": "Tengu Givrefoux",
+    "level": 170,
+    "image": "https://api.dofusdb.fr/img/monsters/840.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Ne peut être porté",
+      "Devient vulnérable lorsqu'on déclenche le Yomi et le Yokaï (le même tour ou sur 2 tours)",
+      "Yomi est déclenché en lui infligeant des dommages avec une arme lorsqu'il est aligné avec le Tengu",
+      "Yokai est déclenché lorsqu'il est poussé en diagonale du Tengu",
+      "Tengu peut OS en mêlée si seul le Yomi a été déclenché"
+    ]
+  },
+  {
+    "id": 2975,
+    "name": "Boostache",
+    "level": 40,
+    "image": "https://api.dofusdb.fr/img/monsters/846.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 2986,
+    "name": "Kolosso",
+    "level": 190,
+    "image": "https://api.dofusdb.fr/img/monsters/849.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Devient vulnérable après avoir subi les dommages d'une invocation (peut être une invocation statique:Bombe,Conquête,Cadran...)"
+    ]
+  },
+  {
+    "id": 2992,
+    "name": "Professeur Xa",
+    "level": 190,
+    "image": "https://api.dofusdb.fr/img/monsters/853.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 2995,
+    "name": "Kwakwa",
+    "level": 50,
+    "image": "https://api.dofusdb.fr/img/monsters/854.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3100,
+    "name": "Nelween",
+    "level": 70,
+    "image": "https://api.dofusdb.fr/img/monsters/856.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3142,
+    "name": "Grozilla",
+    "level": 400,
+    "image": "https://api.dofusdb.fr/img/monsters/874.png",
+    "actif": [
+      "Autour 6puis tous les 5 tours, si Grozilla et Grasmera ne sont pas à 2 PO ou moins l'un de l'autre,OS tous les personnages."
+    ],
+    "passif": []
+  },
+  {
+    "id": 3143,
+    "name": "Grasmera",
+    "level": 400,
+    "image": "https://api.dofusdb.fr/img/monsters/875.png",
+    "actif": [
+      "Autour 6puis tous les 5 tours, si Grozilla et Grasmera ne sont pas à 2 PO ou moins l'un de l'autre,OS tous les personnages."
+    ],
+    "passif": []
+  },
+  {
+    "id": 3234,
+    "name": "Fuji Givrefoux Nourricière",
+    "level": 190,
+    "image": "https://api.dofusdb.fr/img/monsters/843.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3238,
+    "name": "Chafer Rōnin",
+    "level": 40,
+    "image": "https://api.dofusdb.fr/img/monsters/916.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3306,
+    "name": "Halouine",
+    "level": 100,
+    "image": "https://api.dofusdb.fr/img/monsters/937.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3373,
+    "name": "Glourdorak",
+    "level": 200,
+    "image": "https://api.dofusdb.fr/img/monsters/866.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable",
+      "OS les personnages au tour 11.",
+      "Finir en mêlée du Glourdorak avec un personnage dans l'état \"Fonso Cacnoob\" le rend vulnérable."
+    ]
+  },
+  {
+    "id": 3384,
+    "name": "Klime",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/964.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3391,
+    "name": "Missiz Frizz",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/970.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Pose des Glyphes autour de vos personnages à leur tour de jeu. Ces Glyphes déclenchent une poussée de 1 cases qui, sur votre nouvelle position, repoussent en ligne et en diagonale les monstres jusqu'à 6 cases.",
+      "Les Monstres et Missiz Frizz passent vulnérable 1 tour lorsqu'ils sont déplacés par les Glyphes ou qu'un monstre est poussé dans leur Ligne/Diagonale.",
+      "Les poussées sans délock soignent Missiz Frizz."
+    ]
+  },
+  {
+    "id": 3397,
+    "name": "Nileza",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/976.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3400,
+    "name": "Docteur Eggob",
+    "level": 190,
+    "image": "https://api.dofusdb.fr/img/monsters/977.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3401,
+    "name": "Mekamouth",
+    "level": 200,
+    "image": "https://api.dofusdb.fr/img/monsters/978.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3403,
+    "name": "Chevalier de Glace",
+    "level": 200,
+    "image": "https://api.dofusdb.fr/img/monsters/980.png",
+    "actif": [
+      "Applique l'étatGelen mêlée",
+      "OS les ciblesGelées."
+    ],
+    "passif": []
+  },
+  {
+    "id": 3409,
+    "name": "Sylargh",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/986.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Le Sylargh réinvoque les monstres morts. Ces derniers doivent être retués à 6 à 10 cases de lui pour que le Sylargh passe vulnérable.",
+      "Tuer le premier monstre réinvoqué tue les suivants.",
+      "Les personnages ayant plus de 90% de leur HP au moment de la mort d'un monstre réinvoqué passent Pacifistes."
+    ]
+  },
+  {
+    "id": 3413,
+    "name": "Psikopompe",
+    "level": 200,
+    "image": "https://api.dofusdb.fr/img/monsters/990.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3416,
+    "name": "Comte Harebourg",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/993.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3460,
+    "name": "Wa Wobot",
+    "level": 80,
+    "image": "https://api.dofusdb.fr/img/monsters/1006.png",
+    "actif": [],
+    "passif": [
+      "Ne peut être porté.",
+      "Invoque des Wobots Tamponneurs lorsqu'il frappe vos personnages.",
+      "Les Wobots Tamponneurs repoussent lorsqu'ils subissent des dommages de poussée. On peut alors créer un flippeur en plaçant les Monstres, dont le Wo Wobot, entre deux Tamponneurs alignés et en poussant l'adversaire à tuer sur l'un d'entre eux.",
+      "Les Tamponneurs peuvent se déclencher qu'une fois par tour."
+    ]
+  },
+  {
+    "id": 3476,
+    "name": "Maître des Pantins",
+    "level": 400,
+    "image": "https://api.dofusdb.fr/img/monsters/1019.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Indéplaçable",
+      "Passe vulnérable pour2 tourslorsque toutes les Marionnette sont mortes."
+    ]
+  },
+  {
+    "id": 3482,
+    "name": "Dramak",
+    "level": 100,
+    "image": "https://api.dofusdb.fr/img/monsters/1025.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Tuez sa Marionnette pour pouvoir la contrôler avec l'entité la plus proche de cette dernière. La marionnette passe le Dramak en vulnérable à 2 de PO de lui."
+    ]
+  },
+  {
+    "id": 3524,
+    "name": "Ali Grothor",
+    "level": 130,
+    "image": "https://api.dofusdb.fr/img/monsters/1047.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3526,
+    "name": "Exi Guman",
+    "level": 30,
+    "image": "https://api.dofusdb.fr/img/monsters/1049.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3527,
+    "name": "Gadoo",
+    "level": 60,
+    "image": "https://api.dofusdb.fr/img/monsters/1050.png",
+    "actif": [],
+    "passif": [
+      "Ne peut pas être poussé ni porté de tout le combat",
+      "Il réduit de 20000 les dégâts d'armes.",
+      "Se boost de 5% Résistance Feu et Air et de 20 Puissance mais perd -5% Résistance Terre et Eau par Dommages Terre subi"
+    ]
+  },
+  {
+    "id": 3528,
+    "name": "Amy l'empoisonneuse",
+    "level": 140,
+    "image": "https://api.dofusdb.fr/img/monsters/1051.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3533,
+    "name": "Hyperscampe",
+    "level": 200,
+    "image": "https://api.dofusdb.fr/img/monsters/918.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable",
+      "Devient vulnérable si 3 personnages sont placés sur 3 Glyphes Bleus pour 1 tour."
+    ]
+  },
+  {
+    "id": 3534,
+    "name": "Merkator",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1054.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3556,
+    "name": "Kanigroula",
+    "level": 160,
+    "image": "https://api.dofusdb.fr/img/monsters/1066.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3564,
+    "name": "Ombre",
+    "level": 190,
+    "image": "https://api.dofusdb.fr/img/monsters/1002.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️.",
+      "Lui et sa Silhouette ne peuvent être déplacé qu'une foispar tour.",
+      "Devient vulnérable siOmbre = Extérieur du GlypheetSilhouette = Dans le Glyphe"
+    ]
+  },
+  {
+    "id": 3618,
+    "name": "Haute Truche",
+    "level": 130,
+    "image": "https://api.dofusdb.fr/img/monsters/1096.png",
+    "actif": [],
+    "passif": [
+      "Devientinvulnérable2 tours si elle subit des dommages avec un arme."
+    ]
+  },
+  {
+    "id": 3648,
+    "name": "Roi Nidas",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1106.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3651,
+    "name": "Phossile",
+    "level": 150,
+    "image": "https://api.dofusdb.fr/img/monsters/1108.png",
+    "actif": [
+      "Au tour 5, le Phossile OS les personnages à 3 cases autour de lui."
+    ],
+    "passif": []
+  },
+  {
+    "id": 3652,
+    "name": "Malléfisk",
+    "level": 100,
+    "image": "https://api.dofusdb.fr/img/monsters/1109.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3668,
+    "name": "Voldelor",
+    "level": 200,
+    "image": "https://api.dofusdb.fr/img/monsters/1125.png",
+    "actif": [],
+    "passif": [
+      "Le premier personnage qui lui inflige des dommages obtient l'étatMarque des Mangelors.",
+      "OS à 3 PO le personnage dansl'état Marque des Mangelors."
+    ]
+  },
+  {
+    "id": 3669,
+    "name": "Aigripoil",
+    "level": 150,
+    "image": "https://api.dofusdb.fr/img/monsters/1126.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3670,
+    "name": "Maxi-Malle",
+    "level": 100,
+    "image": "https://api.dofusdb.fr/img/monsters/1127.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3726,
+    "name": "Reine des Voleurs",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1141.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3752,
+    "name": "Toxoliath",
+    "level": 180,
+    "image": "https://api.dofusdb.fr/img/monsters/1166.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3753,
+    "name": "Capitaine Ekarlatte",
+    "level": 130,
+    "image": "https://api.dofusdb.fr/img/monsters/1167.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3761,
+    "name": "Gein",
+    "level": 1600,
+    "image": "https://api.dofusdb.fr/img/monsters/1103.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3762,
+    "name": "Pantèroz",
+    "level": 1040,
+    "image": "https://api.dofusdb.fr/img/monsters/1174.png",
+    "actif": [],
+    "passif": [
+      "Réduit les dégâts à distance (hors poisons)"
+    ]
+  },
+  {
+    "id": 3773,
+    "name": "Mouchâme",
+    "level": 180,
+    "image": "https://api.dofusdb.fr/img/monsters/1173.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3828,
+    "name": "Protozorreur",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1204.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3835,
+    "name": "Vortex",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1208.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3845,
+    "name": "Morblok",
+    "level": 120,
+    "image": "https://api.dofusdb.fr/img/monsters/1218.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3848,
+    "name": "Hin",
+    "level": 170,
+    "image": "https://api.dofusdb.fr/img/monsters/1221.png",
+    "actif": [],
+    "passif": [
+      "OS si subit des dégâts en état Reflet."
+    ]
+  },
+  {
+    "id": 3849,
+    "name": "XLII",
+    "level": 170,
+    "image": "https://api.dofusdb.fr/img/monsters/1222.png",
+    "actif": [
+      "Rend Pacifiste à 3 de PO"
+    ],
+    "passif": []
+  },
+  {
+    "id": 3851,
+    "name": "Sicogne",
+    "level": 200,
+    "image": "https://api.dofusdb.fr/img/monsters/1223.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 3852,
+    "name": "Fraktale",
+    "level": 120,
+    "image": "https://api.dofusdb.fr/img/monsters/1224.png",
+    "actif": [],
+    "passif": [
+      "Le Combat s'articule autour du fonctionnement de l'Aiguille."
+    ]
+  },
+  {
+    "id": 3945,
+    "name": "Kankreblath",
+    "level": 40,
+    "image": "https://api.dofusdb.fr/img/monsters/1245.png",
+    "actif": [
+      "Invoque un monstre aléatoire de sa famille",
+      "Rend la cible invisible",
+      "Se téléporte sur la case ciblée"
+    ],
+    "passif": []
+  },
+  {
+    "id": 3996,
+    "name": "Reine Nyée",
+    "level": 90,
+    "image": "https://api.dofusdb.fr/img/monsters/1267.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4014,
+    "name": "Tyranne la Terrible",
+    "level": 80,
+    "image": "https://api.dofusdb.fr/img/monsters/1275.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4016,
+    "name": "Guerrier du K.O.",
+    "level": 180,
+    "image": "https://api.dofusdb.fr/img/monsters/1277.png",
+    "actif": [],
+    "passif": [
+      "Frapper un ennemi en ligne ou en diagonale OS.",
+      "OS les personnages en ligne des monstres et du Guerier du K.O si ils ont moins de 50% de HP.",
+      "OS le personnages dans l'état \"Massacre à retardement\" si il a un monstre à moins de 6 cases de lui à la fin de son tour."
+    ]
+  },
+  {
+    "id": 4017,
+    "name": "Anatak Diskedor",
+    "level": 160,
+    "image": "https://api.dofusdb.fr/img/monsters/1278.png",
+    "actif": [],
+    "passif": [
+      "OSles personnages Foudroyées en mêlée aux tours 3, 7, 11... (tous les 4 tours)"
+    ]
+  },
+  {
+    "id": 4026,
+    "name": "Fojumo",
+    "level": 175,
+    "image": "https://api.dofusdb.fr/img/monsters/1276.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4027,
+    "name": "Naganita",
+    "level": 100,
+    "image": "https://api.dofusdb.fr/img/monsters/1279.png",
+    "actif": [],
+    "passif": [
+      "Met pacifiste les entités à plus de 2 cases d'elle au début de son tour de jeu."
+    ]
+  },
+  {
+    "id": 4028,
+    "name": "Grand Kongoku",
+    "level": 200,
+    "image": "https://api.dofusdb.fr/img/monsters/1280.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4041,
+    "name": "Nenufor Tilotus",
+    "level": 120,
+    "image": "https://api.dofusdb.fr/img/monsters/1274.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4051,
+    "name": "Kardorim",
+    "level": 12,
+    "image": "https://api.dofusdb.fr/img/monsters/1287.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4240,
+    "name": "Trukipik",
+    "level": 100,
+    "image": "https://api.dofusdb.fr/img/monsters/1338.png",
+    "actif": [],
+    "passif": [
+      "Met Pacifiste les personnages à plus de 2 PO de lui à son tour de jeu."
+    ]
+  },
+  {
+    "id": 4263,
+    "name": "Chalœil",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1345.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4264,
+    "name": "Ush Galesh",
+    "level": 160,
+    "image": "https://api.dofusdb.fr/img/monsters/1346.png",
+    "actif": [],
+    "passif": [
+      "Ush se dédouble.",
+      "Il passe d'invulnérable à distanceàinvulnérable en mêléeselon le type de dégât qu'il subit. Il faut alterner les deux pour en venir à bout."
+    ]
+  },
+  {
+    "id": 4266,
+    "name": "Sam Sagaz",
+    "level": 20,
+    "image": "https://api.dofusdb.fr/img/monsters/413.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable",
+      "Tuer Bolesh le rend vulnérable"
+    ]
+  },
+  {
+    "id": 4268,
+    "name": "Maître Boulet",
+    "level": 30,
+    "image": "https://api.dofusdb.fr/img/monsters/194.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4270,
+    "name": "Roub' Ignolles",
+    "level": 40,
+    "image": "https://api.dofusdb.fr/img/monsters/1162.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4272,
+    "name": "Bouss Baybe",
+    "level": 50,
+    "image": "https://api.dofusdb.fr/img/monsters/332.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4273,
+    "name": "Nono le Wobot",
+    "level": 60,
+    "image": "https://api.dofusdb.fr/img/monsters/102.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4274,
+    "name": "Armada l'Invincible",
+    "level": 70,
+    "image": "https://api.dofusdb.fr/img/monsters/127.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Devient vulnérable lorsqu'Armada subi un coup critique en mêlée."
+    ]
+  },
+  {
+    "id": 4275,
+    "name": "Dragodingo",
+    "level": 80,
+    "image": "https://api.dofusdb.fr/img/monsters/1349.png",
+    "actif": [
+      "S'attire en ligne à 6 PO",
+      "OS en mêlée"
+    ],
+    "passif": []
+  },
+  {
+    "id": 4276,
+    "name": "Degolas",
+    "level": 90,
+    "image": "https://api.dofusdb.fr/img/monsters/110.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4277,
+    "name": "Prince Marchand",
+    "level": 100,
+    "image": "https://api.dofusdb.fr/img/monsters/1350.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4278,
+    "name": "Pounicheur",
+    "level": 110,
+    "image": "https://api.dofusdb.fr/img/monsters/1351.png",
+    "actif": [],
+    "passif": [
+      "Renvoie 400% des dommages subis sur tous les personnages",
+      "Retire son renvoie si les Puces ont le même numéro",
+      "On peut changer le numéro d'une Puce en lui infligeant des dommages en mêlée.",
+      "Les poisons ignorent le renvoie."
+    ]
+  },
+  {
+    "id": 4329,
+    "name": "Fou",
+    "level": 200,
+    "image": "https://api.dofusdb.fr/img/monsters/1335.png",
+    "actif": [],
+    "passif": [
+      "Selon l'état au dessus de votre personnage, vous pourrez taper les formes d'Atcham",
+      "OSvos personnages au tour 11"
+    ]
+  },
+  {
+    "id": 4444,
+    "name": "Dantinéa",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1321.png",
+    "actif": [],
+    "passif": [
+      "Dantinéa divise les dommages par 2 de tous les personnages du combat.",
+      "Chaque personnage a un numéro sur lui, il faudra tuer le coquillage associé à ce numéro pour que le personnage retrouve des dégâts normaux.",
+      "Au bout de 5 tours, Dantinea tue les personnages pour lesquels le coquillage est toujours sur le terrain et en pose de nouveaux."
+    ]
+  },
+  {
+    "id": 4453,
+    "name": "Larve de Koutoulou",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1423.png",
+    "actif": [],
+    "passif": [
+      "Chaque dégât infligé provoque un échange de position avec l'entité la plus proche (sens horaire).",
+      "Votre personnage gagne un état de folie lorsqu'il subi des dommages du Koutoulou ou qu'il échange sa position 2 fois dans le même tour avec une même entité.",
+      "À partir de l'état 2, l'échange de position provoque des dégâts de zone autour du personnage. Celui-ci meurt en état 10.",
+      "À son tour de jeu, le Koutoulou téléporte les personnages dans sa ligne de vue dans sa mêlée.",
+      "L'échange de position est limité à 10 par tour global.",
+      "Les poisons ne déclenchent pas l'échange de position.",
+      "Le personnage pers 1 état de folie par tour si il ne fait rien pour l'augmenter."
+    ]
+  },
+  {
+    "id": 4460,
+    "name": "Capitaine Meno",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1430.png",
+    "actif": [],
+    "passif": [
+      "Chaque tour de jeu augmente les dégâts des personnages du terrain.",
+      "Pose un Glyphe qui apporte des boucliers sous chaque personnage touché par le Meno.",
+      "Les monstresinvulnérablesprésents meurent au bout de 3 tours ( leur dernier seuil est à 1700 HP)."
+    ]
+  },
+  {
+    "id": 4506,
+    "name": "Buldalazred",
+    "level": 200,
+    "image": "https://api.dofusdb.fr/img/monsters/1447.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4507,
+    "name": "Takomako",
+    "level": 200,
+    "image": "https://api.dofusdb.fr/img/monsters/1448.png",
+    "actif": [],
+    "passif": [
+      "Passe invulnérable si à son tour de jeu aucun personnage n'est à au moins 5 PO de lui."
+    ]
+  },
+  {
+    "id": 4532,
+    "name": "Homard Medali",
+    "level": 200,
+    "image": "https://api.dofusdb.fr/img/monsters/1457.png",
+    "actif": [],
+    "passif": [
+      "Homard passe invulnérable si il frappe (5 PO).",
+      "Frapper le Homard en mêlée retire son invulnérabilité."
+    ]
+  },
+  {
+    "id": 4609,
+    "name": "El Piko",
+    "level": 130,
+    "image": "https://api.dofusdb.fr/img/monsters/1483.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4613,
+    "name": "Élémentaire de la terre",
+    "level": 1,
+    "image": "https://api.dofusdb.fr/img/monsters/1487.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable.",
+      "Passe vulnérable après avoir subi un retrait PM.",
+      "Soigner un personnage sous l'effetSentencele tue."
+    ]
+  },
+  {
+    "id": 4618,
+    "name": "Tournade",
+    "level": 80,
+    "image": "https://api.dofusdb.fr/img/monsters/1492.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4621,
+    "name": "Mantiscore",
+    "level": 80,
+    "image": "https://api.dofusdb.fr/img/monsters/1495.png",
+    "actif": [],
+    "passif": [
+      "Se téléporte de 1 cases à chaque dommage à distance subi.",
+      "Annule sa téléportation si un personnage est placé en mêlée du Boss."
+    ]
+  },
+  {
+    "id": 4622,
+    "name": "Roi Camole",
+    "level": 130,
+    "image": "https://api.dofusdb.fr/img/monsters/1496.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4726,
+    "name": "Père Ver",
+    "level": 170,
+    "image": "https://api.dofusdb.fr/img/monsters/1533.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable à distance 🏹",
+      "Attire les personnages à son tour de jeu."
+    ]
+  },
+  {
+    "id": 4734,
+    "name": "Khepricorne",
+    "level": 200,
+    "image": "https://api.dofusdb.fr/img/monsters/1539.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable",
+      "Passe vulnérable si il subit un attaque."
+    ]
+  },
+  {
+    "id": 4737,
+    "name": "Ka'Youloud",
+    "level": 170,
+    "image": "https://api.dofusdb.fr/img/monsters/1541.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4744,
+    "name": "Tal Kasha",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1547.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4803,
+    "name": "Comte Razof",
+    "level": 190,
+    "image": "https://api.dofusdb.fr/img/monsters/1565.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4814,
+    "name": "Simbadas",
+    "level": 90,
+    "image": "https://api.dofusdb.fr/img/monsters/1575.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4815,
+    "name": "Carlita de l'Aguerfelde",
+    "level": 100,
+    "image": "https://api.dofusdb.fr/img/monsters/1576.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4816,
+    "name": "Shushu Debruk'Sayl",
+    "level": 180,
+    "image": "https://api.dofusdb.fr/img/monsters/1577.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4834,
+    "name": "Predagob",
+    "level": 190,
+    "image": "https://api.dofusdb.fr/img/monsters/1583.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4860,
+    "name": "Choudini",
+    "level": 90,
+    "image": "https://api.dofusdb.fr/img/monsters/1585.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 4882,
+    "name": "Anerice la Shushess",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1600.png",
+    "actif": [],
+    "passif": [
+      "Réduit les dommages subis",
+      "Chaque personnage transformé en Goule augmente les dégâts que le Boss prend."
+    ]
+  },
+  {
+    "id": 4953,
+    "name": "Le Fantôme Braïdeur",
+    "level": 200,
+    "image": "https://api.dofusdb.fr/img/monsters/1625.png",
+    "actif": [],
+    "passif": [
+      "Invisible en début de combat."
+    ]
+  },
+  {
+    "id": 4967,
+    "name": "Ilyzaelle",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1628.png",
+    "actif": [],
+    "passif": [
+      "Dispose de deux seuils de HP. Pour chaque seuil atteint, Ilyzaelle devient votre alliée et pose un Glyphe qui inflige de gros dégâts aux adversaires et boost les votre pendant 2 tours.",
+      "Après le second seuil de HP atteint, les monstres et Ilyzaelle meurent au bout de 2 tours."
+    ]
+  },
+  {
+    "id": 5073,
+    "name": "Gobrechaun",
+    "level": 110,
+    "image": "https://api.dofusdb.fr/img/monsters/1648.png",
+    "actif": [],
+    "passif": [
+      "Tour Impair= Invulnérable en mêlée.",
+      "Tour Pair= Invulnérable à distance.",
+      "Dispose d'un bonus aléatoire à chaque tour"
+    ]
+  },
+  {
+    "id": 5074,
+    "name": "Vashkiwi",
+    "level": 120,
+    "image": "https://api.dofusdb.fr/img/monsters/1649.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 5076,
+    "name": "Darma",
+    "level": 140,
+    "image": "https://api.dofusdb.fr/img/monsters/1650.png",
+    "actif": [
+      "Applique un poison sur les actions de vos personnages."
+    ],
+    "passif": []
+  },
+  {
+    "id": 5077,
+    "name": "Mogligli",
+    "level": 150,
+    "image": "https://api.dofusdb.fr/img/monsters/1651.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 5081,
+    "name": "Glandaf l'Aigri",
+    "level": 160,
+    "image": "https://api.dofusdb.fr/img/monsters/1652.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 5083,
+    "name": "Crasper",
+    "level": 170,
+    "image": "https://api.dofusdb.fr/img/monsters/1653.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 5084,
+    "name": "Carter le Pillard",
+    "level": 180,
+    "image": "https://api.dofusdb.fr/img/monsters/1654.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable à distance 🏹",
+      "Crée des Glyphes, le bleu fait passer votre tour si vous finissez dedans."
+    ]
+  },
+  {
+    "id": 5086,
+    "name": "Sans Visage",
+    "level": 190,
+    "image": "https://api.dofusdb.fr/img/monsters/1655.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 5100,
+    "name": "Solar",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1661.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 5110,
+    "name": "Bethel Akarna",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1670.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 5319,
+    "name": "Dazak Martegel",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1771.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 5653,
+    "name": "Mawabouaino",
+    "level": 60,
+    "image": "https://api.dofusdb.fr/img/monsters/1841.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 5664,
+    "name": "Croqueleur",
+    "level": 130,
+    "image": "https://api.dofusdb.fr/img/monsters/1844.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Devient vulnérable lorsque 4 pépites ont été tuées. Ces pépites sont invoquées enfrappantle Croqueleur dans un élément, puis en lepoussant. Ordre des éléments :Feu ► Air ► Eau ► Terre."
+    ]
+  },
+  {
+    "id": 5666,
+    "name": "Prêtresse de Kao",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1846.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 5806,
+    "name": "Torkélonia",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1903.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Passe vulnérable lorsque Torkelonia et ses alliés subissent une ligne de dégâts lorsque le personnage est dans le Glyphe de l'Orbe.",
+      "Frapper l'orbe accélère la rotation du Glyphe.",
+      "L'état Lunaire des monstres change à chaque tour de jeu. Il faut les achever lorsque la lune vous semble la moins contraignante pour la suite du combat."
+    ]
+  },
+  {
+    "id": 5819,
+    "name": "Kharnozor",
+    "level": 100,
+    "image": "https://api.dofusdb.fr/img/monsters/1911.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 5823,
+    "name": "Draegnerys",
+    "level": 70,
+    "image": "https://api.dofusdb.fr/img/monsters/1915.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 5990,
+    "name": "Misère",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1966.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 6014,
+    "name": "Guerre",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1985.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 6026,
+    "name": "Corruption",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1996.png",
+    "actif": [],
+    "passif": [
+      "Les monstres Corrompus divisent vos dégâts par 5 tant que vous ne vous êtes pas soigné",
+      "Corruption inflige unPoison Mortelde fin de tour à tous vos personnages si vous frappez un adversaire. Il faut soigner un allié en mêlée d'un adversaire pour lui faire des dégâts sans subir le poison."
+    ]
+  },
+  {
+    "id": 6212,
+    "name": "Hanshi",
+    "level": 140,
+    "image": "https://api.dofusdb.fr/img/monsters/2038.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 6218,
+    "name": "Tanukouï San",
+    "level": 130,
+    "image": "https://api.dofusdb.fr/img/monsters/2040.png",
+    "actif": [],
+    "passif": [
+      "Pose un Glyphe d'invulnérabilité au sol.",
+      "Sortez le du Glyphe pour le rendre vulnérable.",
+      "Les dommages à distance attirent le Boss de 2 cases, les dommages en mêlée le repousse de 2."
+    ]
+  },
+  {
+    "id": 6249,
+    "name": "Founoroshi",
+    "level": 140,
+    "image": "https://api.dofusdb.fr/img/monsters/2052.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Le Founoroshi passe vulnérable lorsque tous les flambeaux sont éteints.",
+      "Pour éteindre un flambeau, le personnage doit marcher sur un Glyphe Bleu, puis aller face au Flambeau.",
+      "Founoroshi passera ensuite invisible 1 tour et pourra subir des dommages."
+    ]
+  },
+  {
+    "id": 6256,
+    "name": "Nagate",
+    "level": 130,
+    "image": "https://api.dofusdb.fr/img/monsters/2055.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable à distance 🏹",
+      "Nagate est hors map. Elle permet aux monstres d'invoquer des Bombombre à Eau.",
+      "Occasionner un dommage en mêlée de la Bombombre à Eau permet de se téléporter sur Nagate",
+      "Il faudra placer la Bombombre à Eau face à la falaise pour s'assurer faire le traversée."
+    ]
+  },
+  {
+    "id": 6326,
+    "name": "Damadrya",
+    "level": 110,
+    "image": "https://api.dofusdb.fr/img/monsters/2088.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 6388,
+    "name": "Shogun Tofugawa",
+    "level": 160,
+    "image": "https://api.dofusdb.fr/img/monsters/2095.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 6394,
+    "name": "Koumiho",
+    "level": 170,
+    "image": "https://api.dofusdb.fr/img/monsters/2097.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Devient vulnérable lorsque les 2 flammes sont tuées le même tour.",
+      "Marcher sur les Glyphes Bleus déclenche une téléportation entre une Flamme invisible et Koumiho, de quoi repérer leur position.",
+      "Utiliser la lanterne rend les Flammes visibles et leur inflige des dégâts."
+    ]
+  },
+  {
+    "id": 6472,
+    "name": "Roi Imagami",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/2121.png",
+    "actif": [],
+    "passif": [
+      "Le Roi Imagami a différents seuils de HP. Lorsqu'un seuil est atteint, il invoque la Reine qui devient votre alliée pendant 5 tours, l'allié le plus proche du Roi au moment du délock contrôle la reine. Vous pouvez écourter la vie de la Reine avec son dernier sort s'il n'y a plus d'intérêt à sa présence."
+    ]
+  },
+  {
+    "id": 6478,
+    "name": "Reine Amirukam",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/2127.png",
+    "actif": [],
+    "passif": [
+      "La Reine Amirukam a différents seuils de HP. Lorsqu'un seuil est atteint, elle invoque le Roi qui devient votre allié pendant 5 tours, l'allié le plus proche de la Reine au moment du délock contrôle le Roi. Vous pouvez écourter la vie du Roi avec son dernier sort s'il n'y a plus d'intérêt à sa présence."
+    ]
+  },
+  {
+    "id": 6654,
+    "name": "Kabahal",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/2192.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 6783,
+    "name": "Servitude",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/1958.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 6792,
+    "name": "L'Éternel Conflit",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/2236.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "L'Eternel Conflit devient vulnérable lorsque ses 2 états passent à 10.",
+      "Une fois les deux états 10 atteints, le Boss passe vulnérablé 2 tours. Passé ce délai, vous pourrez ensuite réitérer la manœuvre mais aussituer Braklotin à distance pour rendre EC vulnérable en mêléeoutuer Bonraphin en mêlée pour rendre EC vulnérable à distance.",
+      "Finir son tour sans aucun monstre Cauchemardesque en ligne de vue invoque un Cauchemar, créature encombrante."
+    ]
+  },
+  {
+    "id": 6903,
+    "name": "Directeur Grunob",
+    "level": 50,
+    "image": "https://api.dofusdb.fr/img/monsters/2279.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 7197,
+    "name": "Rakoopeur",
+    "level": 50,
+    "image": "https://api.dofusdb.fr/img/monsters/2319.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 7210,
+    "name": "Belladone",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/2325.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 7219,
+    "name": "Barbéryl Clochecuivre",
+    "level": 190,
+    "image": "https://api.dofusdb.fr/img/monsters/2331.png",
+    "actif": [],
+    "passif": []
+  },
+  {
+    "id": 8037,
+    "name": "Déchireuse",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/2514.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Se téléporte au début de tour sur les personnages dans sa ligne de vue.",
+      "La Déchireuse devient vulnérable lorsque le déclenchable d'un des monstres qui l'accompagne lui confère le bonus de son passif à travers l'Autel. Le monstre à déclencher dépend de la Saison dans laquelle on se trouve. Déclencher un monstre revient à le frapper 5 fois.",
+      "La Déchireuse a2 phases. Elle n'est pas invulnérable lors de sa seconde phase."
+    ]
+  },
+  {
+    "id": 8047,
+    "name": "Vénérable Endormi",
+    "level": 220,
+    "image": "https://api.dofusdb.fr/img/monsters/2488.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Ne peut être porté.",
+      "Devient vulnérable lorsqu'il est réveillé."
+    ]
+  },
+  {
+    "id": 8052,
+    "name": "Supervizœuf",
+    "level": 170,
+    "image": "https://api.dofusdb.fr/img/monsters/2507.png",
+    "actif": [],
+    "passif": [
+      "Invulnérable 🛡️",
+      "Le Boss passe vulnérable lorsque 4 œufs issus de l'invocation des monstres explosent sur lui.",
+      "L'œuf de Balebz doit exploser avec le Supervizoeuf comme entité la plus proche. Le Quadrabz doit exploser à 2 cases du Supervizoeuf. Les autres au contact."
+    ]
+  },
+  {
+    "id": 8063,
+    "name": "Ganos",
+    "level": 200,
+    "image": "https://api.dofusdb.fr/img/monsters/2516.png",
+    "actif": [],
+    "passif": [
+      "Possède 2 seuils de PV à 70% et à 30% de ses points de vie."
+    ]
+  }
+]

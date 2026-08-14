@@ -1,0 +1,218 @@
+id,name,level,image,actif,passif
+58,Gelée Royale Bleuet,60,https://api.dofusdb.fr/img/monsters/20.png,,
+85,Gelée Royale Menthe,60,https://api.dofusdb.fr/img/monsters/38.png,,
+86,Gelée Royale Fraise,60,https://api.dofusdb.fr/img/monsters/39.png,,
+107,Hell Mina,150,https://api.dofusdb.fr/img/monsters/55.png,,"Invulnérable 🛡️ | Un élément apparait sur vos personnages. Il faut faire un sort dans cet élément pour déclencher un état sur Hell Mina. Passé l'état V, celle-ci passe vulnérable."
+113,Dragon Cochon,100,https://api.dofusdb.fr/img/monsters/60.png,,
+121,Minotoror,120,https://api.dofusdb.fr/img/monsters/67.png,,
+147,Bouftou Royal,30,https://api.dofusdb.fr/img/monsters/74.png,"Soigne en priorité ses alliés si ces derniers ont subi des dommages, 2 fois par tour.",
+173,Abraknyde Ancestral,90,https://api.dofusdb.fr/img/monsters/97.png,Se soigne du 2000 quand il aura perdu un certain nombre de HP.,
+180,Wa Wabbit,60,https://api.dofusdb.fr/img/monsters/101.png,Réduit les statistiques des personnages du combat.,
+226,Moon,100,https://api.dofusdb.fr/img/monsters/123.png,,Invoque unDarkli Moonqui invoque un Totem de chaque élément à chaque tour. | Le Moon réduit ses résistances d'un élément lorsqu'un Totem est placé sur la case associé à sa couleur.
+230,Le Chouque,90,https://api.dofusdb.fr/img/monsters/126.png,Échange de place avec les entités du terrain | OS en mêlée les personnages avec moins de 30% de HP.,
+232,Meulou,100,https://api.dofusdb.fr/img/monsters/128.png,,Invulnérable 🛡️ | Passe vulnérable lorsqu'un dégât lui a été infligé.
+252,Coffre des Forgerons,50,https://api.dofusdb.fr/img/monsters/98.png,,
+257,Chêne Mou,140,https://api.dofusdb.fr/img/monsters/147.png,,
+289,Maître Corbac,110,https://api.dofusdb.fr/img/monsters/177.png,,
+382,Tofu Royal,120,https://api.dofusdb.fr/img/monsters/204.png,,
+423,Kralamoure Géant,640,https://api.dofusdb.fr/img/monsters/227.png,,
+430,Gelée Royale Citron,60,https://api.dofusdb.fr/img/monsters/232.png,,
+446,Aermyne 'Braco' Scalptaras,80,https://api.dofusdb.fr/img/monsters/240.png,,Gagne PA/PM quand on tente de lui en retirer.
+457,Shin Larve,50,https://api.dofusdb.fr/img/monsters/248.png,,
+459,Padgref Demoël,130,https://api.dofusdb.fr/img/monsters/249.png,,
+460,Frakacia Leukocytine,30,https://api.dofusdb.fr/img/monsters/250.png,,
+462,Ogivol Scalarcin,50,https://api.dofusdb.fr/img/monsters/252.png,,
+463,Fouduglen l'Écureuil,20,https://api.dofusdb.fr/img/monsters/206.png,,Passe Invisible
+464,Brumen Tinctorias,60,https://api.dofusdb.fr/img/monsters/253.png,,
+478,Bworker,180,https://api.dofusdb.fr/img/monsters/264.png,,
+481,Qil Bil,70,https://api.dofusdb.fr/img/monsters/266.png,,
+550,Rok Gnorok,90,https://api.dofusdb.fr/img/monsters/268.png,,
+552,Musha L'Oni,80,https://api.dofusdb.fr/img/monsters/141.png,,
+554,Marzwel le Gobelin,60,https://api.dofusdb.fr/img/monsters/99.png,,
+555,Zatoïshwan,150,https://api.dofusdb.fr/img/monsters/294.png,,
+669,Craqueleur Légendaire,70,https://api.dofusdb.fr/img/monsters/183.png,,
+670,Koulosse,100,https://api.dofusdb.fr/img/monsters/358.png,,
+780,Skeunk,120,https://api.dofusdb.fr/img/monsters/431.png,,
+792,Bworkette,50,https://api.dofusdb.fr/img/monsters/265.png,,
+797,Scarabosse Doré,40,https://api.dofusdb.fr/img/monsters/443.png,,
+799,Tournesol Affamé,20,https://api.dofusdb.fr/img/monsters/445.png,Inflige des dommages de type vol de vie en mêlée.,
+800,Batofu,40,https://api.dofusdb.fr/img/monsters/446.png,,
+827,Minotot,160,https://api.dofusdb.fr/img/monsters/459.png,,
+854,Crocabulia,120,https://api.dofusdb.fr/img/monsters/479.png,,
+872,Papa Nowel,110,https://api.dofusdb.fr/img/monsters/487.png,Attire de3 casesen lignes. | OSen mêlée.,
+928,Mob l'Éponge,20,https://api.dofusdb.fr/img/monsters/513.png,,
+939,Rat Noir,110,https://api.dofusdb.fr/img/monsters/519.png,LanceKackituà 1 PO : OS au premier dégât pris en mêlée | LanceKackisoigneà 8 PO sur un monstre: Recons en cas de dommage Neutre ou Terre subi | LancePeste Noire: Occasionnent 50% des HP d'un personnage si celui-ci est soigné.,
+940,Rat Blanc,110,https://api.dofusdb.fr/img/monsters/520.png,,
+943,Sphincter Cell,150,https://api.dofusdb.fr/img/monsters/523.png,,
+1027,Corailleur Magistral,50,https://api.dofusdb.fr/img/monsters/563.png,,
+1045,Kimbo,160,https://api.dofusdb.fr/img/monsters/569.png,,Infligez des dégâts au Kimbo dans les éléments FEU/AIR ou EAU/TERRE pour déclencher un Glyphe. | Le Kimbo perd 400% Résistance si il commence son tour dans le Glyphe. Ce Glyphe OS les personnages qui commencent leur tour dedans.
+1051,Gourlo le Terrible,70,https://api.dofusdb.fr/img/monsters/575.png,,
+1071,Silf le Rasboul Majeur,110,https://api.dofusdb.fr/img/monsters/595.png,,"Quand le Rasboul a joué son premier tour de jeu, le retrait PA lui en donne. | À 14 PA, le Rasboul déclenche Hololole; il perd 50% résistance dans l'élément dans le quel il subit des dommages. | Les Rasbouls Mineurs qu'il invoque le recons en mêlée"
+1072,Tynril Consterné,140,https://api.dofusdb.fr/img/monsters/596.png,,
+1085,Tynril Déconcerté,140,https://api.dofusdb.fr/img/monsters/596.png,,
+1086,Tynril Perfide,140,https://api.dofusdb.fr/img/monsters/596.png,,
+1087,Tynril Ahuri,140,https://api.dofusdb.fr/img/monsters/596.png,,
+1159,Ougah,180,https://api.dofusdb.fr/img/monsters/640.png,,
+1179,Sapik,50,https://api.dofusdb.fr/img/monsters/476.png,,Ne peut être porté.. | Ne peut être poussé. | Ne peut échanger de position. | Ne peut utiliser un portail.
+1184,Blop Coco Royal,60,https://api.dofusdb.fr/img/monsters/645.png,,
+1185,Blop Griotte Royal,60,https://api.dofusdb.fr/img/monsters/646.png,,
+1186,Blop Indigo Royal,60,https://api.dofusdb.fr/img/monsters/647.png,,
+1187,Blop Reinette Royal,60,https://api.dofusdb.fr/img/monsters/648.png,,
+1188,Blop Multicolore Royal,120,https://api.dofusdb.fr/img/monsters/649.png,,
+1194,Père Fwetar,180,https://api.dofusdb.fr/img/monsters/651.png,Attire de3 casesen ligne | OSen mêlée,
+2848,Mansot Royal,140,https://api.dofusdb.fr/img/monsters/769.png,,Invulnérable 🛡️ | Passe vulnérable lorsqu'un allié est soigné à son corps à corps. | Les personnages prennent des dommages si un allié est soigné à leur corps à corps. | Le Mansot Royal se boost en dommage et en vitalité quand vous tuez un monstre.
+2854,Royalmouth,120,https://api.dofusdb.fr/img/monsters/775.png,,Invulnérable 🛡️ | Devient vulnérable lorsqu'il est poussé. | OSles personnages en ligne si il subit des dommages de poussée.
+2864,Glourséleste,190,https://api.dofusdb.fr/img/monsters/785.png,,"Invulnérable 🛡️* | Subir des dommages de poussée tue vos personnages. | Le Retrait PM, PO et les déplacements sur le Glourséleste déclenchent Résuglours: le Boss réinvoque les monstres morts. | Le Glourséleste repousse de 4 cases les personnages à 3 cases ou moins en ligne lorsqu'il subid es dommages en mêlée | Le Glourséleste passe vulnérable pour le tour en cours après avoir subi un dommage en mêlée"
+2877,Ben le Ripate,150,https://api.dofusdb.fr/img/monsters/794.png,,Invulnérable 🛡️ | Devient vulnérable lorsque le Hamrack explose à sa mêlée. Ce dernier rush sur le Ben si il peut l'atteindre. | Retirer des PM au Hamrack lui en donne.
+2901,Bouflouth,120,https://api.dofusdb.fr/img/monsters/814.png,,
+2902,Monsieur Pingouin,130,https://api.dofusdb.fr/img/monsters/815.png,,Tue les cibles sous l'état Gelé au tour suivant (1 PO)
+2903,Katigrou,140,https://api.dofusdb.fr/img/monsters/816.png,,
+2904,Fantômayte,150,https://api.dofusdb.fr/img/monsters/817.png,,
+2905,Vengeuse Masquée,160,https://api.dofusdb.fr/img/monsters/529.png,,Gagne 50% résistance par retrait PO.
+2906,YeCh'Ti,170,https://api.dofusdb.fr/img/monsters/760.png,,
+2908,Dremoan,180,https://api.dofusdb.fr/img/monsters/818.png,,"Invulnérable 🛡️ | Devient vulnérable si un monstre est tué. Il sera ressuscité en Zombi, retué et transformé en Germe. | Si il n'y a pas de monstre, il faudra invoquer, attendre que Dremoan mette l'état Zombi sur l'invocation, qu'il l'a tue et la transforme en Germe."
+2909,Flasho,190,https://api.dofusdb.fr/img/monsters/819.png,Attire en ligne à 6 PO | OS en mêlée,
+2910,Viti Glourson,190,https://api.dofusdb.fr/img/monsters/820.png,,Gagne 100% résistances dans un élément aléatoire tous les 2 tours. | Gagne 50% résistances dans un élément lorsqu'il subit un dommage dans cet élément. | Soignes les monstres si vous le tuez. | Gagne 3 PA par monstre tué qui l'accompagne.
+2924,Obsidiantre,160,https://api.dofusdb.fr/img/monsters/825.png,,Invulnérable 🛡️ | Devient vulnérable lorsqu'un allié est poussé sur lui. | La Pougnette explose et tue les personnages à plus de 7 cases d'elle au tour 5.
+2942,Grolloum,190,https://api.dofusdb.fr/img/monsters/834.png,,Invulnérable 🛡️ | Le Grolloum réinvoque les monstres morts. | Le Boss passe vulnérable lorsqu'on tue un monstre réinvoqué sur lequel l'étatGelée Blancheest posé à son corps à corps. | Retirer des PM au Grolloum lui donne 8000 résistances.
+2960,Kanniboul Ebil,60,https://api.dofusdb.fr/img/monsters/837.png,Invoque une poupée qui échange sa position avec un personnage lors de son apparition.,
+2967,Tengu Givrefoux,170,https://api.dofusdb.fr/img/monsters/840.png,,Invulnérable 🛡️ | Ne peut être porté | Devient vulnérable lorsqu'on déclenche le Yomi et le Yokaï (le même tour ou sur 2 tours) | Yomi est déclenché en lui infligeant des dommages avec une arme lorsqu'il est aligné avec le Tengu | Yokai est déclenché lorsqu'il est poussé en diagonale du Tengu | Tengu peut OS en mêlée si seul le Yomi a été déclenché
+2975,Boostache,40,https://api.dofusdb.fr/img/monsters/846.png,,
+2986,Kolosso,190,https://api.dofusdb.fr/img/monsters/849.png,,"Invulnérable 🛡️ | Devient vulnérable après avoir subi les dommages d'une invocation (peut être une invocation statique:Bombe,Conquête,Cadran...)"
+2992,Professeur Xa,190,https://api.dofusdb.fr/img/monsters/853.png,,
+2995,Kwakwa,50,https://api.dofusdb.fr/img/monsters/854.png,,
+3100,Nelween,70,https://api.dofusdb.fr/img/monsters/856.png,,
+3142,Grozilla,400,https://api.dofusdb.fr/img/monsters/874.png,"Autour 6puis tous les 5 tours, si Grozilla et Grasmera ne sont pas à 2 PO ou moins l'un de l'autre,OS tous les personnages.",
+3143,Grasmera,400,https://api.dofusdb.fr/img/monsters/875.png,"Autour 6puis tous les 5 tours, si Grozilla et Grasmera ne sont pas à 2 PO ou moins l'un de l'autre,OS tous les personnages.",
+3234,Fuji Givrefoux Nourricière,190,https://api.dofusdb.fr/img/monsters/843.png,,
+3238,Chafer Rōnin,40,https://api.dofusdb.fr/img/monsters/916.png,,
+3306,Halouine,100,https://api.dofusdb.fr/img/monsters/937.png,,
+3373,Glourdorak,200,https://api.dofusdb.fr/img/monsters/866.png,,"Invulnérable | OS les personnages au tour 11. | Finir en mêlée du Glourdorak avec un personnage dans l'état ""Fonso Cacnoob"" le rend vulnérable."
+3384,Klime,220,https://api.dofusdb.fr/img/monsters/964.png,,
+3391,Missiz Frizz,220,https://api.dofusdb.fr/img/monsters/970.png,,"Invulnérable 🛡️ | Pose des Glyphes autour de vos personnages à leur tour de jeu. Ces Glyphes déclenchent une poussée de 1 cases qui, sur votre nouvelle position, repoussent en ligne et en diagonale les monstres jusqu'à 6 cases. | Les Monstres et Missiz Frizz passent vulnérable 1 tour lorsqu'ils sont déplacés par les Glyphes ou qu'un monstre est poussé dans leur Ligne/Diagonale. | Les poussées sans délock soignent Missiz Frizz."
+3397,Nileza,220,https://api.dofusdb.fr/img/monsters/976.png,,
+3400,Docteur Eggob,190,https://api.dofusdb.fr/img/monsters/977.png,,
+3401,Mekamouth,200,https://api.dofusdb.fr/img/monsters/978.png,,
+3403,Chevalier de Glace,200,https://api.dofusdb.fr/img/monsters/980.png,Applique l'étatGelen mêlée | OS les ciblesGelées.,
+3409,Sylargh,220,https://api.dofusdb.fr/img/monsters/986.png,,Invulnérable 🛡️ | Le Sylargh réinvoque les monstres morts. Ces derniers doivent être retués à 6 à 10 cases de lui pour que le Sylargh passe vulnérable. | Tuer le premier monstre réinvoqué tue les suivants. | Les personnages ayant plus de 90% de leur HP au moment de la mort d'un monstre réinvoqué passent Pacifistes.
+3413,Psikopompe,200,https://api.dofusdb.fr/img/monsters/990.png,,
+3416,Comte Harebourg,220,https://api.dofusdb.fr/img/monsters/993.png,,
+3460,Wa Wobot,80,https://api.dofusdb.fr/img/monsters/1006.png,,"Ne peut être porté. | Invoque des Wobots Tamponneurs lorsqu'il frappe vos personnages. | Les Wobots Tamponneurs repoussent lorsqu'ils subissent des dommages de poussée. On peut alors créer un flippeur en plaçant les Monstres, dont le Wo Wobot, entre deux Tamponneurs alignés et en poussant l'adversaire à tuer sur l'un d'entre eux. | Les Tamponneurs peuvent se déclencher qu'une fois par tour."
+3476,Maître des Pantins,400,https://api.dofusdb.fr/img/monsters/1019.png,,Invulnérable 🛡️ | Indéplaçable | Passe vulnérable pour2 tourslorsque toutes les Marionnette sont mortes.
+3482,Dramak,100,https://api.dofusdb.fr/img/monsters/1025.png,,Invulnérable 🛡️ | Tuez sa Marionnette pour pouvoir la contrôler avec l'entité la plus proche de cette dernière. La marionnette passe le Dramak en vulnérable à 2 de PO de lui.
+3524,Ali Grothor,130,https://api.dofusdb.fr/img/monsters/1047.png,,
+3526,Exi Guman,30,https://api.dofusdb.fr/img/monsters/1049.png,,
+3527,Gadoo,60,https://api.dofusdb.fr/img/monsters/1050.png,,Ne peut pas être poussé ni porté de tout le combat | Il réduit de 20000 les dégâts d'armes. | Se boost de 5% Résistance Feu et Air et de 20 Puissance mais perd -5% Résistance Terre et Eau par Dommages Terre subi
+3528,Amy l'empoisonneuse,140,https://api.dofusdb.fr/img/monsters/1051.png,,
+3533,Hyperscampe,200,https://api.dofusdb.fr/img/monsters/918.png,,Invulnérable | Devient vulnérable si 3 personnages sont placés sur 3 Glyphes Bleus pour 1 tour.
+3534,Merkator,220,https://api.dofusdb.fr/img/monsters/1054.png,,
+3556,Kanigroula,160,https://api.dofusdb.fr/img/monsters/1066.png,,
+3564,Ombre,190,https://api.dofusdb.fr/img/monsters/1002.png,,Invulnérable 🛡️. | Lui et sa Silhouette ne peuvent être déplacé qu'une foispar tour. | Devient vulnérable siOmbre = Extérieur du GlypheetSilhouette = Dans le Glyphe
+3618,Haute Truche,130,https://api.dofusdb.fr/img/monsters/1096.png,,Devientinvulnérable2 tours si elle subit des dommages avec un arme.
+3648,Roi Nidas,220,https://api.dofusdb.fr/img/monsters/1106.png,,
+3651,Phossile,150,https://api.dofusdb.fr/img/monsters/1108.png,"Au tour 5, le Phossile OS les personnages à 3 cases autour de lui.",
+3652,Malléfisk,100,https://api.dofusdb.fr/img/monsters/1109.png,,
+3668,Voldelor,200,https://api.dofusdb.fr/img/monsters/1125.png,,Le premier personnage qui lui inflige des dommages obtient l'étatMarque des Mangelors. | OS à 3 PO le personnage dansl'état Marque des Mangelors.
+3669,Aigripoil,150,https://api.dofusdb.fr/img/monsters/1126.png,,
+3670,Maxi-Malle,100,https://api.dofusdb.fr/img/monsters/1127.png,,
+3726,Reine des Voleurs,220,https://api.dofusdb.fr/img/monsters/1141.png,,
+3752,Toxoliath,180,https://api.dofusdb.fr/img/monsters/1166.png,,
+3753,Capitaine Ekarlatte,130,https://api.dofusdb.fr/img/monsters/1167.png,,
+3761,Gein,1600,https://api.dofusdb.fr/img/monsters/1103.png,,
+3762,Pantèroz,1040,https://api.dofusdb.fr/img/monsters/1174.png,,Réduit les dégâts à distance (hors poisons)
+3773,Mouchâme,180,https://api.dofusdb.fr/img/monsters/1173.png,,
+3828,Protozorreur,220,https://api.dofusdb.fr/img/monsters/1204.png,,
+3835,Vortex,220,https://api.dofusdb.fr/img/monsters/1208.png,,
+3845,Morblok,120,https://api.dofusdb.fr/img/monsters/1218.png,,
+3848,Hin,170,https://api.dofusdb.fr/img/monsters/1221.png,,OS si subit des dégâts en état Reflet.
+3849,XLII,170,https://api.dofusdb.fr/img/monsters/1222.png,Rend Pacifiste à 3 de PO,
+3851,Sicogne,200,https://api.dofusdb.fr/img/monsters/1223.png,,
+3852,Fraktale,120,https://api.dofusdb.fr/img/monsters/1224.png,,Le Combat s'articule autour du fonctionnement de l'Aiguille.
+3945,Kankreblath,40,https://api.dofusdb.fr/img/monsters/1245.png,Invoque un monstre aléatoire de sa famille | Rend la cible invisible | Se téléporte sur la case ciblée,
+3996,Reine Nyée,90,https://api.dofusdb.fr/img/monsters/1267.png,,
+4014,Tyranne la Terrible,80,https://api.dofusdb.fr/img/monsters/1275.png,,
+4016,Guerrier du K.O.,180,https://api.dofusdb.fr/img/monsters/1277.png,,"Frapper un ennemi en ligne ou en diagonale OS. | OS les personnages en ligne des monstres et du Guerier du K.O si ils ont moins de 50% de HP. | OS le personnages dans l'état ""Massacre à retardement"" si il a un monstre à moins de 6 cases de lui à la fin de son tour."
+4017,Anatak Diskedor,160,https://api.dofusdb.fr/img/monsters/1278.png,,"OSles personnages Foudroyées en mêlée aux tours 3, 7, 11... (tous les 4 tours)"
+4026,Fojumo,175,https://api.dofusdb.fr/img/monsters/1276.png,,
+4027,Naganita,100,https://api.dofusdb.fr/img/monsters/1279.png,,Met pacifiste les entités à plus de 2 cases d'elle au début de son tour de jeu.
+4028,Grand Kongoku,200,https://api.dofusdb.fr/img/monsters/1280.png,,
+4041,Nenufor Tilotus,120,https://api.dofusdb.fr/img/monsters/1274.png,,
+4051,Kardorim,12,https://api.dofusdb.fr/img/monsters/1287.png,,
+4240,Trukipik,100,https://api.dofusdb.fr/img/monsters/1338.png,,Met Pacifiste les personnages à plus de 2 PO de lui à son tour de jeu.
+4263,Chalœil,220,https://api.dofusdb.fr/img/monsters/1345.png,,
+4264,Ush Galesh,160,https://api.dofusdb.fr/img/monsters/1346.png,,Ush se dédouble. | Il passe d'invulnérable à distanceàinvulnérable en mêléeselon le type de dégât qu'il subit. Il faut alterner les deux pour en venir à bout.
+4266,Sam Sagaz,20,https://api.dofusdb.fr/img/monsters/413.png,,Invulnérable | Tuer Bolesh le rend vulnérable
+4268,Maître Boulet,30,https://api.dofusdb.fr/img/monsters/194.png,,
+4270,Roub' Ignolles,40,https://api.dofusdb.fr/img/monsters/1162.png,,
+4272,Bouss Baybe,50,https://api.dofusdb.fr/img/monsters/332.png,,
+4273,Nono le Wobot,60,https://api.dofusdb.fr/img/monsters/102.png,,
+4274,Armada l'Invincible,70,https://api.dofusdb.fr/img/monsters/127.png,,Invulnérable 🛡️ | Devient vulnérable lorsqu'Armada subi un coup critique en mêlée.
+4275,Dragodingo,80,https://api.dofusdb.fr/img/monsters/1349.png,S'attire en ligne à 6 PO | OS en mêlée,
+4276,Degolas,90,https://api.dofusdb.fr/img/monsters/110.png,,
+4277,Prince Marchand,100,https://api.dofusdb.fr/img/monsters/1350.png,,
+4278,Pounicheur,110,https://api.dofusdb.fr/img/monsters/1351.png,,Renvoie 400% des dommages subis sur tous les personnages | Retire son renvoie si les Puces ont le même numéro | On peut changer le numéro d'une Puce en lui infligeant des dommages en mêlée. | Les poisons ignorent le renvoie.
+4329,Fou,200,https://api.dofusdb.fr/img/monsters/1335.png,,"Selon l'état au dessus de votre personnage, vous pourrez taper les formes d'Atcham | OSvos personnages au tour 11"
+4444,Dantinéa,220,https://api.dofusdb.fr/img/monsters/1321.png,,"Dantinéa divise les dommages par 2 de tous les personnages du combat. | Chaque personnage a un numéro sur lui, il faudra tuer le coquillage associé à ce numéro pour que le personnage retrouve des dégâts normaux. | Au bout de 5 tours, Dantinea tue les personnages pour lesquels le coquillage est toujours sur le terrain et en pose de nouveaux."
+4453,Larve de Koutoulou,220,https://api.dofusdb.fr/img/monsters/1423.png,,"Chaque dégât infligé provoque un échange de position avec l'entité la plus proche (sens horaire). | Votre personnage gagne un état de folie lorsqu'il subi des dommages du Koutoulou ou qu'il échange sa position 2 fois dans le même tour avec une même entité. | À partir de l'état 2, l'échange de position provoque des dégâts de zone autour du personnage. Celui-ci meurt en état 10. | À son tour de jeu, le Koutoulou téléporte les personnages dans sa ligne de vue dans sa mêlée. | L'échange de position est limité à 10 par tour global. | Les poisons ne déclenchent pas l'échange de position. | Le personnage pers 1 état de folie par tour si il ne fait rien pour l'augmenter."
+4460,Capitaine Meno,220,https://api.dofusdb.fr/img/monsters/1430.png,,Chaque tour de jeu augmente les dégâts des personnages du terrain. | Pose un Glyphe qui apporte des boucliers sous chaque personnage touché par le Meno. | Les monstresinvulnérablesprésents meurent au bout de 3 tours ( leur dernier seuil est à 1700 HP).
+4506,Buldalazred,200,https://api.dofusdb.fr/img/monsters/1447.png,,
+4507,Takomako,200,https://api.dofusdb.fr/img/monsters/1448.png,,Passe invulnérable si à son tour de jeu aucun personnage n'est à au moins 5 PO de lui.
+4532,Homard Medali,200,https://api.dofusdb.fr/img/monsters/1457.png,,Homard passe invulnérable si il frappe (5 PO). | Frapper le Homard en mêlée retire son invulnérabilité.
+4609,El Piko,130,https://api.dofusdb.fr/img/monsters/1483.png,,
+4613,Élémentaire de la terre,1,https://api.dofusdb.fr/img/monsters/1487.png,,Invulnérable. | Passe vulnérable après avoir subi un retrait PM. | Soigner un personnage sous l'effetSentencele tue.
+4618,Tournade,80,https://api.dofusdb.fr/img/monsters/1492.png,,
+4621,Mantiscore,80,https://api.dofusdb.fr/img/monsters/1495.png,,Se téléporte de 1 cases à chaque dommage à distance subi. | Annule sa téléportation si un personnage est placé en mêlée du Boss.
+4622,Roi Camole,130,https://api.dofusdb.fr/img/monsters/1496.png,,
+4726,Père Ver,170,https://api.dofusdb.fr/img/monsters/1533.png,,Invulnérable à distance 🏹 | Attire les personnages à son tour de jeu.
+4734,Khepricorne,200,https://api.dofusdb.fr/img/monsters/1539.png,,Invulnérable | Passe vulnérable si il subit un attaque.
+4737,Ka'Youloud,170,https://api.dofusdb.fr/img/monsters/1541.png,,
+4744,Tal Kasha,220,https://api.dofusdb.fr/img/monsters/1547.png,,
+4803,Comte Razof,190,https://api.dofusdb.fr/img/monsters/1565.png,,
+4814,Simbadas,90,https://api.dofusdb.fr/img/monsters/1575.png,,
+4815,Carlita de l'Aguerfelde,100,https://api.dofusdb.fr/img/monsters/1576.png,,
+4816,Shushu Debruk'Sayl,180,https://api.dofusdb.fr/img/monsters/1577.png,,
+4834,Predagob,190,https://api.dofusdb.fr/img/monsters/1583.png,,
+4860,Choudini,90,https://api.dofusdb.fr/img/monsters/1585.png,,
+4882,Anerice la Shushess,220,https://api.dofusdb.fr/img/monsters/1600.png,,Réduit les dommages subis | Chaque personnage transformé en Goule augmente les dégâts que le Boss prend.
+4953,Le Fantôme Braïdeur,200,https://api.dofusdb.fr/img/monsters/1625.png,,Invisible en début de combat.
+4967,Ilyzaelle,220,https://api.dofusdb.fr/img/monsters/1628.png,,"Dispose de deux seuils de HP. Pour chaque seuil atteint, Ilyzaelle devient votre alliée et pose un Glyphe qui inflige de gros dégâts aux adversaires et boost les votre pendant 2 tours. | Après le second seuil de HP atteint, les monstres et Ilyzaelle meurent au bout de 2 tours."
+5073,Gobrechaun,110,https://api.dofusdb.fr/img/monsters/1648.png,,Tour Impair= Invulnérable en mêlée. | Tour Pair= Invulnérable à distance. | Dispose d'un bonus aléatoire à chaque tour
+5074,Vashkiwi,120,https://api.dofusdb.fr/img/monsters/1649.png,,
+5076,Darma,140,https://api.dofusdb.fr/img/monsters/1650.png,Applique un poison sur les actions de vos personnages.,
+5077,Mogligli,150,https://api.dofusdb.fr/img/monsters/1651.png,,
+5081,Glandaf l'Aigri,160,https://api.dofusdb.fr/img/monsters/1652.png,,
+5083,Crasper,170,https://api.dofusdb.fr/img/monsters/1653.png,,
+5084,Carter le Pillard,180,https://api.dofusdb.fr/img/monsters/1654.png,,"Invulnérable à distance 🏹 | Crée des Glyphes, le bleu fait passer votre tour si vous finissez dedans."
+5086,Sans Visage,190,https://api.dofusdb.fr/img/monsters/1655.png,,
+5100,Solar,220,https://api.dofusdb.fr/img/monsters/1661.png,,
+5110,Bethel Akarna,220,https://api.dofusdb.fr/img/monsters/1670.png,,
+5319,Dazak Martegel,220,https://api.dofusdb.fr/img/monsters/1771.png,,
+5653,Mawabouaino,60,https://api.dofusdb.fr/img/monsters/1841.png,,
+5664,Croqueleur,130,https://api.dofusdb.fr/img/monsters/1844.png,,"Invulnérable 🛡️ | Devient vulnérable lorsque 4 pépites ont été tuées. Ces pépites sont invoquées enfrappantle Croqueleur dans un élément, puis en lepoussant. Ordre des éléments :Feu ► Air ► Eau ► Terre."
+5666,Prêtresse de Kao,220,https://api.dofusdb.fr/img/monsters/1846.png,,
+5806,Torkélonia,220,https://api.dofusdb.fr/img/monsters/1903.png,,Invulnérable 🛡️ | Passe vulnérable lorsque Torkelonia et ses alliés subissent une ligne de dégâts lorsque le personnage est dans le Glyphe de l'Orbe. | Frapper l'orbe accélère la rotation du Glyphe. | L'état Lunaire des monstres change à chaque tour de jeu. Il faut les achever lorsque la lune vous semble la moins contraignante pour la suite du combat.
+5819,Kharnozor,100,https://api.dofusdb.fr/img/monsters/1911.png,,
+5823,Draegnerys,70,https://api.dofusdb.fr/img/monsters/1915.png,,
+5990,Misère,220,https://api.dofusdb.fr/img/monsters/1966.png,,
+6014,Guerre,220,https://api.dofusdb.fr/img/monsters/1985.png,,
+6026,Corruption,220,https://api.dofusdb.fr/img/monsters/1996.png,,Les monstres Corrompus divisent vos dégâts par 5 tant que vous ne vous êtes pas soigné | Corruption inflige unPoison Mortelde fin de tour à tous vos personnages si vous frappez un adversaire. Il faut soigner un allié en mêlée d'un adversaire pour lui faire des dégâts sans subir le poison.
+6212,Hanshi,140,https://api.dofusdb.fr/img/monsters/2038.png,,
+6218,Tanukouï San,130,https://api.dofusdb.fr/img/monsters/2040.png,,"Pose un Glyphe d'invulnérabilité au sol. | Sortez le du Glyphe pour le rendre vulnérable. | Les dommages à distance attirent le Boss de 2 cases, les dommages en mêlée le repousse de 2."
+6249,Founoroshi,140,https://api.dofusdb.fr/img/monsters/2052.png,,"Invulnérable 🛡️ | Le Founoroshi passe vulnérable lorsque tous les flambeaux sont éteints. | Pour éteindre un flambeau, le personnage doit marcher sur un Glyphe Bleu, puis aller face au Flambeau. | Founoroshi passera ensuite invisible 1 tour et pourra subir des dommages."
+6256,Nagate,130,https://api.dofusdb.fr/img/monsters/2055.png,,Invulnérable à distance 🏹 | Nagate est hors map. Elle permet aux monstres d'invoquer des Bombombre à Eau. | Occasionner un dommage en mêlée de la Bombombre à Eau permet de se téléporter sur Nagate | Il faudra placer la Bombombre à Eau face à la falaise pour s'assurer faire le traversée.
+6326,Damadrya,110,https://api.dofusdb.fr/img/monsters/2088.png,,
+6388,Shogun Tofugawa,160,https://api.dofusdb.fr/img/monsters/2095.png,,
+6394,Koumiho,170,https://api.dofusdb.fr/img/monsters/2097.png,,"Invulnérable 🛡️ | Devient vulnérable lorsque les 2 flammes sont tuées le même tour. | Marcher sur les Glyphes Bleus déclenche une téléportation entre une Flamme invisible et Koumiho, de quoi repérer leur position. | Utiliser la lanterne rend les Flammes visibles et leur inflige des dégâts."
+6472,Roi Imagami,220,https://api.dofusdb.fr/img/monsters/2121.png,,"Le Roi Imagami a différents seuils de HP. Lorsqu'un seuil est atteint, il invoque la Reine qui devient votre alliée pendant 5 tours, l'allié le plus proche du Roi au moment du délock contrôle la reine. Vous pouvez écourter la vie de la Reine avec son dernier sort s'il n'y a plus d'intérêt à sa présence."
+6478,Reine Amirukam,220,https://api.dofusdb.fr/img/monsters/2127.png,,"La Reine Amirukam a différents seuils de HP. Lorsqu'un seuil est atteint, elle invoque le Roi qui devient votre allié pendant 5 tours, l'allié le plus proche de la Reine au moment du délock contrôle le Roi. Vous pouvez écourter la vie du Roi avec son dernier sort s'il n'y a plus d'intérêt à sa présence."
+6654,Kabahal,220,https://api.dofusdb.fr/img/monsters/2192.png,,
+6783,Servitude,220,https://api.dofusdb.fr/img/monsters/1958.png,,
+6792,L'Éternel Conflit,220,https://api.dofusdb.fr/img/monsters/2236.png,,"Invulnérable 🛡️ | L'Eternel Conflit devient vulnérable lorsque ses 2 états passent à 10. | Une fois les deux états 10 atteints, le Boss passe vulnérablé 2 tours. Passé ce délai, vous pourrez ensuite réitérer la manœuvre mais aussituer Braklotin à distance pour rendre EC vulnérable en mêléeoutuer Bonraphin en mêlée pour rendre EC vulnérable à distance. | Finir son tour sans aucun monstre Cauchemardesque en ligne de vue invoque un Cauchemar, créature encombrante."
+6903,Directeur Grunob,50,https://api.dofusdb.fr/img/monsters/2279.png,,
+7197,Rakoopeur,50,https://api.dofusdb.fr/img/monsters/2319.png,,
+7210,Belladone,220,https://api.dofusdb.fr/img/monsters/2325.png,,
+7219,Barbéryl Clochecuivre,190,https://api.dofusdb.fr/img/monsters/2331.png,,
+8037,Déchireuse,220,https://api.dofusdb.fr/img/monsters/2514.png,,Invulnérable 🛡️ | Se téléporte au début de tour sur les personnages dans sa ligne de vue. | La Déchireuse devient vulnérable lorsque le déclenchable d'un des monstres qui l'accompagne lui confère le bonus de son passif à travers l'Autel. Le monstre à déclencher dépend de la Saison dans laquelle on se trouve. Déclencher un monstre revient à le frapper 5 fois. | La Déchireuse a2 phases. Elle n'est pas invulnérable lors de sa seconde phase.
+8047,Vénérable Endormi,220,https://api.dofusdb.fr/img/monsters/2488.png,,Invulnérable 🛡️ | Ne peut être porté. | Devient vulnérable lorsqu'il est réveillé.
+8052,Supervizœuf,170,https://api.dofusdb.fr/img/monsters/2507.png,,Invulnérable 🛡️ | Le Boss passe vulnérable lorsque 4 œufs issus de l'invocation des monstres explosent sur lui. | L'œuf de Balebz doit exploser avec le Supervizoeuf comme entité la plus proche. Le Quadrabz doit exploser à 2 cases du Supervizoeuf. Les autres au contact.
+8063,Ganos,200,https://api.dofusdb.fr/img/monsters/2516.png,,Possède 2 seuils de PV à 70% et à 30% de ses points de vie.

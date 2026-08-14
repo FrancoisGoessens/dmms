@@ -1,9 +1,61 @@
-* {
-  box-sizing: border-box;
+* { box-sizing: border-box; }
+
+:root[data-theme='light'] {
+  --page-bg: oklch(0.975 0.004 150);
+  --panel: #fff;
+  --panel-2: oklch(0.96 0.006 150);
+  --border: oklch(0.9 0.006 150);
+  --border-light: oklch(0.93 0.006 150);
+  --text: oklch(0.22 0.01 150);
+  --text-secondary: oklch(0.55 0.01 150);
+  --hover: oklch(0.97 0.02 150);
+  --input: #fff;
+  --soft-accent-bg: oklch(0.93 0.09 120);
+  --accent-text: oklch(0.55 0.15 125);
 }
+:root[data-theme='dark'] {
+  --page-bg: oklch(0.20 0.004 250);
+  --panel: oklch(0.24 0.004 250);
+  --panel-2: oklch(0.28 0.005 250);
+  --border: oklch(0.34 0.005 250);
+  --border-light: oklch(0.30 0.005 250);
+  --text: oklch(0.93 0.003 250);
+  --text-secondary: oklch(0.68 0.006 250);
+  --hover: oklch(0.31 0.008 250);
+  --input: oklch(0.26 0.004 250);
+  --soft-accent-bg: oklch(0.32 0.08 125);
+  --accent-text: oklch(0.82 0.13 125);
+}
+:root {
+  --accent: oklch(0.55 0.15 125);
+  --amber: oklch(0.72 0.14 75);
+  --red: oklch(0.58 0.19 25);
+  --slider: oklch(0.4 0.01 150); /* gris foncé, demandé pour tous les curseurs */
+  --info: oklch(0.6 0.15 250);
+}
+
 body {
   margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #f7f9f6;
-  color: #232823;
+  background: var(--page-bg);
+  color: var(--text);
+  font-family: 'Inter', Helvetica, Arial, sans-serif;
 }
+a { color: var(--accent); text-decoration: none; }
+a:hover { filter: brightness(0.85); }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: oklch(0.7 0.01 150); border-radius: 4px; }
+input, select, textarea { font-family: 'Inter', Helvetica, Arial, sans-serif; }
+
+input[type='range'] { accent-color: var(--slider); }
+
+/* Classes partagées entre écrans — évite de dupliquer les couleurs partout
+   et fait que le thème sombre s'applique sans toucher chaque fichier. */
+.panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.panel-pad { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+.segmented { display: flex; gap: 2px; background: var(--panel-2); border-radius: 8px; padding: 2px; width: fit-content; }
+.segmented > div { font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 6px; cursor: pointer; color: var(--text-secondary); }
+.segmented > div.active { background: var(--accent); color: #fff; }
+.accent-btn { font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 8px; cursor: pointer; color: #fff; background: var(--accent); border: none; }
+.input-small { font-size: 13px; padding: 8px; border-radius: 8px; border: 1px solid var(--border); outline: none; background: var(--input); color: var(--text); }
+.badge { font-size: 11px; font-weight: 600; padding: 4px 9px; border-radius: 20px; cursor: pointer; color: var(--text-secondary); background: var(--panel-2); }
+.badge.on { color: var(--accent-text); background: var(--soft-accent-bg); }
