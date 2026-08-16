@@ -80,7 +80,13 @@ async function onRefreshDofusDb() {
 }
 async function onRefreshDoFocus() {
   loadingDoFocus.value = true
-  try { await refreshDoFocusData() } catch (e) { alert(e.message) }
+  try {
+    const { runesResult, itemsResult } = await refreshDoFocusData()
+    alert(
+      `Runes : ${runesResult.updated}/${runesResult.total} mises à jour.\n` +
+      `Items craftables : ${itemsResult.updated} mis à jour${itemsResult.failed ? `, ${itemsResult.failed} échec(s)` : ''}.`
+    )
+  } catch (e) { alert(e.message) }
   loadingDoFocus.value = false
 }
 </script>

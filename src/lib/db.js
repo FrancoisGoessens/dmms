@@ -445,3 +445,95 @@ export async function getAllMonsterItemsFull() {
   if (error) throw error
   return data
 }
+
+// --- Métiers / craft (lecture pure base, jamais d'appel live) ---
+export async function getCraftableItemsFor(professionId, levelMin, levelMax) {
+  const { data, error } = await supabase
+    .from('cache_craftable_items')
+    .select('*')
+    .eq('profession_id', professionId)
+    .gte('level', levelMin)
+    .lte('level', levelMax)
+  if (error) throw error
+  return data
+}
+export async function getLatestCoefficientsForItems(itemIds) {
+  if (itemIds.length === 0) return {}
+  const { data, error } = await supabase
+    .from('cache_item_coefficients')
+    .select('item_id, coefficient, prix_estime, created_at')
+    .in('item_id', itemIds)
+    .order('created_at', { ascending: false })
+  if (error) throw error
+  const map = {}
+  for (const row of data) if (!(row.item_id in map)) map[row.item_id] = row
+  return map
+}
+export async function getProfessions() {
+  const { data, error } = await supabase.from('cache_professions').select('*').order('name')
+  if (error) throw error
+  return data
+}
+
+// --- Runes ---
+export async function getRunesWithLatestPrice() {
+  const { data: runes, error } = await supabase.from('cache_runes').select('*')
+  if (error) throw error
+  const ids = runes.map((r) => r.id)
+  if (ids.length === 0) return []
+
+  const { data: prices, error: e2 } = await supabase
+    .from('rune_price_log')
+    .select('rune_id, valeur, created_at')
+    .in('rune_id', ids)
+    .order('created_at', { ascending: false })
+  if (e2) throw e2
+
+  const latestByRune = {}
+  for (const p of prices) if (!(p.rune_id in latestByRune)) latestByRune[p.rune_id] = p
+
+  return runes.map((r) => ({
+    ...r,
+    price: latestByRune[r.id]?.valeur ?? null,
+    updatedAt: latestByRune[r.id]?.created_at ?? null,
+  }))
+}
+export async function getRunePriceHistory(runeId, limit = 200) {
+  const { data, error } = await supabase
+    .from('rune_price_log')
+    .select('valeur, created_at')
+    .eq('rune_id', runeId)
+    .order('created_at', { ascending: false })
+    .limit(limit)
+  if (error) throw error
+  return data
+}
+
+// Récupère toutes les runes en cache, indexées par characteristic_id ET par
+// nom — pour matcher une ligne d'item à sa rune même si le lien exact
+// (characteristicId) n'est pas confirmé.
+export async function getRunesLookup() {
+  const { data, error } = await supabase.from('cache_runes').select('*')
+  if (error) throw error
+  const ids = data.map((r) => r.id)
+
+  let latestByRune = {}
+  if (ids.length > 0) {
+    const { data: prices, error: e2 } = await supabase
+      .from('rune_price_log')
+      .select('rune_id, valeur, created_at')
+      .in('rune_id', ids)
+      .order('created_at', { ascending: false })
+    if (e2) throw e2
+    for (const p of prices) if (!(p.rune_id in latestByRune)) latestByRune[p.rune_id] = p.valeur
+  }
+
+  const byCharId = {}
+  const byName = {}
+  for (const r of data) {
+    const withPrice = { ...r, price: latestByRune[r.id] ?? 0 }
+    if (r.characteristic_id) byCharId[r.characteristic_id] = withPrice
+    byName[r.name] = withPrice
+  }
+  return { byCharId, byName }
+}
