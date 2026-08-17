@@ -62,10 +62,13 @@ function openDetail(row) {
           <div class="priority-bar" :style="{ background: priorityColor(row.netCapture) }"></div>
           <div class="card-body">
             <div class="name">{{ row.name }}</div>
-            <div class="zone">{{ row.zone }}</div>
+            <div class="zone">{{ row.bossName }} - Niveau {{ row.niveau }}</div>
             <div class="card-footer">
               <div class="badge" :class="{ on: row.captured }">{{ row.captured ? 'Capturé' : 'Pas capturé' }}</div>
-              <div class="rent" :style="{ color: priorityColor(row.netCapture) }">{{ Math.round(row.rentability) }}%</div>
+              <div class="rent" :style="{ color: priorityColor(row.netCapture) }">
+              <span v-if="row.lowVolume" class="low-volume-warning" title="Volume de ventes faible">⚠</span>
+              {{ Math.round(row.rentability) }}%
+            </div>
             </div>
           </div>
         </div>
@@ -99,4 +102,5 @@ function openDetail(row) {
 .badge { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 20px; color: var(--text-secondary); background: var(--panel-2); }
 .badge.on { color: var(--accent-text); background: var(--soft-accent-bg); }
 .rent { font-size: 11px; font-weight: 700; }
+.low-volume-warning { color: var(--amber); margin-right: 3px; }
 </style>

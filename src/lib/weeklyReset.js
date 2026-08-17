@@ -2,7 +2,7 @@ import { getAppMeta, setAppMeta, resetAllDungeonFlags } from './db.js'
 
 // Renvoie la date/heure (en Date UTC réelle) du dernier mardi 12h00, heure
 // de Paris, à ou avant l'instant présent.
-function lastTuesdayNoonParis() {
+export function lastTuesdayNoonParis() {
   const now = new Date()
   const parts = new Intl.DateTimeFormat('en-US', {
     timeZone: 'Europe/Paris', weekday: 'short', hour: 'numeric', hour12: false,

@@ -75,10 +75,10 @@ export async function getPriceHistory(itemId, limit = 60) {
   return data
 }
 
-export async function insertPriceEntry(itemId, valeur, type) {
+export async function insertPriceEntry(itemId, valeur, type, characterId = null) {
   const { error } = await supabase
     .from('price_log')
-    .insert({ item_id: itemId, valeur, type })
+    .insert({ item_id: itemId, valeur, type, character_id: characterId })
   if (error) throw error
 }
 
@@ -136,10 +136,11 @@ export async function getSoulStoneForLevel(level) {
 }
 
 // Toutes les ventes réelles (type='vente') pour les insights, optionnellement
-// bornées dans le temps.
-export async function getSales(sinceDate = null) {
+// bornées dans le temps et/ou filtrées sur un personnage précis.
+export async function getSales(sinceDate = null, characterId = null) {
   let query = supabase.from('price_log').select('valeur, quantite, created_at').eq('type', 'vente')
   if (sinceDate) query = query.gte('created_at', sinceDate)
+  if (characterId) query = query.eq('character_id', characterId)
   const { data, error } = await query
   if (error) throw error
   return data
@@ -292,8 +293,8 @@ export async function getSoulStones() {
 export async function getLatestStonePrice(itemId) {
   return getLatestPrice(itemId)
 }
-export async function setStonePrice(itemId, value) {
-  await insertPriceEntry(itemId, value, 'observation_hdv')
+export async function setStonePrice(itemId, value, characterId = null) {
+  await insertPriceEntry(itemId, value, 'observation_hdv', characterId)
 }
 export async function setDungeonStone(dungeonId, stoneItemId) {
   const { error } = await supabase.from('cache_dungeons').update({ soul_stone_item_id: stoneItemId }).eq('id', dungeonId)
@@ -331,10 +332,10 @@ export async function getSalesLog() {
   }))
 }
 
-export async function addSaleEntry(itemId, date, qty, price) {
+export async function addSaleEntry(itemId, date, qty, price, characterId = null) {
   const { error } = await supabase
     .from('price_log')
-    .insert({ item_id: itemId, valeur: price, type: 'vente', quantite: qty, created_at: date })
+    .insert({ item_id: itemId, valeur: price, type: 'vente', quantite: qty, created_at: date, character_id: characterId })
   if (error) throw error
 }
 
@@ -536,4 +537,45 @@ export async function getRunesLookup() {
     byName[r.name] = withPrice
   }
   return { byCharId, byName }
+}
+
+export async function setDungeonBossImage(dungeonId, imageUrl) {
+  const { error } = await supabase.from('cache_dungeons').update({ boss_image_url: imageUrl }).eq('id', dungeonId)
+  if (error) throw error
+}
+
+export async function setDungeonBossStats(dungeonId, stats) {
+  const { error } = await supabase.from('cache_dungeons').update({ boss_stats: stats }).eq('id', dungeonId)
+  if (error) throw error
+}
+
+// --- Items craftables : lecture pure base (jamais d'appel DoFocus en live) ---
+export async function searchCraftableItems(query) {
+  if (!query || query.length < 2) return []
+  const { data, error } = await supabase
+    .from('cache_craftable_items')
+    .select('item_id, name, level, image_url')
+    .ilike('name', `%${query}%`)
+    .limit(20)
+  if (error) throw error
+  return data
+}
+
+export async function getCraftableItemDetail(itemId) {
+  const { data: item, error } = await supabase
+    .from('cache_craftable_items')
+    .select('*')
+    .eq('item_id', itemId)
+    .single()
+  if (error) throw error
+
+  const { data: coeffs, error: e2 } = await supabase
+    .from('cache_item_coefficients')
+    .select('*')
+    .eq('item_id', itemId)
+    .order('created_at', { ascending: false })
+    .limit(1)
+  if (e2) throw e2
+
+  return { ...item, latestCoefficient: coeffs?.[0] ?? null }
 }

@@ -1,38 +1,51 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { priorityColor } from '../lib/theme.js'
-import { netCaptureToPercent } from '../lib/rentability.js'
+import { netCaptureToPercent, isLowVolume } from '../lib/rentability.js'
+import { session } from '../lib/session.js'
 import {
   getRouteZones, createRouteZone, deleteRouteZone, getAllRouteZoneDungeons,
   addDungeonToZone, removeDungeonFromZone, reorderZoneDungeon, getAllDungeons,
-  getLatestPricesForItems, getAllMonsterItemsFull,
+  getLatestPricesForItems, getAllMonsterItemsFull, getCharacterDungeons,
+  setDungeonFlag, propagateFait,
 } from '../lib/db.js'
 
 const loading = ref(true)
 const zones = ref([])
 const allDungeons = ref([])
 const rentByDungeon = ref({})
+const lowVolumeByDungeon = ref({})
+const statusByDungeon = ref({})
 
 const showAddZoneForm = ref(false)
 const newZoneName = ref('')
 
 async function load() {
   loading.value = true
-  const [zoneRows, links, dungeons, monsterItems] = await Promise.all([
+  const [zoneRows, links, dungeons, monsterItems, charDungeons] = await Promise.all([
     getRouteZones(),
     getAllRouteZoneDungeons(),
     getAllDungeons(),
     getAllMonsterItemsFull(),
+    getCharacterDungeons(session.characterId),
   ])
   allDungeons.value = dungeons
+  statusByDungeon.value = Object.fromEntries(
+    charDungeons.map((cd) => [cd.dungeon_id, { captured: cd.capture, done: cd.fait_cette_semaine }])
+  )
 
   // Rentabilité approximative (capture only, sans le prix de pierre —
   // suffisant pour trier une route, pas besoin du détail complet ici).
   const captureItems = monsterItems.filter((mi) => mi.categorie === 'capture')
   const prices = await getLatestPricesForItems(captureItems.map((mi) => mi.item_id))
   const byDungeon = {}
-  for (const mi of captureItems) byDungeon[mi.dungeon_id] = prices[mi.item_id]?.valeur ?? 0
+  const lowVolByDungeon = {}
+  for (const mi of captureItems) {
+    byDungeon[mi.dungeon_id] = prices[mi.item_id]?.valeur ?? 0
+    lowVolByDungeon[mi.dungeon_id] = isLowVolume(mi.cache_items?.ventes_30j)
+  }
   rentByDungeon.value = byDungeon
+  lowVolumeByDungeon.value = lowVolByDungeon
 
   zones.value = zoneRows.map((z) => ({
     ...z,
@@ -47,6 +60,27 @@ onMounted(load)
 
 function rentOf(dungeonId) {
   return rentByDungeon.value[dungeonId] ?? 0
+}
+function lowVolumeOf(dungeonId) {
+  return lowVolumeByDungeon.value[dungeonId] ?? false
+}
+function statusOf(dungeonId) {
+  return statusByDungeon.value[dungeonId] || { captured: false, done: false }
+}
+async function toggleCaptured(dungeonId) {
+  const s = statusOf(dungeonId)
+  const newVal = !s.captured
+  statusByDungeon.value[dungeonId] = { ...s, captured: newVal, done: newVal ? true : s.done }
+  await setDungeonFlag(session.characterId, dungeonId, 'capture', newVal)
+  if (newVal && !s.done) await setDungeonFlag(session.characterId, dungeonId, 'fait_cette_semaine', true)
+  if (statusByDungeon.value[dungeonId].done) await propagateFait(session.characterId, dungeonId)
+}
+async function toggleDone(dungeonId) {
+  const s = statusOf(dungeonId)
+  const newVal = !s.done
+  statusByDungeon.value[dungeonId] = { ...s, done: newVal }
+  await setDungeonFlag(session.characterId, dungeonId, 'fait_cette_semaine', newVal)
+  if (newVal) await propagateFait(session.characterId, dungeonId)
 }
 
 function usedDungeonOptionsFor() {
@@ -120,7 +154,10 @@ async function onDrop(zone, target) {
             <div class="drag-handle">⠿</div>
             <div class="order-chip">{{ d.ordre }}</div>
             <div class="dungeon-name">{{ d.name }}</div>
+            <div class="badge-mini" :class="{ on: statusOf(d.dungeonId).captured }" @click="toggleCaptured(d.dungeonId)">Cap.</div>
+            <div class="badge-mini" :class="{ on: statusOf(d.dungeonId).done }" @click="toggleDone(d.dungeonId)">Fait</div>
             <div class="rent" :style="{ color: priorityColor(rentOf(d.dungeonId)) }">
+              <span v-if="lowVolumeOf(d.dungeonId)" class="low-volume-warning" title="Volume de ventes faible">⚠</span>
               {{ Math.round(netCaptureToPercent(rentOf(d.dungeonId))) }}%
             </div>
             <div class="remove" @click="onRemoveDungeon(zone, d.dungeonId)" title="Retirer">×</div>
@@ -149,6 +186,9 @@ async function onDrop(zone, target) {
 .order-chip { width: 18px; height: 18px; border-radius: 5px; background: var(--panel); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; }
 .dungeon-name { font-size: 13px; font-weight: 600; flex: 1; }
 .rent { font-size: 11px; font-weight: 600; }
+.low-volume-warning { color: var(--amber); margin-right: 3px; }
+.badge-mini { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 10px; color: var(--text-secondary); background: var(--panel); white-space: nowrap; cursor: pointer; }
+.badge-mini.on { color: var(--accent-text); background: var(--soft-accent-bg); }
 .remove { cursor: pointer; color: var(--text-secondary); font-size: 13px; }
 .dashed-select { font-size: 12px; padding: 8px 12px; border-radius: 8px; border: 1px dashed var(--accent); color: var(--accent-text); outline: none; background: var(--input); width: 100%; }
 .empty { padding: 30px; text-align: center; color: var(--text-secondary); font-size: 13px; }

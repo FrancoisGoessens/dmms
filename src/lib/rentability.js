@@ -8,6 +8,11 @@ export function netCaptureToPercent(netCapture) {
   return Math.max(0, Math.min(100, (netCapture / 100000) * 100))
 }
 
+// Volume faible = flèche vers le bas (même seuil que la fiche donjon).
+export function isLowVolume(ventes30j) {
+  return ventes30j != null && ventes30j <= 100
+}
+
 // Calcule la rentabilité de tous les donjons d'un personnage EN UNE SEULE
 // série de requêtes groupées (perf), au lieu d'une boucle avec plusieurs
 // await par donjon. Utilisé par Dashboard et Kanban.
@@ -57,10 +62,12 @@ export async function computeDungeonRentabilities({
     const itemsBonus = (simplePrice * (simpleRate || 0)) / 100 + (rarePrice * (rareRate || 0)) / 100
 
     return {
-      dungeonId: dungeon.id, name: dungeon.name, zone: dungeon.zone,
+      dungeonId: dungeon.id, name: dungeon.name, zone: dungeon.zone, niveau: dungeon.niveau,
+      bossName: byCat.capture?.cache_items?.name || dungeon.name,
       done: cd.fait_cette_semaine, captured: cd.capture,
       netCapture, itemsBonus,
       rentability: netCaptureToPercent(netCapture),
+      lowVolume: isLowVolume(byCat.capture?.cache_items?.ventes_30j),
     }
   }).filter(Boolean)
 

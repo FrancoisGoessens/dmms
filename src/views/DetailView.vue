@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, onBeforeRouteLeave } from 'vue-router'
 import { session } from '../lib/session.js'
 import {
   getDungeon, getCharacterDungeon, getMonsterItems, getPriceHistory,
@@ -114,7 +114,7 @@ const chartPoints = computed(() => {
 // saisissent depuis la page HDV.
 async function validateField(cat) {
   const f = priceFields[cat]
-  await insertPriceEntry(f.itemId, f.value, 'observation_hdv')
+  await insertPriceEntry(f.itemId, f.value, 'observation_hdv', session.characterId)
   f.daysAgo = 0
   await loadChart()
   invalidateDungeonCache(session.characterId)
@@ -146,6 +146,33 @@ function onNotesChange(val) {
 
 const netCapture = computed(() => (priceFields.capture?.value || 0) - pierrePrice.value)
 const rentability = computed(() => netCaptureToPercent(netCapture.value))
+const ICON_BASE = 'https://dofusdb.fr/icons/effects'
+const bossStatsRows = computed(() => {
+  const s = dungeon.value?.boss_stats
+  if (!s) return []
+  const row1 = [
+    { label: 'Vie', field: 'lifePoints', icon: `${ICON_BASE}/pv.png` },
+    { label: 'PA', field: 'actionPoints', icon: `${ICON_BASE}/pa.png` },
+    { label: 'PM', field: 'movementPoints', icon: `${ICON_BASE}/pm.png` },
+    { label: 'PO', field: 'bonusRange', icon: `${ICON_BASE}/po.png` },
+  ]
+  const row2 = [
+    { label: 'Force', field: 'strength', icon: `${ICON_BASE}/terre.png` },
+    { label: 'Intelligence', field: 'intelligence', icon: `${ICON_BASE}/feu.png` },
+    { label: 'Chance', field: 'chance', icon: `${ICON_BASE}/eau.png` },
+    { label: 'Agilité', field: 'agility', icon: `${ICON_BASE}/air.png` },
+  ]
+  const row3 = [
+    { label: 'Rés. Neutre', field: 'neutralResistance', icon: `${ICON_BASE}/resNeutre.png` },
+    { label: 'Rés. Terre', field: 'earthResistance', icon: `${ICON_BASE}/resTerre.png` },
+    { label: 'Rés. Intelligence', field: 'fireResistance', icon: `${ICON_BASE}/resFeu.png` },
+    { label: 'Rés. Chance', field: 'waterResistance', icon: `${ICON_BASE}/resEau.png` },
+    { label: 'Rés. Agilité', field: 'airResistance', icon: `${ICON_BASE}/resAir.png` },
+  ]
+  const build = (row) =>
+    row.filter((r) => typeof s[r.field] === 'number').map((r) => ({ ...r, val: s[r.field] }))
+  return [build(row1), build(row2), build(row3)].filter((r) => r.length > 0)
+})
 
 function volumeArrow(ventes30j) {
   if (ventes30j == null) return null
@@ -160,12 +187,28 @@ function activeVolumeTier(ventes30j) {
   if (ventes30j >= 101) return 'flat'
   return 'down'
 }
-async function setVolumeTier(tier) {
+let volumeDirty = false
+function setVolumeTier(tier) {
   const f = priceFields.capture
   if (!f) return
   f.ventes30j = VOLUME_REPRESENTATIVE[tier]
-  await updateItemVentes30j(f.itemId, f.ventes30j)
+  volumeDirty = true
 }
+
+// On envoie le volume de ventes seulement en quittant la fiche, pas à
+// chaque clic — évite de spammer la base pendant qu'on hésite entre les
+// 3 flèches, sans toucher au reste de la logique (prix, badges...).
+onBeforeRouteLeave(async () => {
+  if (volumeDirty && priceFields.capture) {
+    try {
+      await updateItemVentes30j(priceFields.capture.itemId, priceFields.capture.ventes30j)
+    } catch (e) {
+      // On ne bloque JAMAIS la navigation pour ça — au pire le volume ne
+      // se sauvegarde pas cette fois, mais on log pour comprendre pourquoi.
+      console.error('Échec de sauvegarde du volume de ventes :', e)
+    }
+  }
+})
 </script>
 
 <template>
@@ -174,7 +217,7 @@ async function setVolumeTier(tier) {
 
     <div class="header-row">
       <div class="title">{{ dungeon.name }}</div>
-      <div class="meta">{{ dungeon.zone }} · niveau {{ dungeon.niveau }}</div>
+      <div class="meta">{{ priceFields.capture?.name || dungeon.name }} - Niveau {{ dungeon.niveau }}</div>
       <div class="badges-row">
         <div class="badge" :class="{ on: charDungeon.capture }" @click="toggleCaptured">
           {{ charDungeon.capture ? 'Capturé' : 'Pas capturé' }}
@@ -192,11 +235,20 @@ async function setVolumeTier(tier) {
     <div class="layout">
       <div class="main-col">
         <div class="panel-pad section boss-card">
-          <div class="boss-img">image du boss</div>
+          <img v-if="dungeon.boss_image_url" :src="dungeon.boss_image_url" class="boss-img" />
+          <div v-else class="boss-img placeholder">image du boss</div>
           <div class="boss-info">
-            <div class="boss-name">{{ dungeon.name.replace(/^Donjon( du| des| de la| de l')?\s*/i, '') }}</div>
+            <div class="boss-name">{{ priceFields.capture?.name || dungeon.name }}</div>
             <div class="boss-level">Niveau {{ dungeon.niveau }}</div>
-            <div class="boss-stats-note">Caractéristiques — à venir (import DofusDB)</div>
+          </div>
+
+          <div v-if="bossStatsRows.length" class="stats-rows">
+            <div v-for="row in bossStatsRows" :key="row.label" class="stats-row">
+              <div v-for="s in row" :key="s.label" class="stat-chip">
+                <img :src="s.icon" class="stat-icon" :title="s.label" />
+                <span class="stat-val">{{ s.val }}</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -210,14 +262,14 @@ async function setVolumeTier(tier) {
           </div>
         </div>
           <div class="price-grid">
-            <div v-for="(field, cat) in priceFields" :key="cat" class="price-field" :class="{ selected: chartTarget === cat }">
-              <div class="price-field-head" @click="field && selectChart(cat)">
-                <div class="price-label">{{ field ? field.name : cat }}</div>
-                <div v-if="field && field.rateBase != null" class="price-rate">
-                  {{ field.rateBase }}% — {{ field.ratePP }}%
-                </div>
-              </div>
+            <div v-for="(field, cat) in priceFields" :key="cat" class="price-field" :class="{ selected: field && chartTarget === cat }">
               <template v-if="field">
+                <div class="price-field-head" @click="selectChart(cat)">
+                  <div class="price-label">{{ field.name }}</div>
+                  <div v-if="field.rateBase != null" class="price-rate">
+                    {{ field.rateBase }}% — {{ field.ratePP }}%
+                  </div>
+                </div>
                 <div class="price-input-row">
                   <input
                     type="number"
@@ -284,6 +336,7 @@ async function setVolumeTier(tier) {
 .back { font-size: 12px; display: inline-block; margin-bottom: 14px; }
 .header-row { margin-bottom: 20px; }
 .title { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+.title.small { font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 10px; }
 .meta { font-size: 12px; color: var(--text-secondary); margin-bottom: 12px; }
 .badges-row { display: flex; align-items: center; gap: 8px; }
 .badge { font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 20px; cursor: pointer; color: var(--text-secondary); background: var(--panel-2); }
@@ -294,11 +347,18 @@ async function setVolumeTier(tier) {
 .layout { display: grid; grid-template-columns: 1fr 320px; gap: 16px; align-items: start; }
 .side-col { display: flex; flex-direction: column; gap: 16px; }
 
-.boss-card { display: flex; gap: 16px; align-items: center; }
-.boss-img { width: 72px; height: 72px; border-radius: 10px; background: var(--panel-2); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 9px; color: var(--text-secondary); text-align: center; }
+.boss-card { display: flex; align-items: center; gap: 20px; }
+.boss-img { width: 72px; height: 72px; border-radius: 10px; flex-shrink: 0; object-fit: contain; background: var(--panel-2); }
+.boss-img.placeholder { display: flex; align-items: center; justify-content: center; font-size: 9px; color: var(--text-secondary); text-align: center; }
+.boss-info { flex-shrink: 0; }
 .boss-name { font-size: 16px; font-weight: 700; }
 .boss-level { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
 .boss-stats-note { font-size: 11px; color: var(--text-secondary); font-style: italic; margin-top: 6px; }
+.stats-rows { display: flex; flex-direction: column; gap: 6px; flex: 1; padding-left: 20px; border-left: 1px solid var(--border); }
+.stats-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.stat-chip { display: flex; align-items: center; gap: 6px; background: var(--panel-2); border-radius: 8px; padding: 6px 10px; font-size: 12px; }
+.stat-icon { width: 16px; height: 16px; object-fit: contain; }
+.stat-val { font-weight: 700; }
 
 .section { margin-bottom: 16px; }
 .side-col .section { margin-bottom: 0; }

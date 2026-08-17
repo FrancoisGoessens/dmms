@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { getSoulStones, getLatestStonePrice, setStonePrice } from '../lib/db.js'
+import { session } from '../lib/session.js'
 
 const props = defineProps(['open'])
 const emit = defineEmits(['close'])
@@ -22,7 +23,7 @@ function onChange(stone, val) {
 async function saveAll() {
   try {
     for (const s of stones.value) {
-      if (s.dirty) { await setStonePrice(s.item_id, s.price); s.dirty = false }
+      if (s.dirty) { await setStonePrice(s.item_id, s.price, session.characterId); s.dirty = false }
     }
   } catch (e) {
     alert("Erreur à l'enregistrement : " + e.message)

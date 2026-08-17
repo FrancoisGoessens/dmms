@@ -5,7 +5,7 @@ import { session } from '../lib/session.js'
 import {
   getCharacters, updateCharacter, createCharacter,
   getCharacterDungeons, getAllDungeons, addDungeonToCharacter,
-  removeDungeonFromCharacter, updateDifficulty,
+  removeDungeonFromCharacter, updateDifficulty, getMonsterItemsForDungeons,
 } from '../lib/db.js'
 
 const route = useRoute()
@@ -37,8 +37,18 @@ async function loadCharacterData() {
   if (!tabId.value) return
   editing.value = false
   const cds = await getCharacterDungeons(tabId.value)
-  dungeons.value = cds.filter((d) => d.cache_dungeons).map((d) => ({
-    dungeonId: d.dungeon_id, name: d.cache_dungeons.name, zone: d.cache_dungeons.zone, difficulte: d.difficulte,
+  const kept = cds.filter((d) => d.cache_dungeons)
+
+  const monsterItems = await getMonsterItemsForDungeons(kept.map((d) => d.dungeon_id))
+  const bossByDungeon = {}
+  for (const mi of monsterItems) {
+    if (mi.categorie === 'capture') bossByDungeon[mi.dungeon_id] = mi.cache_items?.name
+  }
+
+  dungeons.value = kept.map((d) => ({
+    dungeonId: d.dungeon_id, name: d.cache_dungeons.name,
+    bossName: bossByDungeon[d.dungeon_id] || d.cache_dungeons.name,
+    niveau: d.cache_dungeons.niveau, difficulte: d.difficulte,
   }))
   allDungeons.value = await getAllDungeons()
 }
@@ -140,7 +150,7 @@ const dropMultiplier = computed(() => (current.value ? (1 + (current.value.prosp
           <div v-for="row in dungeons" :key="row.dungeonId" class="dungeon-row">
             <div class="dungeon-info">
               <div class="dungeon-name">{{ row.name }}</div>
-              <div class="dungeon-zone">{{ row.zone }}</div>
+              <div class="dungeon-zone">{{ row.bossName }} - Niveau {{ row.niveau }}</div>
             </div>
             <div class="diff-label">Difficulté</div>
             <div class="stepper">

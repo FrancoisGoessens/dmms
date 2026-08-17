@@ -3,8 +3,6 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { session, setActiveCharacter, clearSession } from '../lib/session.js'
 import { searchDungeons, getCharacters, getCharacter } from '../lib/db.js'
-import { refreshDofusDbCache, refreshDoFocusData } from '../lib/refresh.js'
-
 const route = useRoute()
 const router = useRouter()
 
@@ -71,23 +69,12 @@ function changePlayer() {
 onMounted(loadCharacter)
 
 // --- Refresh DofusDB / DoFocus (icônes seules) ---
-const loadingDofusDb = ref(false)
-const loadingDoFocus = ref(false)
-async function onRefreshDofusDb() {
-  loadingDofusDb.value = true
-  try { await refreshDofusDbCache() } catch (e) { alert(e.message) }
-  loadingDofusDb.value = false
-}
-async function onRefreshDoFocus() {
-  loadingDoFocus.value = true
-  try {
-    const { runesResult, itemsResult } = await refreshDoFocusData()
-    alert(
-      `Runes : ${runesResult.updated}/${runesResult.total} mises à jour.\n` +
-      `Items craftables : ${itemsResult.updated} mis à jour${itemsResult.failed ? `, ${itemsResult.failed} échec(s)` : ''}.`
-    )
-  } catch (e) { alert(e.message) }
-  loadingDoFocus.value = false
+function onRefreshDoFocus() {
+  // DoFocus ne renvoie pas d'en-tête CORS : aucun appel depuis le navigateur
+  // ne peut jamais aboutir, quelle que soit l'IP whitelistée. Le vrai
+  // refresh se fait via `node scripts/refresh-dofocus.js`, lancé depuis le
+  // réseau maison.
+  alert("Ce bouton ne peut pas fonctionner depuis le navigateur (DoFocus bloque CORS).\nLance plutôt : node scripts/refresh-dofocus.js depuis ton PC.")
 }
 </script>
 
@@ -105,12 +92,7 @@ async function onRefreshDoFocus() {
         </div>
       </div>
 
-      <button class="icon-only" :disabled="loadingDofusDb" title="Refresh DofusDB" @click="onRefreshDofusDb">
-        <span class="spin" :class="{ on: loadingDofusDb }">↻</span>
-        <span class="site-badge dofusdb">D</span>
-      </button>
-      <button class="icon-only" :disabled="loadingDoFocus" title="Refresh DoFocus" @click="onRefreshDoFocus">
-        <span class="spin" :class="{ on: loadingDoFocus }">↻</span>
+      <button class="icon-only" title="DoFocus : voir scripts/refresh-dofocus.js" @click="onRefreshDoFocus">
         <span class="site-badge dofocus">F</span>
       </button>
 

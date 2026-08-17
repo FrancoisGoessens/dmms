@@ -1,12 +1,8 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { searchDofocusItems, getDofocusItem, getDofocusCoefficientHistory } from '../lib/dofocus.js'
+import { searchCraftableItems, getCraftableItemDetail, getRunesLookup } from '../lib/db.js'
 import { computePdb, computeRuneQtyNoFocus, computeRuneQtyWithFocus } from '../lib/dropFormula.js'
 import { getPoidsLigne } from '../lib/runeWeights.js'
-import { getRunesLookup } from '../lib/db.js'
-
-const runesLookup = ref({ byCharId: {}, byName: {} })
-onMounted(async () => { runesLookup.value = await getRunesLookup() })
 
 const query = ref('')
 const results = ref([])
@@ -14,7 +10,10 @@ const searching = ref(false)
 const selected = ref(null)
 const loadingDetail = ref(false)
 const errorMsg = ref('')
-const rawDebug = ref(null) // vraie réponse brute, pour vérifier/adapter si les noms de champs diffèrent
+const rawDebug = ref(null)
+
+const runesLookup = ref({ byCharId: {}, byName: {} })
+onMounted(async () => { runesLookup.value = await getRunesLookup() })
 
 let searchTimer = null
 function onQueryInput() {
@@ -23,31 +22,23 @@ function onQueryInput() {
   searchTimer = setTimeout(async () => {
     searching.value = true
     try {
-      const res = await searchDofocusItems(query.value)
-      results.value = res.data || res.items || res || []
+      results.value = await searchCraftableItems(query.value)
     } catch (e) {
       errorMsg.value = e.message
     } finally {
       searching.value = false
     }
-  }, 300)
+  }, 250)
 }
 
 async function selectItem(item) {
   loadingDetail.value = true
   errorMsg.value = ''
   results.value = []
-  query.value = item.name?.fr || item.name || ''
+  query.value = item.name
   try {
-    const [detail, coeffHistory] = await Promise.all([
-      getDofocusItem(item.id),
-      getDofocusCoefficientHistory(item.id).catch(() => null),
-    ])
-    rawDebug.value = { detail, coeffHistory }
-
-    const latestCoeff = Array.isArray(coeffHistory)
-      ? coeffHistory[coeffHistory.length - 1]
-      : coeffHistory?.data?.[coeffHistory.data.length - 1] ?? null
+    const detail = await getCraftableItemDetail(item.item_id)
+    rawDebug.value = detail
 
     const stats = (detail.characteristics || []).map((c) => {
       const min = c.min ?? c.jetMin ?? 0
@@ -68,12 +59,13 @@ async function selectItem(item) {
     })
 
     selected.value = {
-      id: item.id,
-      name: detail.name?.fr || item.name?.fr || item.name,
-      level: detail.level ?? item.level,
-      imageUrl: detail.imageUrl || item.imageUrl,
-      marketPrice: latestCoeff?.price ?? latestCoeff?.marketPrice ?? null,
-      coefficient: latestCoeff?.coefficient ?? null,
+      id: item.item_id,
+      name: detail.name,
+      level: detail.level,
+      imageUrl: detail.image_url,
+      marketPrice: detail.latestCoefficient?.prix_estime ?? null,
+      coefficient: detail.latestCoefficient?.coefficient ?? null,
+      updatedAt: detail.latestCoefficient?.created_at ?? null,
       stats,
     }
   } catch (e) {
@@ -94,10 +86,6 @@ function inc(row) { row.jet++ }
 function isOver(row) { return row.jet > row.max }
 function isUnder(row) { return row.jet < row.min }
 
-// Formules confirmées :
-// Pdb = 3*jet*poidsLigne*niveau/200+1 (÷10 si poidsLigne négatif)
-// Sans focus : (Pdb / poidsRune) * coefficient/100
-// Avec focus : ((PdbFocus + 0.5*somme(PdbAutres)) / poidsRuneFocus) * coefficient/100
 function pdbOf(row) {
   if (!selected.value?.level) return null
   return computePdb(row.jet, row.poidsLigne, selected.value.level)
@@ -127,13 +115,18 @@ const totalNoFocus = computed(() => {
 
 <template>
   <div>
+    <p class="info-note">
+      Recherche parmi les items déjà importés (script) — aucun appel DoFocus en direct.
+      Coefficient/prix rafraîchis via <code>node scripts/refresh-dofocus.js</code>.
+    </p>
+
     <div class="panel-pad top-card">
       <div class="field">
-        <div class="field-label">Chercher un item (DoFocus)</div>
+        <div class="field-label">Chercher un item déjà importé</div>
         <input v-model="query" @input="onQueryInput" class="input-small item-search" placeholder="ex. Cape Craqueleuse..." />
         <div v-if="results.length" class="results-dropdown">
-          <div v-for="r in results" :key="r.id" class="result-item" @click="selectItem(r)">
-            {{ r.name?.fr || r.name }} <span class="muted">niv. {{ r.level }}</span>
+          <div v-for="r in results" :key="r.item_id" class="result-item" @click="selectItem(r)">
+            {{ r.name }} <span class="muted">niv. {{ r.level }}</span>
           </div>
         </div>
       </div>
@@ -166,7 +159,11 @@ const totalNoFocus = computed(() => {
           <div v-else class="item-image placeholder"></div>
           <div>
             <div class="item-title">{{ selected.name }}</div>
-            <div class="item-sub">Niveau {{ selected.level }}</div>
+            <div class="item-sub">
+              Niveau {{ selected.level }}
+              <span v-if="selected.updatedAt" class="muted"> · coeff. rafraîchi le {{ new Date(selected.updatedAt).toLocaleDateString('fr-FR') }}</span>
+              <span v-else class="muted"> · jamais rafraîchi</span>
+            </div>
           </div>
         </div>
       </div>
@@ -204,13 +201,15 @@ const totalNoFocus = computed(() => {
           </div>
         </div>
         <p v-if="selected.stats.some(r => r.poidsLigne == null)" class="warning">
-          ⚠ Caractéristique non reconnue dans la table de poids pour au moins une ligne — regarde le nom exact
-          affiché et dis-moi lequel ne matche pas, j'ajuste la table.
+          ⚠ Caractéristique non reconnue dans la table de poids pour au moins une ligne.
+        </p>
+        <p v-if="selected.coefficient == null" class="warning">
+          ⚠ Aucun coefficient en cache pour cet item — lance le script de refresh pour le récupérer.
         </p>
       </div>
 
       <details class="debug-panel">
-        <summary>Debug — réponse brute DoFocus (à vérifier ensemble)</summary>
+        <summary>Debug — donnée brute stockée pour cet item</summary>
         <pre>{{ JSON.stringify(rawDebug, null, 2) }}</pre>
       </details>
     </template>
@@ -218,6 +217,7 @@ const totalNoFocus = computed(() => {
 </template>
 
 <style scoped>
+.info-note { font-size: 11px; color: var(--text-secondary); margin-bottom: 12px; }
 .top-card { margin-bottom: 16px; position: relative; }
 .field-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; }
 .item-search { width: 320px; }

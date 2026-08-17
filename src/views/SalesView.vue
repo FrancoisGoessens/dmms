@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { getSalesLog, addSaleEntry, getAllItemsForSalesForm } from '../lib/db.js'
+import { session } from '../lib/session.js'
 
 const filter = ref('tout')
 const view = ref('liste')
@@ -37,7 +38,7 @@ const itemsView = computed(() => {
 
 async function confirmAdd() {
   if (!newSale.value.itemId || !newSale.value.price) return
-  await addSaleEntry(newSale.value.itemId, newSale.value.date, newSale.value.qty, Number(newSale.value.price))
+  await addSaleEntry(newSale.value.itemId, newSale.value.date, newSale.value.qty, Number(newSale.value.price), session.characterId)
   newSale.value = { date: new Date().toISOString().slice(0, 10), itemId: '', qty: 1, price: '' }
   showAddForm.value = false
   await load()
