@@ -12,6 +12,7 @@ import { priorityColor } from '../lib/theme.js'
 import { computeDropWithPP } from '../lib/dropFormula.js'
 import { netCaptureToPercent } from '../lib/rentability.js'
 import { invalidateDungeonCache } from '../lib/dungeonCache.js'
+import { formatPercent, truncateText } from '../lib/format.js'
 
 const props = defineProps(['id'])
 const router = useRouter()
@@ -265,9 +266,11 @@ onBeforeRouteLeave(async () => {
             <div v-for="(field, cat) in priceFields" :key="cat" class="price-field" :class="{ selected: field && chartTarget === cat }">
               <template v-if="field">
                 <div class="price-field-head" @click="selectChart(cat)">
-                  <div class="price-label">{{ field.name }}</div>
+                  <div class="price-label" :title="field.name">
+                    {{ cat === 'capture' ? field.name : truncateText(field.name, 20) }}
+                  </div>
                   <div v-if="field.rateBase != null" class="price-rate">
-                    {{ field.rateBase }}% — {{ field.ratePP }}%
+                    {{ formatPercent(field.rateBase) }}% — {{ formatPercent(field.ratePP) }}%
                   </div>
                 </div>
                 <div class="price-input-row">
@@ -354,7 +357,7 @@ onBeforeRouteLeave(async () => {
 .boss-name { font-size: 16px; font-weight: 700; }
 .boss-level { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
 .boss-stats-note { font-size: 11px; color: var(--text-secondary); font-style: italic; margin-top: 6px; }
-.stats-rows { display: flex; flex-direction: column; gap: 6px; flex: 1; padding-left: 20px; border-left: 1px solid var(--border); }
+.stats-rows { display: flex; flex-direction: column; gap: 6px; flex: 1; padding-left: 20px; }
 .stats-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
 .stat-chip { display: flex; align-items: center; gap: 6px; background: var(--panel-2); border-radius: 8px; padding: 6px 10px; font-size: 12px; }
 .stat-icon { width: 16px; height: 16px; object-fit: contain; }
@@ -373,7 +376,7 @@ onBeforeRouteLeave(async () => {
 .price-field { padding: 8px; border-radius: 10px; border: 1.5px solid transparent; }
 .price-field.selected { border-color: var(--accent); background: var(--soft-accent-bg); }
 .price-field-head { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; cursor: pointer; margin-bottom: 6px; }
-.price-label { font-size: 11px; color: var(--text-secondary); }
+.price-label { font-size: 11px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .price-rate { font-size: 10px; color: var(--text-secondary); white-space: nowrap; }
 .price-input-row { display: flex; gap: 4px; align-items: center; }
 .price-input-row input { flex: 1; min-width: 0; font-size: 14px; font-weight: 700; padding: 6px 8px; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box; background: var(--input); color: var(--text); }

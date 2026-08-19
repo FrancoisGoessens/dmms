@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { getSalesLog, addSaleEntry, getAllItemsForSalesForm } from '../lib/db.js'
 import { session } from '../lib/session.js'
+import { formatDateFr } from '../lib/format.js'
 
 const filter = ref('tout')
 const view = ref('liste')
@@ -99,7 +100,7 @@ async function confirmAdd() {
         </div>
       </div>
       <div v-for="r in filteredRows" :key="r.id" class="sales-grid sales-row">
-        <div class="muted">{{ r.date }}</div>
+        <div class="muted">{{ formatDateFr(r.date) }}</div>
         <div class="bold">{{ r.item }}</div>
         <div class="right muted">×{{ r.qty }}</div>
         <div class="right">{{ r.unitPrice.toLocaleString('fr-FR') }} k</div>

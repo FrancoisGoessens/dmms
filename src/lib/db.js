@@ -579,3 +579,25 @@ export async function getCraftableItemDetail(itemId) {
 
   return { ...item, latestCoefficient: coeffs?.[0] ?? null }
 }
+
+// --- Recherche donjon enrichie (nom du donjon OU du boss) ---
+export async function getAllDungeonsWithBossName() {
+  const [dungeons, monsterItems] = await Promise.all([
+    getAllDungeons(),
+    getAllMonsterItemsFull(),
+  ])
+  const bossByDungeon = {}
+  for (const mi of monsterItems) {
+    if (mi.categorie === 'capture') bossByDungeon[mi.dungeon_id] = mi.cache_items?.name
+  }
+  return dungeons.map((d) => ({ ...d, bossName: bossByDungeon[d.id] || d.name }))
+}
+
+export async function reorderCharacterDungeon(characterId, dungeonId, ordre) {
+  const { error } = await supabase
+    .from('character_dungeons')
+    .update({ ordre })
+    .eq('character_id', characterId)
+    .eq('dungeon_id', dungeonId)
+  if (error) throw error
+}

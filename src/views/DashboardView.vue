@@ -15,7 +15,7 @@ const router = useRouter()
 const loading = ref(true)
 const character = ref(null)
 const rows = ref([])
-const filterMode = ref('rentability') // 'rentability' | 'todo'
+const hideDone = ref(false)
 
 async function load() {
   loading.value = true
@@ -37,8 +37,8 @@ onMounted(load)
 
 function sortedFilteredRows() {
   let list = rows.value.slice()
-  if (filterMode.value === 'todo') list = list.filter((r) => !r.done)
-  return list.sort((a, b) => b.rentability - a.rentability)
+  if (hideDone.value) list = list.filter((r) => !r.done)
+  return list.sort((a, b) => a.niveau - b.niveau || a.name.localeCompare(b.name))
 }
 
 async function toggleCaptured(row) {
@@ -69,13 +69,9 @@ function openDetail(row) {
       <div class="subtitle">
         Donjons de <strong>{{ character?.name }}</strong>
       </div>
-      <div class="segmented">
-        <div :class="{ active: filterMode === 'rentability' }" @click="filterMode = 'rentability'">
-          Rentabilité
-        </div>
-        <div :class="{ active: filterMode === 'todo' }" @click="filterMode = 'todo'">
-          À faire
-        </div>
+      <div class="toggle-wrap" @click="hideDone = !hideDone">
+        <div class="toggle" :class="{ on: hideDone }"><div class="knob"></div></div>
+        <span class="toggle-label">Masquer les faits</span>
       </div>
     </div>
 
@@ -124,24 +120,37 @@ function openDetail(row) {
   font-size: 13px;
   color: var(--text-secondary);
 }
-.segmented {
+.toggle-wrap {
   display: flex;
-  gap: 2px;
-  background: var(--panel-2);
-  border-radius: 8px;
-  padding: 2px;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
 }
-.segmented div {
+.toggle-label {
   font-size: 12px;
   font-weight: 600;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
   color: var(--text-secondary);
 }
-.segmented div.active {
-  background: #4f9e2f;
-  color: #fff;
+.toggle {
+  width: 34px;
+  height: 20px;
+  border-radius: 20px;
+  background: var(--panel-2);
+  padding: 2px;
+  transition: background 0.15s;
+}
+.toggle.on {
+  background: var(--accent);
+}
+.knob {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.15s;
+}
+.toggle.on .knob {
+  transform: translateX(14px);
 }
 .panel {
   background: var(--panel);

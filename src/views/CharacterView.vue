@@ -4,8 +4,9 @@ import { useRoute, useRouter } from 'vue-router'
 import { session } from '../lib/session.js'
 import {
   getCharacters, updateCharacter, createCharacter,
-  getCharacterDungeons, getAllDungeons, addDungeonToCharacter,
+  getCharacterDungeons, addDungeonToCharacter,
   removeDungeonFromCharacter, updateDifficulty, getMonsterItemsForDungeons,
+  getAllDungeonsWithBossName,
 } from '../lib/db.js'
 
 const route = useRoute()
@@ -21,13 +22,16 @@ const newCharName = ref('')
 
 const dungeons = ref([])
 const allDungeons = ref([])
-const addDungeonSelect = ref('')
 
 function initials(name) { return (name || '?').slice(0, 2).toUpperCase() }
+function normalize(s) {
+  return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+}
 
 async function loadAll() {
   allChars.value = await getCharacters(session.playerId)
   if (!tabId.value) tabId.value = session.characterId
+  allDungeons.value = await getAllDungeonsWithBossName()
   await loadCharacterData()
 }
 
@@ -48,9 +52,8 @@ async function loadCharacterData() {
   dungeons.value = kept.map((d) => ({
     dungeonId: d.dungeon_id, name: d.cache_dungeons.name,
     bossName: bossByDungeon[d.dungeon_id] || d.cache_dungeons.name,
-    niveau: d.cache_dungeons.niveau, difficulte: d.difficulte,
+    niveau: d.cache_dungeons.niveau, difficulte: d.difficulte, ordre: d.ordre ?? 0,
   }))
-  allDungeons.value = await getAllDungeons()
 }
 watch(tabId, loadCharacterData)
 onMounted(loadAll)
@@ -77,13 +80,46 @@ async function confirmNewChar() {
   tabId.value = c.id
 }
 
-const addDungeonOptions = computed(() =>
-  allDungeons.value.filter((d) => !dungeons.value.some((sd) => sd.dungeonId === d.id))
+const sortedDungeons = computed(() =>
+  filteredDungeons.value.slice().sort((a, b) => a.niveau - b.niveau || a.name.localeCompare(b.name))
 )
-async function onAddDungeon(e) {
-  if (!e.target.value) return
-  await addDungeonToCharacter(tabId.value, e.target.value)
-  addDungeonSelect.value = ''
+
+// --- Filtre par tranche de niveau (chips à cocher, multi-sélection) ---
+const LEVEL_BUCKETS = [
+  ...Array.from({ length: 10 }, (_, i) => ({
+    label: `${i * 20 + 1}-${i * 20 + 20}`, min: i * 20 + 1, max: i * 20 + 20,
+  })),
+  { label: '201-220', min: 201, max: 220 },
+  { label: '221+', min: 221, max: Infinity },
+]
+const activeBuckets = ref(new Set(LEVEL_BUCKETS.map((b) => b.label))) // tout affiché par défaut
+function toggleBucket(label) {
+  const s = new Set(activeBuckets.value)
+  if (s.has(label)) s.delete(label); else s.add(label)
+  activeBuckets.value = s
+}
+function selectAllBuckets() { activeBuckets.value = new Set(LEVEL_BUCKETS.map((b) => b.label)) }
+function selectNoBuckets() { activeBuckets.value = new Set() }
+const filteredDungeons = computed(() =>
+  dungeons.value.filter((d) =>
+    LEVEL_BUCKETS.some((b) => activeBuckets.value.has(b.label) && d.niveau >= b.min && d.niveau <= b.max)
+  )
+)
+
+// --- Ajout d'un donjon : recherche par nom de donjon OU de boss ---
+const addQuery = ref('')
+const addResults = computed(() => {
+  if (addQuery.value.length < 2) return []
+  const q = normalize(addQuery.value)
+  const already = new Set(dungeons.value.map((d) => d.dungeonId))
+  return allDungeons.value
+    .filter((d) => !already.has(d.id))
+    .filter((d) => normalize(d.name).includes(q) || normalize(d.bossName).includes(q))
+    .slice(0, 20)
+})
+async function onAddDungeon(d) {
+  await addDungeonToCharacter(tabId.value, d.id)
+  addQuery.value = ''
   await loadCharacterData()
 }
 async function onRemoveDungeon(dungeonId) {
@@ -97,6 +133,9 @@ async function onDecDifficulty(row) {
 async function onIncDifficulty(row) {
   row.difficulte = Math.min(5, row.difficulte + 1)
   await updateDifficulty(tabId.value, row.dungeonId, row.difficulte)
+}
+function openDetail(dungeonId) {
+  router.push({ name: 'detail', params: { id: dungeonId } })
 }
 
 const dropMultiplier = computed(() => (current.value ? (1 + (current.value.prospection || 0) / 400).toFixed(2) : '1.00'))
@@ -146,26 +185,45 @@ const dropMultiplier = computed(() => (current.value ? (1 + (current.value.prosp
       </div>
 
       <div>
+        <div class="buckets-row">
+          <div
+            v-for="b in LEVEL_BUCKETS" :key="b.label"
+            class="bucket-chip" :class="{ active: activeBuckets.has(b.label) }"
+            @click="toggleBucket(b.label)"
+          >{{ b.label }}</div>
+          <div class="bucket-chip action" @click="selectAllBuckets">All</div>
+          <div class="bucket-chip action" @click="selectNoBuckets">None</div>
+        </div>
+
+        <div class="add-wrap">
+          <input v-model="addQuery" class="dashed-select" placeholder="+ Ajouter un donjon (nom du donjon ou du boss)" />
+          <div v-if="addResults.length" class="add-results">
+            <div v-for="d in addResults" :key="d.id" class="add-result-item" @click="onAddDungeon(d)">
+              <span class="bold">{{ d.name }}</span>
+              <span class="muted"> — {{ d.bossName }} · niv. {{ d.niveau }}</span>
+            </div>
+          </div>
+        </div>
+
         <div class="panel">
-          <div v-for="row in dungeons" :key="row.dungeonId" class="dungeon-row">
+          <div
+            v-for="row in sortedDungeons" :key="row.dungeonId"
+            class="dungeon-row"
+            @click="openDetail(row.dungeonId)"
+          >
             <div class="dungeon-info">
               <div class="dungeon-name">{{ row.name }}</div>
               <div class="dungeon-zone">{{ row.bossName }} - Niveau {{ row.niveau }}</div>
             </div>
-            <div class="diff-label">Difficulté</div>
             <div class="stepper">
-              <div class="step-btn" @click="onDecDifficulty(row)">–</div>
+              <div class="step-btn" @click.stop="onDecDifficulty(row)">–</div>
               <div class="step-value">{{ row.difficulte }}</div>
-              <div class="step-btn" @click="onIncDifficulty(row)">+</div>
+              <div class="step-btn" @click.stop="onIncDifficulty(row)">+</div>
             </div>
-            <div class="remove-btn" @click="onRemoveDungeon(row.dungeonId)" title="Retirer">×</div>
+            <div class="remove-btn" @click.stop="onRemoveDungeon(row.dungeonId)" title="Retirer">×</div>
           </div>
-          <div v-if="dungeons.length === 0" class="empty">Aucun donjon assigné.</div>
+          <div v-if="sortedDungeons.length === 0" class="empty">Aucun donjon dans cette sélection.</div>
         </div>
-        <select @change="onAddDungeon" class="dashed-select">
-          <option value="">+ Ajouter un donjon</option>
-          <option v-for="d in addDungeonOptions" :key="d.id" :value="d.id">{{ d.name }}</option>
-        </select>
       </div>
     </div>
   </div>
@@ -193,23 +251,26 @@ const dropMultiplier = computed(() => (current.value ? (1 + (current.value.prosp
 .muted { color: var(--text-secondary); }
 .bold { font-weight: 700; }
 .accent { color: var(--accent-text); }
-.groups-block { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
-.section-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.4px; }
-.group-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
-.chip { font-size: 11px; font-weight: 600; padding: 4px 8px; border-radius: 6px; background: var(--soft-accent-bg); color: var(--accent-text); }
-.chip-x { margin-left: 6px; cursor: pointer; }
-.input-full { font-size: 12px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border); outline: none; width: 100%; box-sizing: border-box; background: var(--input); color: var(--text); margin-bottom: 6px; }
-.new-group-link { font-size: 11px; font-weight: 600; color: var(--accent-text); cursor: pointer; }
 
-.dungeon-row { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-bottom: 1px solid var(--border-light); }
+.buckets-row { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px; margin-bottom: 10px; }
+.bucket-chip { font-size: 10px; font-weight: 600; padding: 3px 7px; border-radius: 10px; cursor: pointer; color: var(--text-secondary); background: var(--panel-2); }
+.bucket-chip.active { color: var(--accent-text); background: var(--soft-accent-bg); }
+.bucket-chip.action { font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; background: transparent; border: 1px solid var(--border); }
+
+.dungeon-row { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-bottom: 1px solid var(--border-light); cursor: pointer; }
+.dungeon-row:hover { background: var(--hover); }
 .dungeon-info { flex: 1; min-width: 0; }
-.dungeon-name { font-size: 14px; font-weight: 600; }
-.dungeon-zone { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
-.diff-label { font-size: 11px; color: var(--text-secondary); margin-right: 4px; }
-.stepper { display: flex; align-items: center; gap: 8px; }
-.step-btn { width: 24px; height: 24px; border-radius: 6px; background: var(--panel-2); display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: 700; }
-.step-value { width: 20px; text-align: center; font-weight: 700; font-size: 13px; }
-.remove-btn { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-secondary); font-size: 13px; }
-.dashed-select { margin-top: 10px; font-size: 12px; padding: 8px 12px; border-radius: 8px; border: 1px dashed var(--accent); color: var(--accent-text); outline: none; background: var(--input); width: 100%; }
+.dungeon-name { font-size: 13px; font-weight: 600; line-height: 1.35; }
+.dungeon-zone { font-size: 11px; color: var(--text-secondary); line-height: 1.35; }
+.stepper { display: flex; align-items: center; gap: 6px; }
+.step-btn { width: 18px; height: 18px; border-radius: 5px; background: var(--panel-2); display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: 700; font-size: 11px; }
+.step-value { width: 14px; text-align: center; font-weight: 700; font-size: 11px; }
+.remove-btn { width: 18px; height: 18px; border-radius: 5px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-secondary); font-size: 11px; }
+
+.add-wrap { position: relative; margin-top: 10px; margin-bottom: 10px; }
+.dashed-select { font-size: 12px; padding: 8px 12px; border-radius: 8px; border: 1px dashed var(--accent); color: var(--accent-text); outline: none; background: var(--input); width: 100%; box-sizing: border-box; }
+.add-results { position: absolute; top: 42px; left: 0; right: 0; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 12px 28px -8px rgba(0,0,0,0.25); max-height: 260px; overflow: auto; z-index: 20; }
+.add-result-item { padding: 8px 12px; font-size: 12px; cursor: pointer; }
+.add-result-item:hover { background: var(--hover); }
 .empty { padding: 30px; text-align: center; color: var(--text-secondary); font-size: 13px; }
 </style>
