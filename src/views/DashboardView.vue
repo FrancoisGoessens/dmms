@@ -81,12 +81,13 @@ function openDetail(row) {
       Aucun donjon assigné — ajoute-en depuis la fiche de {{ character?.name }}.
     </div>
 
-    <div v-else class="panel">
+    <div v-else class="panel two-col">
       <div
         v-for="row in sortedFilteredRows()"
         :key="row.dungeonId"
-        class="row"
+        class="row card-style"
         :class="{ done: row.done }"
+        :style="{ background: `color-mix(in oklch, ${priorityColor(row.netCapture)} 12%, transparent)` }"
         @click="openDetail(row)"
       >
         <div class="priority-bar" :style="{ background: priorityColor(row.netCapture) }"></div>
@@ -158,6 +159,21 @@ function openDetail(row) {
   border-radius: 12px;
   overflow: hidden;
 }
+.panel.two-col {
+  background: none;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 10px;
+}
+.row.card-style {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
 .row {
   display: flex;
   align-items: center;
@@ -168,7 +184,7 @@ function openDetail(row) {
   cursor: pointer;
 }
 .row:hover {
-  background: var(--hover);
+  background: var(--hover) !important;
 }
 .row.done {
   opacity: 0.55;
@@ -212,7 +228,7 @@ function openDetail(row) {
   background: var(--soft-accent-bg);
 }
 .rent {
-  width: 72px;
+  width: 30px;
   text-align: right;
   font-size: 12px;
   font-weight: 600;

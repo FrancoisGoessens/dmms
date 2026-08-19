@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import { session } from '../lib/session.js'
 import {
   getCharacter, getCharacterDungeons, getMonsterItemsForDungeons,
-  getLatestPricesForItems, getSoulStones,
+  getLatestPricesForItems, getSoulStones, setDungeonFlag, propagateFait,
 } from '../lib/db.js'
 import { computeDungeonRentabilities } from '../lib/rentability.js'
 import { getCachedRentabilities } from '../lib/dungeonCache.js'
@@ -37,8 +37,28 @@ function column(row) {
   if (row.done) return 'Fait'
   return 'À faire'
 }
+function sortedByColumn(col) {
+  return rows.value
+    .filter((r) => column(r) === col)
+    .sort((a, b) => a.niveau - b.niveau || a.name.localeCompare(b.name))
+}
 function openDetail(row) {
   router.push({ name: 'detail', params: { id: row.dungeonId } })
+}
+
+async function toggleCaptured(row) {
+  row.captured = !row.captured
+  await setDungeonFlag(session.characterId, row.dungeonId, 'capture', row.captured)
+  if (row.captured && !row.done) {
+    row.done = true
+    await setDungeonFlag(session.characterId, row.dungeonId, 'fait_cette_semaine', true)
+  }
+  if (row.done) await propagateFait(session.characterId, row.dungeonId)
+}
+async function toggleDone(row) {
+  row.done = !row.done
+  await setDungeonFlag(session.characterId, row.dungeonId, 'fait_cette_semaine', row.done)
+  if (row.done) await propagateFait(session.characterId, row.dungeonId)
 }
 </script>
 
@@ -52,9 +72,9 @@ function openDetail(row) {
     </div>
     <div v-else class="board">
       <div v-for="col in ['À faire', 'Fait', 'Capturé']" :key="col" class="column">
-        <div class="col-head">{{ col }} <span class="count">{{ rows.filter(r => column(r) === col).length }}</span></div>
+        <div class="col-head">{{ col }} <span class="count">{{ sortedByColumn(col).length }}</span></div>
         <div
-          v-for="row in rows.filter(r => column(r) === col)"
+          v-for="row in sortedByColumn(col)"
           :key="row.dungeonId"
           class="card"
           @click="openDetail(row)"
@@ -64,7 +84,10 @@ function openDetail(row) {
             <div class="name">{{ row.name }}</div>
             <div class="zone">{{ row.bossName }} - Niveau {{ row.niveau }}</div>
             <div class="card-footer">
-              <div class="badge" :class="{ on: row.captured }">{{ row.captured ? 'Capturé' : 'Pas capturé' }}</div>
+              <div class="badges-group">
+                <div class="badge" :class="{ on: row.captured }" @click.stop="toggleCaptured(row)">{{ row.captured ? 'Capturé' : 'Pas capturé' }}</div>
+                <div class="badge" :class="{ on: row.done }" @click.stop="toggleDone(row)">{{ row.done ? 'Fait' : 'À faire' }}</div>
+              </div>
               <div class="rent" :style="{ color: priorityColor(row.netCapture) }">
               <span v-if="row.lowVolume" class="low-volume-warning" title="Volume de ventes faible">⚠</span>
               {{ Math.round(row.rentability) }}%
@@ -98,8 +121,9 @@ function openDetail(row) {
 .priority-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
 .name { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
 .zone { font-size: 11px; color: var(--text-secondary); margin-bottom: 10px; }
-.card-footer { display: flex; align-items: center; justify-content: space-between; }
-.badge { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 20px; color: var(--text-secondary); background: var(--panel-2); }
+.card-footer { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.badges-group { display: flex; flex-direction: row; gap: 4px; }
+.badge { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 20px; color: var(--text-secondary); background: var(--panel-2); cursor: pointer; width: fit-content; }
 .badge.on { color: var(--accent-text); background: var(--soft-accent-bg); }
 .rent { font-size: 11px; font-weight: 700; }
 .low-volume-warning { color: var(--amber); margin-right: 3px; }
