@@ -1,7 +1,7 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { session } from '../lib/session.js'
-import { getCharacter, getSales, countDoneDungeons, countCapturedDungeons } from '../lib/db.js'
+import { getCharacter, getSales, countDoneDungeons, countCapturedDungeons, getSalesByCharacter } from '../lib/db.js'
 import { lastTuesdayNoonParis } from '../lib/weeklyReset.js'
 
 const period = ref('semaine') // 'semaine' | '30' | 'all'
@@ -13,6 +13,9 @@ const kamasFoyer = ref(0)
 const salesCountPerso = ref(0)
 const doneCount = ref(0)
 const capturedCount = ref(0)
+const byCharacter = ref([])
+
+const PIE_COLORS = ['var(--accent)', 'oklch(0.6 0.15 260)', 'oklch(0.72 0.14 75)', 'oklch(0.6 0.15 340)', 'oklch(0.65 0.15 30)']
 
 function sinceDateFor(p) {
   if (p === 'semaine') return lastTuesdayNoonParis().toISOString()
@@ -25,13 +28,15 @@ async function load() {
   character.value = await getCharacter(session.characterId)
   const since = sinceDateFor(period.value)
 
-  const [salesPerso, salesFoyer] = await Promise.all([
+  const [salesPerso, salesFoyer, byChar] = await Promise.all([
     getSales(since, session.characterId),
-    getSales(since),
+    getSales(since, null, session.playerId),
+    getSalesByCharacter(since, session.playerId),
   ])
   kamasPerso.value = salesPerso.reduce((sum, s) => sum + s.valeur * (s.quantite || 1), 0)
   salesCountPerso.value = salesPerso.length
   kamasFoyer.value = salesFoyer.reduce((sum, s) => sum + s.valeur * (s.quantite || 1), 0)
+  byCharacter.value = byChar.sort((a, b) => b.total - a.total)
 
   doneCount.value = await countDoneDungeons(session.characterId)
   capturedCount.value = await countCapturedDungeons(session.characterId)
@@ -39,6 +44,21 @@ async function load() {
   loading.value = false
 }
 onMounted(load)
+
+const pieSlices = computed(() => {
+  const total = byCharacter.value.reduce((s, c) => s + c.total, 0)
+  if (total === 0) return []
+  let acc = 0
+  return byCharacter.value.map((c, i) => {
+    const pct = (c.total / total) * 100
+    const slice = { ...c, pct, color: PIE_COLORS[i % PIE_COLORS.length], start: acc }
+    acc += pct
+    return slice
+  })
+})
+const pieGradient = computed(() =>
+  pieSlices.value.map((s) => `${s.color} ${s.start}% ${s.start + s.pct}%`).join(', ')
+)
 </script>
 
 <template>
@@ -76,9 +96,19 @@ onMounted(load)
 
       <div class="section-label">Foyer complet (tous personnages)</div>
       <div class="stats">
-        <div class="stat wide">
+        <div class="stat">
           <div class="stat-value accent">{{ kamasFoyer.toLocaleString('fr-FR') }} k</div>
           <div class="stat-label">Kamas générés — tout le compte</div>
+        </div>
+        <div v-if="pieSlices.length" class="stat pie-block">
+          <div class="pie" :style="{ background: `conic-gradient(${pieGradient})` }"></div>
+          <div class="pie-legend">
+            <div v-for="s in pieSlices" :key="s.name" class="legend-item">
+              <span class="legend-dot" :style="{ background: s.color }"></span>
+              <span class="legend-name">{{ s.name }}</span>
+              <span class="legend-pct">{{ s.pct.toFixed(1) }}%</span>
+            </div>
+          </div>
         </div>
       </div>
     </template>
@@ -99,4 +129,12 @@ onMounted(load)
 .stat-value { font-size: 26px; font-weight: 800; }
 .stat-value.accent { color: var(--accent); }
 .stat-label { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+.pie-block { display: flex; align-items: center; gap: 16px; }
+.pie { width: 60px; height: 60px; border-radius: 50%; flex-shrink: 0; }
+.pie-legend { display: flex; flex-direction: column; gap: 6px; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.legend-name { font-weight: 600; }
+.legend-pct { font-weight: 700; }
+.empty { padding: 30px; text-align: center; color: var(--text-secondary); font-size: 13px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; }
 </style>

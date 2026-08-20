@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { session } from '../lib/session.js'
 import {
@@ -31,6 +31,7 @@ async function load() {
   loading.value = false
 }
 onMounted(load)
+watch(() => session.characterId, load)
 
 function column(row) {
   if (row.captured) return 'Capturé'

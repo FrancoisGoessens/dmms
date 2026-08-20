@@ -137,10 +137,14 @@ export async function getSoulStoneForLevel(level) {
 
 // Toutes les ventes réelles (type='vente') pour les insights, optionnellement
 // bornées dans le temps et/ou filtrées sur un personnage précis.
-export async function getSales(sinceDate = null, characterId = null) {
-  let query = supabase.from('price_log').select('valeur, quantite, created_at').eq('type', 'vente')
+export async function getSales(sinceDate = null, characterId = null, playerId = null) {
+  let query = supabase
+    .from('price_log')
+    .select('valeur, quantite, created_at, characters!inner(player_id)')
+    .eq('type', 'vente')
   if (sinceDate) query = query.gte('created_at', sinceDate)
   if (characterId) query = query.eq('character_id', characterId)
+  else if (playerId) query = query.eq('characters.player_id', playerId)
   const { data, error } = await query
   if (error) throw error
   return data
@@ -319,16 +323,18 @@ export async function resetAllDungeonFlags() {
   if (error) throw error
 }
 
-export async function getSalesLog() {
+export async function getSalesLog(playerId) {
   const { data, error } = await supabase
     .from('price_log')
-    .select('id, valeur, type, quantite, created_at, cache_items(name)')
+    .select('id, valeur, type, quantite, created_at, cache_items(name), characters!inner(name, player_id)')
+    .eq('characters.player_id', playerId)
     .order('created_at', { ascending: false })
     .limit(200)
   if (error) throw error
   return data.map((r) => ({
     id: r.id, date: r.created_at.slice(0, 10), item: r.cache_items?.name || '—',
     qty: r.quantite || 1, unitPrice: r.valeur, type: r.type === 'vente' ? 'vente' : 'observation',
+    soldBy: r.characters?.name || '—',
   }))
 }
 
@@ -402,14 +408,16 @@ export async function getItemVentes30j(itemId) {
   return data?.ventes_30j ?? null
 }
 
-// --- Routes (zones + donjons ordonnés) ---
+// --- Routes (zones + donjons/annotations ordonnés) ---
 export async function getRouteZones() {
-  const { data, error } = await supabase.from('route_zones').select('*').order('name')
+  const { data, error } = await supabase.from('route_zones').select('*').order('ordre')
   if (error) throw error
   return data
 }
 export async function createRouteZone(name) {
-  const { data, error } = await supabase.from('route_zones').insert({ name }).select().single()
+  const { data: existing } = await supabase.from('route_zones').select('ordre').order('ordre', { ascending: false }).limit(1)
+  const nextOrdre = (existing?.[0]?.ordre ?? -1) + 1
+  const { data, error } = await supabase.from('route_zones').insert({ name, ordre: nextOrdre }).select().single()
   if (error) throw error
   return data
 }
@@ -417,6 +425,11 @@ export async function deleteRouteZone(id) {
   const { error } = await supabase.from('route_zones').delete().eq('id', id)
   if (error) throw error
 }
+export async function reorderZone(zoneId, ordre) {
+  const { error } = await supabase.from('route_zones').update({ ordre }).eq('id', zoneId)
+  if (error) throw error
+}
+
 export async function getAllRouteZoneDungeons() {
   const { data, error } = await supabase
     .from('route_zone_dungeons')
@@ -429,12 +442,20 @@ export async function addDungeonToZone(zoneId, dungeonId, ordre) {
   const { error } = await supabase.from('route_zone_dungeons').insert({ zone_id: zoneId, dungeon_id: dungeonId, ordre })
   if (error) throw error
 }
-export async function removeDungeonFromZone(zoneId, dungeonId) {
-  const { error } = await supabase.from('route_zone_dungeons').delete().eq('zone_id', zoneId).eq('dungeon_id', dungeonId)
+export async function addNoteToZone(zoneId, note, ordre) {
+  const { error } = await supabase.from('route_zone_dungeons').insert({ zone_id: zoneId, dungeon_id: null, note, ordre })
   if (error) throw error
 }
-export async function reorderZoneDungeon(zoneId, dungeonId, ordre) {
-  const { error } = await supabase.from('route_zone_dungeons').update({ ordre }).eq('zone_id', zoneId).eq('dungeon_id', dungeonId)
+export async function updateZoneRowNote(rowId, note) {
+  const { error } = await supabase.from('route_zone_dungeons').update({ note }).eq('id', rowId)
+  if (error) throw error
+}
+export async function removeZoneRow(rowId) {
+  const { error } = await supabase.from('route_zone_dungeons').delete().eq('id', rowId)
+  if (error) throw error
+}
+export async function reorderZoneDungeon(rowId, ordre) {
+  const { error } = await supabase.from('route_zone_dungeons').update({ ordre }).eq('id', rowId)
   if (error) throw error
 }
 
@@ -600,4 +621,24 @@ export async function reorderCharacterDungeon(characterId, dungeonId, ordre) {
     .eq('character_id', characterId)
     .eq('dungeon_id', dungeonId)
   if (error) throw error
+}
+
+// --- Répartition des ventes par personnage (pour le camembert Insights) ---
+export async function getSalesByCharacter(sinceDate = null, playerId = null) {
+  let query = supabase
+    .from('price_log')
+    .select('valeur, quantite, character_id, characters!inner(name, player_id)')
+    .eq('type', 'vente')
+  if (sinceDate) query = query.gte('created_at', sinceDate)
+  if (playerId) query = query.eq('characters.player_id', playerId)
+  const { data, error } = await query
+  if (error) throw error
+
+  const byChar = {}
+  for (const r of data) {
+    const key = r.character_id
+    if (!byChar[key]) byChar[key] = { name: r.characters?.name || '—', total: 0 }
+    byChar[key].total += r.valeur * (r.quantite || 1)
+  }
+  return Object.values(byChar).filter((c) => c.total > 0)
 }

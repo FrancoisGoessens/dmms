@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted, watch } from 'vue'
 import { useRouter, onBeforeRouteLeave } from 'vue-router'
 import { session } from '../lib/session.js'
 import {
@@ -82,6 +82,7 @@ async function onStoneChange(e) {
   pierrePrice.value = await getLatestPrice(e.target.value)
 }
 onMounted(load)
+watch(() => props.id, load)
 
 async function loadChart() {
   const field = priceFields[chartTarget.value]
@@ -108,6 +109,23 @@ const chartPoints = computed(() => {
     const y = 90 - ((v - min) / range) * 80
     return `${x.toFixed(1)},${y.toFixed(1)}`
   }).join(' ')
+})
+const chartDates = computed(() => {
+  if (chartHistory.value.length === 0) return { first: '', last: '' }
+  const fmt = (d) => new Date(d).toLocaleDateString('fr-FR')
+  return {
+    first: fmt(chartHistory.value[0].created_at),
+    last: fmt(chartHistory.value[chartHistory.value.length - 1].created_at),
+  }
+})
+// Valeurs affichées à côté des 3 lignes de repère horizontales (y=10/50/90).
+const chartGridLabels = computed(() => {
+  const { min, max } = chartStats.value
+  return [
+    { y: 10, value: max },
+    { y: 50, value: Math.round((min + max) / 2) },
+    { y: 90, value: min },
+  ]
 })
 
 // Un bouton "Valider" par champ : aucune ambiguïté possible sur quel input
@@ -296,10 +314,15 @@ onBeforeRouteLeave(async () => {
             </div>
           </div>
 
-          <svg viewBox="0 0 340 100" class="chart-svg">
-            <line v-for="y in [10, 50, 90]" :key="y" x1="0" x2="340" :y1="y" :y2="y" class="grid-line" />
+          <svg viewBox="0 0 380 100" class="chart-svg">
+            <line v-for="g in chartGridLabels" :key="g.y" x1="0" x2="340" :y1="g.y" :y2="g.y" class="grid-line" />
+            <text v-for="g in chartGridLabels" :key="'t'+g.y" x="345" :y="g.y + 3" class="grid-label">{{ g.value.toLocaleString('fr-FR') }}</text>
             <polyline v-if="chartPoints" :points="chartPoints" fill="none" stroke="var(--accent)" stroke-width="2" />
           </svg>
+          <div class="chart-dates">
+            <span>{{ chartDates.first }}</span>
+            <span>{{ chartDates.last }}</span>
+          </div>
           <div class="chart-legend">
             <span>min {{ chartStats.min.toLocaleString('fr-FR') }} k</span>
             <span>prix actuel : {{ chartStats.current.toLocaleString('fr-FR') }} k</span>
@@ -388,6 +411,8 @@ onBeforeRouteLeave(async () => {
 .segmented div { font-size: 11px; font-weight: 600; padding: 5px 10px; border-radius: 6px; cursor: pointer; color: var(--text-secondary); }
 .segmented div.active { background: var(--accent); color: #fff; }
 .chart-svg { width: 100%; height: 120px; overflow: visible; }
+.grid-label { font-size: 8px; fill: var(--text-secondary); }
+.chart-dates { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-secondary); margin-top: 4px; }
 .grid-line { stroke: var(--border); stroke-width: 1; stroke-dasharray: 3, 3; }
 .chart-legend { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-secondary); }
 .ref-list { margin: 0; padding-left: 18px; font-size: 12px; color: var(--text); display: flex; flex-direction: column; gap: 4px; }

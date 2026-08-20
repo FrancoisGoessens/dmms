@@ -13,9 +13,32 @@ const allSales = ref([])
 const availableItems = ref([])
 const newSale = ref({ date: new Date().toISOString().slice(0, 10), itemId: '', qty: 1, price: '' })
 
+const ALL_COLUMNS = [
+  { key: 'date', label: 'Date' }, { key: 'item', label: 'Item' },
+  { key: 'qty', label: 'Qté' }, { key: 'unitPrice', label: 'Prix /u' },
+  { key: 'total', label: 'Total' }, { key: 'type', label: 'Type' },
+  { key: 'soldBy', label: 'Vendu par' },
+]
+const visibleColumns = ref(new Set(ALL_COLUMNS.map((c) => c.key)))
+const showSettings = ref(false)
+function toggleColumn(key) {
+  const s = new Set(visibleColumns.value)
+  if (s.has(key)) s.delete(key); else s.add(key)
+  visibleColumns.value = s
+}
+function isVisible(key) { return visibleColumns.value.has(key) }
+
+const COLUMN_WIDTHS = {
+  date: '1fr', item: '1.6fr', qty: '0.6fr', unitPrice: '0.8fr',
+  total: '0.8fr', type: '1fr', soldBy: '1fr',
+}
+const gridTemplate = computed(() =>
+  ALL_COLUMNS.filter((c) => isVisible(c.key)).map((c) => COLUMN_WIDTHS[c.key]).join(' ')
+)
+
 async function load() {
   loading.value = true
-  allSales.value = await getSalesLog()
+  allSales.value = await getSalesLog(session.playerId)
   availableItems.value = await getAllItemsForSalesForm()
   loading.value = false
 }
@@ -24,9 +47,7 @@ onMounted(load)
 const filteredRows = computed(() =>
   allSales.value.filter((r) => filter.value === 'tout' || r.type === filter.value)
 )
-const total = computed(() =>
-  filteredRows.value.reduce((s, r) => s + r.unitPrice * r.qty, 0)
-)
+
 const itemsView = computed(() => {
   const map = {}
   for (const r of filteredRows.value) {
@@ -61,7 +82,15 @@ async function confirmAdd() {
         </div>
       </div>
       <div class="right-controls">
-        <div class="total">Total : {{ total.toLocaleString('fr-FR') }} kamas</div>
+        <div class="settings-wrap">
+          <div class="icon-btn" @click="showSettings = !showSettings" title="Choisir les colonnes affichées">⚙ Paramètres</div>
+          <div v-if="showSettings" class="settings-panel">
+            <div v-for="c in ALL_COLUMNS" :key="c.key" class="settings-item" @click="toggleColumn(c.key)">
+              <input type="checkbox" :checked="isVisible(c.key)" @click.stop="toggleColumn(c.key)" />
+              {{ c.label }}
+            </div>
+          </div>
+        </div>
         <div class="accent-btn" @click="showAddForm = !showAddForm">+ Ajouter une entrée</div>
       </div>
     </div>
@@ -82,30 +111,38 @@ async function confirmAdd() {
     </div>
 
     <div v-else class="panel">
-      <div class="sales-grid sales-head">
-        <div>Date</div><div>Item</div><div class="right">Qté</div><div class="right">Prix /u</div><div class="right">Total</div><div>Type</div>
+      <div class="sales-grid sales-head" :style="{ gridTemplateColumns: gridTemplate }">
+        <div v-if="isVisible('date')">Date</div>
+        <div v-if="isVisible('item')">Item</div>
+        <div v-if="isVisible('qty')" class="right">Qté</div>
+        <div v-if="isVisible('unitPrice')" class="right">Prix /u</div>
+        <div v-if="isVisible('total')" class="right">Total</div>
+        <div v-if="isVisible('type')" class="right">Type</div>
+        <div v-if="isVisible('soldBy')" class="right">Vendu par</div>
       </div>
-      <div v-if="showAddForm" class="sales-grid sales-row">
-        <input type="date" v-model="newSale.date" class="cell-input" />
-        <select v-model="newSale.itemId" class="cell-input">
+      <div v-if="showAddForm" class="sales-grid sales-row" :style="{ gridTemplateColumns: gridTemplate }">
+        <input v-if="isVisible('date')" type="date" v-model="newSale.date" class="cell-input" />
+        <select v-if="isVisible('item')" v-model="newSale.itemId" class="cell-input">
           <option value="">Item…</option>
           <option v-for="i in availableItems" :key="i.id" :value="i.id">{{ i.name }}</option>
         </select>
-        <input type="number" v-model.number="newSale.qty" class="cell-input right" />
-        <input type="number" v-model.number="newSale.price" placeholder="prix" class="cell-input right" />
-        <div class="right muted">—</div>
-        <div class="form-actions">
+        <input v-if="isVisible('qty')" type="number" v-model.number="newSale.qty" class="cell-input right" />
+        <input v-if="isVisible('unitPrice')" type="number" v-model.number="newSale.price" placeholder="prix" class="cell-input right" />
+        <div v-if="isVisible('total')" class="right muted">—</div>
+        <div v-if="isVisible('type')" class="form-actions">
           <div class="cancel-btn" @click="showAddForm = false">Annuler</div>
           <div class="accent-btn small" @click="confirmAdd">Ajouter</div>
         </div>
+        <div v-if="isVisible('soldBy')"></div>
       </div>
-      <div v-for="r in filteredRows" :key="r.id" class="sales-grid sales-row">
-        <div class="muted">{{ formatDateFr(r.date) }}</div>
-        <div class="bold">{{ r.item }}</div>
-        <div class="right muted">×{{ r.qty }}</div>
-        <div class="right">{{ r.unitPrice.toLocaleString('fr-FR') }} k</div>
-        <div class="right bold">{{ (r.unitPrice * r.qty).toLocaleString('fr-FR') }} k</div>
-        <div><span class="badge" :class="{ on: r.type === 'vente' }">{{ r.type === 'vente' ? 'Vente' : 'Observation' }}</span></div>
+      <div v-for="r in filteredRows" :key="r.id" class="sales-grid sales-row" :style="{ gridTemplateColumns: gridTemplate }">
+        <div v-if="isVisible('date')" class="muted">{{ formatDateFr(r.date) }}</div>
+        <div v-if="isVisible('item')" class="bold">{{ r.item }}</div>
+        <div v-if="isVisible('qty')" class="right muted">×{{ r.qty }}</div>
+        <div v-if="isVisible('unitPrice')" class="right">{{ r.unitPrice.toLocaleString('fr-FR') }} k</div>
+        <div v-if="isVisible('total')" class="right bold">{{ (r.unitPrice * r.qty).toLocaleString('fr-FR') }} k</div>
+        <div v-if="isVisible('type')" class="right"><span class="badge" :class="{ on: r.type === 'vente' }">{{ r.type === 'vente' ? 'Vente' : 'Observation' }}</span></div>
+        <div v-if="isVisible('soldBy')" class="muted right">{{ r.soldBy }}</div>
       </div>
       <div v-if="filteredRows.length === 0" class="empty">Aucune entrée pour ce filtre.</div>
     </div>
@@ -115,15 +152,18 @@ async function confirmAdd() {
 <style scoped>
 .top-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
 .left-controls { display: flex; gap: 10px; }
-.right-controls { display: flex; align-items: center; gap: 16px; }
-.total { font-size: 14px; font-weight: 700; }
+.right-controls { display: flex; align-items: center; gap: 10px; }
 .accent-btn.small { padding: 6px 12px; font-size: 12px; }
+.settings-wrap { position: relative; }
+.icon-btn { font-size: 12px; font-weight: 600; padding: 8px 12px; border-radius: 8px; cursor: pointer; color: var(--text-secondary); border: 1px solid var(--border); background: var(--panel); }
+.settings-panel { position: absolute; right: 0; top: 40px; width: 200px; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 12px 28px -8px rgba(0,0,0,0.25); padding: 10px; z-index: 30; }
+.settings-item { display: flex; align-items: center; gap: 8px; padding: 6px 4px; font-size: 12px; cursor: pointer; }
 
 .items-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; padding: 12px 16px; align-items: center; }
 .items-head { font-size: 11px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; border-bottom: 1px solid var(--border); }
 .items-row { border-bottom: 1px solid var(--border-light); font-size: 13px; }
 
-.sales-grid { display: grid; grid-template-columns: 1fr 1.6fr 0.6fr 0.8fr 0.8fr 1fr; padding: 12px 16px; align-items: center; gap: 8px; }
+.sales-grid { display: grid; padding: 12px 16px; align-items: center; gap: 8px; }
 .sales-head { font-size: 11px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; border-bottom: 1px solid var(--border); }
 .sales-row { border-bottom: 1px solid var(--border-light); font-size: 13px; }
 .cell-input { font-size: 12px; padding: 6px 8px; border-radius: 6px; border: 1px solid var(--border); background: var(--input); color: var(--text); }
@@ -134,4 +174,6 @@ async function confirmAdd() {
 .muted { color: var(--text-secondary); }
 .bold { font-weight: 600; }
 .empty { padding: 30px; text-align: center; color: var(--text-secondary); font-size: 13px; }
+.badge { font-size: 11px; font-weight: 600; padding: 4px 9px; border-radius: 20px; color: var(--text-secondary); background: var(--panel-2); }
+.badge.on { color: var(--accent-text); background: var(--soft-accent-bg); }
 </style>

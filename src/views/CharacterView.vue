@@ -195,16 +195,6 @@ const dropMultiplier = computed(() => (current.value ? (1 + (current.value.prosp
           <div class="bucket-chip action" @click="selectNoBuckets">None</div>
         </div>
 
-        <div class="add-wrap">
-          <input v-model="addQuery" class="dashed-select" placeholder="+ Ajouter un donjon (nom du donjon ou du boss)" />
-          <div v-if="addResults.length" class="add-results">
-            <div v-for="d in addResults" :key="d.id" class="add-result-item" @click="onAddDungeon(d)">
-              <span class="bold">{{ d.name }}</span>
-              <span class="muted"> — {{ d.bossName }} · niv. {{ d.niveau }}</span>
-            </div>
-          </div>
-        </div>
-
         <div class="panel">
           <div
             v-for="row in sortedDungeons" :key="row.dungeonId"
@@ -223,6 +213,16 @@ const dropMultiplier = computed(() => (current.value ? (1 + (current.value.prosp
             <div class="remove-btn" @click.stop="onRemoveDungeon(row.dungeonId)" title="Retirer">×</div>
           </div>
           <div v-if="sortedDungeons.length === 0" class="empty">Aucun donjon dans cette sélection.</div>
+        </div>
+
+        <div class="add-wrap">
+          <input v-model="addQuery" class="dashed-select" placeholder="+ Ajouter un donjon (nom du donjon ou du boss)" />
+          <div v-if="addResults.length" class="add-results">
+            <div v-for="d in addResults" :key="d.id" class="add-result-item" @click="onAddDungeon(d)">
+              <span class="bold">{{ d.name }}</span>
+              <span class="muted"> — {{ d.bossName }} · niv. {{ d.niveau }}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -267,7 +267,7 @@ const dropMultiplier = computed(() => (current.value ? (1 + (current.value.prosp
 .step-value { width: 14px; text-align: center; font-weight: 700; font-size: 11px; }
 .remove-btn { width: 18px; height: 18px; border-radius: 5px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-secondary); font-size: 11px; }
 
-.add-wrap { position: relative; margin-top: 10px; margin-bottom: 10px; }
+.add-wrap { position: relative; margin-top: 10px; }
 .dashed-select { font-size: 12px; padding: 8px 12px; border-radius: 8px; border: 1px dashed var(--accent); color: var(--accent-text); outline: none; background: var(--input); width: 100%; box-sizing: border-box; }
 .add-results { position: absolute; top: 42px; left: 0; right: 0; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 12px 28px -8px rgba(0,0,0,0.25); max-height: 260px; overflow: auto; z-index: 20; }
 .add-result-item { padding: 8px 12px; font-size: 12px; cursor: pointer; }
