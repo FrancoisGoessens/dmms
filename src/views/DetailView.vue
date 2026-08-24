@@ -6,7 +6,7 @@ import {
   getDungeon, getCharacterDungeon, getMonsterItems, getPriceHistory,
   insertPriceEntry, getDungeonNotesFull, saveDungeonNotes, setDungeonFlag,
   getSoulStones, getSoulStoneForLevel, setDungeonStone, getCharacter,
-  propagateFait, updateItemVentes30j, getLatestPrice,
+  propagateFait, updateItemVentes30j, getLatestPrice, addDungeonToCharacter,
 } from '../lib/db.js'
 import { priorityColor } from '../lib/theme.js'
 import { computeDropWithPP } from '../lib/dropFormula.js'
@@ -18,6 +18,10 @@ const props = defineProps(['id'])
 const router = useRouter()
 
 const loading = ref(true)
+const loadError = ref(null)
+// true seulement si la ligne character_dungeons existe déjà en base pour ce
+// perso — sert à savoir si on doit la créer au premier clic sur un badge.
+const charDungeonExists = ref(false)
 const dungeon = ref(null)
 const charDungeon = ref(null)
 const character = ref(null)
@@ -42,39 +46,63 @@ function daysAgo(dateStr) {
 
 async function load() {
   loading.value = true
-  dungeon.value = await getDungeon(props.id)
-  charDungeon.value = await getCharacterDungeon(session.characterId, props.id)
-  character.value = await getCharacter(session.characterId)
-
-  const notesFull = await getDungeonNotesFull(props.id)
-  notes.value = notesFull.notes
-  actif.value = notesFull.actif
-  passif.value = notesFull.passif
-
-  const monsterItems = await getMonsterItems(props.id)
-  for (const mi of monsterItems) {
-    if (!(mi.categorie in priceFields)) continue
-    const history = await getPriceHistory(mi.item_id, 1)
-    priceFields[mi.categorie] = {
-      itemId: mi.item_id,
-      name: mi.cache_items?.name || mi.categorie,
-      rateBase: mi.taux_drop_base ?? null,
-      ratePP: mi.taux_drop_base != null ? computeDropWithPP(mi.taux_drop_base, character.value.prospection || 0, mi.affecte_par_pp) : null,
-      value: history[0]?.valeur ?? 0,
-      daysAgo: history[0] ? daysAgo(history[0].created_at) : null,
-      ventes30j: mi.cache_items?.ventes_30j ?? null,
+  loadError.value = null
+  try {
+    dungeon.value = await getDungeon(props.id)
+    if (!dungeon.value) {
+      // Le donjon n'existe pas (encore) dans cache_dungeons — import DofusDB
+      // incomplet pour cet id. Avant : .single() plantait ici et la page
+      // restait bloquée sur "Chargement…" pour toujours.
+      loadError.value = `Ce donjon (id "${props.id}") n'existe pas encore dans la base. Il manque probablement un import DofusDB pour lui — à vérifier côté cache_dungeons.`
+      return
     }
+
+    const foundCharDungeon = await getCharacterDungeon(session.characterId, props.id)
+    charDungeonExists.value = !!foundCharDungeon
+    // Pas encore dans la liste de ce perso (ex. arrivée depuis "À
+    // vérifier", qui est global) : on affiche quand même la fiche avec des
+    // valeurs par défaut, sans rien écrire en base tant que le joueur n'a
+    // pas cliqué sur un badge (cf. toggleCaptured/toggleDone).
+    charDungeon.value = foundCharDungeon || { capture: false, fait_cette_semaine: false }
+
+    character.value = await getCharacter(session.characterId)
+
+    const notesFull = await getDungeonNotesFull(props.id)
+    notes.value = notesFull.notes
+    actif.value = notesFull.actif
+    passif.value = notesFull.passif
+
+    const monsterItems = await getMonsterItems(props.id)
+    for (const mi of monsterItems) {
+      if (!(mi.categorie in priceFields)) continue
+      const history = await getPriceHistory(mi.item_id, 1)
+      priceFields[mi.categorie] = {
+        itemId: mi.item_id,
+        name: mi.cache_items?.name || mi.categorie,
+        rateBase: mi.taux_drop_base ?? null,
+        ratePP: mi.taux_drop_base != null ? computeDropWithPP(mi.taux_drop_base, character.value.prospection || 0, mi.affecte_par_pp) : null,
+        value: history[0]?.valeur ?? 0,
+        daysAgo: history[0] ? daysAgo(history[0].created_at) : null,
+        ventes30j: mi.cache_items?.ventes_30j ?? null,
+      }
+    }
+    await loadChart()
+    soulStones.value = await getSoulStones()
+    if (dungeon.value.soul_stone_item_id) {
+      selectedStoneId.value = dungeon.value.soul_stone_item_id
+    } else {
+      const suggested = await getSoulStoneForLevel(dungeon.value.niveau)
+      selectedStoneId.value = suggested?.item_id ?? null
+    }
+    if (selectedStoneId.value) pierrePrice.value = await getLatestPrice(selectedStoneId.value)
+  } catch (e) {
+    console.error('Erreur au chargement de la fiche donjon :', e)
+    loadError.value = "Erreur inattendue au chargement de cette fiche — regarde la console pour le détail."
+  } finally {
+    // Toujours exécuté, même en cas d'erreur : plus jamais de spinner
+    // bloqué indéfiniment sur "Chargement…".
+    loading.value = false
   }
-  await loadChart()
-  soulStones.value = await getSoulStones()
-  if (dungeon.value.soul_stone_item_id) {
-    selectedStoneId.value = dungeon.value.soul_stone_item_id
-  } else {
-    const suggested = await getSoulStoneForLevel(dungeon.value.niveau)
-    selectedStoneId.value = suggested?.item_id ?? null
-  }
-  if (selectedStoneId.value) pierrePrice.value = await getLatestPrice(selectedStoneId.value)
-  loading.value = false
 }
 async function onStoneChange(e) {
   selectedStoneId.value = e.target.value
@@ -139,7 +167,20 @@ async function validateField(cat) {
   invalidateDungeonCache(session.characterId)
 }
 
+// Si ce donjon n'est pas encore dans la liste du perso (fiche ouverte
+// depuis "À vérifier"), on crée la ligne character_dungeons au moment où le
+// joueur clique vraiment sur un badge — jamais silencieusement au chargement.
+// Avant ce correctif, setDungeonFlag() sur une ligne inexistante faisait un
+// UPDATE qui ne touchait aucune ligne : aucune erreur, mais rien n'était
+// sauvegardé (échec silencieux).
+async function ensureCharDungeonExists() {
+  if (charDungeonExists.value) return
+  await addDungeonToCharacter(session.characterId, props.id)
+  charDungeonExists.value = true
+}
+
 async function toggleCaptured() {
+  await ensureCharDungeonExists()
   charDungeon.value.capture = !charDungeon.value.capture
   await setDungeonFlag(session.characterId, props.id, 'capture', charDungeon.value.capture)
   if (charDungeon.value.capture && !charDungeon.value.fait_cette_semaine) {
@@ -150,6 +191,7 @@ async function toggleCaptured() {
   invalidateDungeonCache(session.characterId)
 }
 async function toggleDone() {
+  await ensureCharDungeonExists()
   charDungeon.value.fait_cette_semaine = !charDungeon.value.fait_cette_semaine
   await setDungeonFlag(session.characterId, props.id, 'fait_cette_semaine', charDungeon.value.fait_cette_semaine)
   if (charDungeon.value.fait_cette_semaine) await propagateFait(session.characterId, props.id)
@@ -231,7 +273,11 @@ onBeforeRouteLeave(async () => {
 </script>
 
 <template>
-  <div class="detail" v-if="!loading">
+  <div class="detail-error" v-if="!loading && loadError">
+    <a href="#" class="back" @click.prevent="router.back()">← Retour</a>
+    <p class="error-text">⚠ {{ loadError }}</p>
+  </div>
+  <div class="detail" v-else-if="!loading">
     <a href="#" class="back" @click.prevent="router.back()">← Retour</a>
 
     <div class="header-row">
@@ -359,6 +405,8 @@ onBeforeRouteLeave(async () => {
 
 <style scoped>
 .detail { max-width: 1200px; }
+.detail-error { max-width: 1200px; }
+.error-text { font-size: 13px; color: var(--red); background: color-mix(in oklch, var(--red) 10%, transparent); border-radius: 10px; padding: 16px; }
 .back { font-size: 12px; display: inline-block; margin-bottom: 14px; }
 .header-row { margin-bottom: 20px; }
 .title { font-size: 22px; font-weight: 800; margin-bottom: 4px; }

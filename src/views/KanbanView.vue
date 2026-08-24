@@ -82,8 +82,8 @@ async function toggleDone(row) {
         >
           <div class="priority-bar" :style="{ background: priorityColor(row.netCapture) }"></div>
           <div class="card-body">
-            <div class="name">{{ row.name }}</div>
-            <div class="zone">{{ row.bossName }} - Niveau {{ row.niveau }}</div>
+            <div class="name">{{ row.bossName }}</div>
+            <div class="zone">{{ row.name }} - Niveau {{ row.niveau }}</div>
             <div class="card-footer">
               <div class="badges-group">
                 <div class="badge" :class="{ on: row.captured }" @click.stop="toggleCaptured(row)">{{ row.captured ? 'Capturé' : 'Pas capturé' }}</div>

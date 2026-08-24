@@ -101,23 +101,33 @@ export async function saveDungeonNotes(dungeonId, notes, actif = [], passif = []
   if (error) throw error
 }
 
+// maybeSingle() plutôt que single() : un donjon qui apparaît dans "À
+// vérifier" (basé sur cache_monster_items) peut très bien ne pas encore
+// exister dans cache_dungeons (import DofusDB incomplet pour lui). single()
+// lève une erreur dans ce cas, et comme DetailView ne l'attrapait pas, la
+// page restait bloquée sur "Chargement…" indéfiniment. On renvoie null à la
+// place et c'est à l'appelant de gérer le cas.
 export async function getDungeon(dungeonId) {
   const { data, error } = await supabase
     .from('cache_dungeons')
     .select('*')
     .eq('id', dungeonId)
-    .single()
+    .maybeSingle()
   if (error) throw error
   return data
 }
 
+// maybeSingle() : ce personnage peut ne pas encore avoir ce donjon dans sa
+// liste (ex. on arrive sur la fiche depuis "À vérifier", qui est global et
+// pas filtré par personnage) — ce n'est pas une erreur, juste l'absence
+// d'une ligne character_dungeons pour l'instant.
 export async function getCharacterDungeon(characterId, dungeonId) {
   const { data, error } = await supabase
     .from('character_dungeons')
     .select('*')
     .eq('character_id', characterId)
     .eq('dungeon_id', dungeonId)
-    .single()
+    .maybeSingle()
   if (error) throw error
   return data
 }

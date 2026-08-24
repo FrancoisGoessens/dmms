@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { session } from '../lib/session.js'
 import {
@@ -42,6 +42,36 @@ function sortedFilteredRows() {
   return list.sort((a, b) => a.niveau - b.niveau || a.name.localeCompare(b.name))
 }
 
+// Grille en 3 colonnes max, qui se remplit par COLONNE (donjon 1 sous
+// donjon 1, pas à côté) plutôt que par ligne comme le fait une grid CSS
+// classique. On calcule le nombre de colonnes selon la largeur d'écran
+// (responsive), puis le nombre de lignes nécessaires, et on laisse
+// grid-auto-flow: column faire le placement colonne par colonne dans
+// l'ordre du DOM (donjon 1, 2, 3... restent triés niveau+alpha).
+const columns = ref(3)
+function computeColumns() {
+  const w = window.innerWidth
+  if (w < 900) columns.value = 1
+  else if (w < 1400) columns.value = 2
+  else columns.value = 3
+}
+onMounted(() => {
+  computeColumns()
+  window.addEventListener('resize', computeColumns)
+})
+onBeforeUnmount(() => window.removeEventListener('resize', computeColumns))
+
+function gridRows() {
+  return Math.max(1, Math.ceil(sortedFilteredRows().length / columns.value))
+}
+function gridStyle() {
+  return {
+    gridTemplateColumns: `repeat(${columns.value}, 1fr)`,
+    gridTemplateRows: `repeat(${gridRows()}, auto)`,
+    gridAutoFlow: 'column',
+  }
+}
+
 async function toggleCaptured(row) {
   row.captured = !row.captured
   await setDungeonFlag(session.characterId, row.dungeonId, 'capture', row.captured)
@@ -82,7 +112,7 @@ function openDetail(row) {
       Aucun donjon assigné — ajoute-en depuis la fiche de {{ character?.name }}.
     </div>
 
-    <div v-else class="panel two-col">
+    <div v-else class="panel two-col" :style="gridStyle()">
       <div
         v-for="row in sortedFilteredRows()"
         :key="row.dungeonId"
@@ -93,8 +123,8 @@ function openDetail(row) {
       >
         <div class="priority-bar" :style="{ background: priorityColor(row.netCapture) }"></div>
         <div class="name-block">
-          <div class="name" :class="{ done: row.done }">{{ row.name }}</div>
-          <div class="zone">{{ row.bossName }} - Niveau {{ row.niveau }}</div>
+          <div class="name" :class="{ done: row.done }">{{ row.bossName }}</div>
+          <div class="zone">{{ row.name }} - Niveau {{ row.niveau }}</div>
         </div>
         <div class="badge" :class="{ on: row.captured }" @click.stop="toggleCaptured(row)">
           {{ row.captured ? 'Capturé' : 'Pas capturé' }}
@@ -166,7 +196,9 @@ function openDetail(row) {
   border-radius: 0;
   overflow: visible;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  /* grid-template-columns / -rows / grid-auto-flow sont posés dynamiquement
+     via :style="gridStyle()" (nombre de colonnes responsive + remplissage
+     par colonne plutôt que par ligne). */
   gap: 10px;
 }
 .row.card-style {

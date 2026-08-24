@@ -37,6 +37,9 @@ async function load() {
   statusByDungeon.value = Object.fromEntries(
     charDungeons.map((cd) => [cd.dungeon_id, { captured: cd.capture, done: cd.fait_cette_semaine }])
   )
+  // Nom du boss par donjon, pour afficher "nom du boss" en gras et "nom du
+  // donjon - niveau" en dessous sur chaque ligne, comme Dashboard/Kanban.
+  const bossNameById = Object.fromEntries(dungeons.map((d) => [d.id, d.bossName]))
 
   const captureItems = monsterItems.filter((mi) => mi.categorie === 'capture')
   const prices = await getLatestPricesForItems(captureItems.map((mi) => mi.item_id))
@@ -57,6 +60,8 @@ async function load() {
       .map((l) => ({
         rowId: l.id, dungeonId: l.dungeon_id,
         name: l.cache_dungeons?.name || null,
+        niveau: l.cache_dungeons?.niveau ?? null,
+        bossName: bossNameById[l.dungeon_id] || l.cache_dungeons?.name || null,
         note: l.note, ordre: l.ordre,
         editingNote: false,
       })),
@@ -199,7 +204,10 @@ async function pickDungeon(zone, d) {
             <div class="drag-handle">⠿</div>
 
             <template v-if="row.dungeonId">
-              <div class="dungeon-name">{{ row.name }}</div>
+              <div class="dungeon-name-block">
+                <div class="dungeon-name">{{ row.bossName }}</div>
+                <div class="dungeon-sub">{{ row.name }} - Niveau {{ row.niveau }}</div>
+              </div>
               <div class="badge-mini" :class="{ on: statusOf(row.dungeonId).captured }" @click="toggleCaptured(row.dungeonId)">Cap.</div>
               <div class="badge-mini" :class="{ on: statusOf(row.dungeonId).done }" @click="toggleDone(row.dungeonId)">Fait</div>
               <div class="rent" :style="{ color: priorityColor(rentOf(row.dungeonId)) }">
@@ -259,7 +267,9 @@ async function pickDungeon(zone, d) {
 .dungeon-row { display: flex; align-items: center; gap: 8px; padding: 8px; border-radius: 8px; background: var(--panel-2); cursor: grab; }
 .dungeon-row.is-note { background: var(--soft-accent-bg); }
 .drag-handle { color: var(--text-secondary); font-size: 13px; flex-shrink: 0; }
-.dungeon-name { font-size: 13px; font-weight: 600; flex: 1; min-width: 0; }
+.dungeon-name-block { flex: 1; min-width: 0; }
+.dungeon-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dungeon-sub { font-size: 10px; color: var(--text-secondary); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .note-text { font-size: 12px; font-style: italic; flex: 1; min-width: 0; color: var(--text); }
 .note-input { flex: 1; min-width: 0; font-size: 12px; padding: 4px 6px; border-radius: 6px; border: 1px solid var(--border); background: var(--input); color: var(--text); }
 .gear-btn { cursor: pointer; color: var(--text-secondary); font-size: 13px; flex-shrink: 0; }
