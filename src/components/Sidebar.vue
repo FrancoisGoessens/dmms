@@ -26,7 +26,6 @@ const navDonjons = [
 ]
 const navMetiers = [
   { to: '/craft', label: 'Calcul up métiers', section: 'Métiers' },
-  { to: '/craft/item', label: 'Calcul brisage item' },
   { to: '/runes', label: 'Prix des runes' },
 ]
 

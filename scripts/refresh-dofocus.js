@@ -120,7 +120,18 @@ async function refreshItemCoefficients() {
   }
   console.log(`${craftables.length} items à traiter.`)
 
-  let updated = 0, failed = 0
+  // Caractéristiques (jets min/max par ligne) et coefficient/prix viennent
+  // de DEUX endpoits DoFocus indépendants : /items/{id} pour les
+  // caractéristiques (existe pour la plupart des items, peu importe si
+  // quelqu'un les a cassés), /items/{id}/coefficients/history pour le
+  // coefficient (existe SEULEMENT si la communauté l'a soumis — normal que
+  // ça manque pour la plupart des ~3271 items). Compteurs séparés : avant,
+  // un item sans coefficient était compté "échec" même quand ses
+  // caractéristiques, elles, avaient bien été récupérées — trompeur.
+  let charsUpdated = 0, charsFailed = 0
+  let coeffFound = 0, coeffMissing = 0
+  let hardFailed = 0 // erreur réseau/parsing complète sur l'item, rien traité du tout
+
   for (let i = 0; i < craftables.length; i++) {
     const { item_id } = craftables[i]
     try {
@@ -136,6 +147,12 @@ async function refreshItemCoefficients() {
         characteristics: detail.characteristics ?? null,
         image_url: detail.imageUrl ?? null,
       }).eq('item_id', String(item_id))
+      if (e1 || !detail.characteristics) {
+        charsFailed++
+        if (charsFailed <= 3) console.error(`  Pas de caractéristiques pour ${item_id} :`, e1?.message ?? '(réponse DoFocus vide)')
+      } else {
+        charsUpdated++
+      }
 
       if (latest) {
         const { error: e2 } = await supabase.from('cache_item_coefficients').insert({
@@ -143,25 +160,29 @@ async function refreshItemCoefficients() {
           coefficient: latest.coefficient ?? null,
           prix_estime: latest.price ?? latest.marketPrice ?? null,
         })
-        if (e1 || e2) {
-          failed++
-          if (failed <= 3) console.error(`  Échec item ${item_id} :`, (e1 || e2).message)
+        if (e2) {
+          coeffMissing++
+          if (coeffMissing <= 3) console.error(`  Échec insertion coefficient ${item_id} :`, e2.message)
         } else {
-          updated++
+          coeffFound++
         }
       } else {
-        failed++
+        coeffMissing++
       }
     } catch (e) {
-      failed++
-      if (failed <= 3) console.error(`  Échec item ${item_id} :`, e.message)
+      hardFailed++
+      if (hardFailed <= 3) console.error(`  Échec complet item ${item_id} :`, e.message)
     }
     await new Promise((r) => setTimeout(r, 150)) // on ne matraque pas leur serveur
     if ((i + 1) % 50 === 0 || i === craftables.length - 1) {
-      console.log(`  ... ${i + 1}/${craftables.length} traités (${updated} ok, ${failed} échecs)`)
+      console.log(`  ... ${i + 1}/${craftables.length} traités (${charsUpdated} avec carac., ${coeffFound} avec coeff.)`)
     }
   }
-  console.log(`Items craftables : ${updated} mis à jour, ${failed} échec(s).`)
+  console.log(
+    `Items craftables : ${charsUpdated}/${craftables.length} avec caractéristiques ` +
+    `(${charsFailed} sans), ${coeffFound}/${craftables.length} avec un coefficient DoFocus` +
+    `${hardFailed ? `, ${hardFailed} échec(s) réseau complet` : ''}.`
+  )
 }
 
 async function main() {

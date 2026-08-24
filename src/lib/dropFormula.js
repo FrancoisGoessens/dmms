@@ -1,3 +1,11 @@
+// Fourchette utilisée quand DoFocus n'a AUCUN coefficient pour un item
+// (~2500 des 3271 items craftables sont dans ce cas). 50 = seuil en dessous
+// duquel plus personne ne casse dans la communauté (donc pas la peine
+// d'estimer plus bas), 100 = borne haute "aucune perte". Purement pour
+// affichage sur la fiche item — jamais écrit en base.
+export const COEFFICIENT_ESTIMATE_LOW = 50
+export const COEFFICIENT_ESTIMATE_HIGH = 100
+
 // Formule exacte donnée par François, vérifiée sur son exemple
 // (PP 406, drop base 39% -> 92,28%).
 export function computeDropWithPP(baseRatePercent, prospection, affectePP = true) {

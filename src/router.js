@@ -16,7 +16,7 @@ const routes = [
   { path: '/personnage/:id?', name: 'character', component: () => import('./views/CharacterView.vue'), props: true },
 
   { path: '/craft', name: 'craft', component: () => import('./views/CraftView.vue') },
-  { path: '/craft/item', name: 'craft-item', component: () => import('./views/CraftItemView.vue') },
+  { path: '/item/:id', name: 'item-detail', component: () => import('./views/ItemDetailView.vue'), props: true },
   { path: '/runes', name: 'runes', component: () => import('./views/RunesView.vue') },
 ]
 

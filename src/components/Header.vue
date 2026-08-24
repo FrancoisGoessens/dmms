@@ -2,14 +2,14 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { session, setActiveCharacter, clearSession } from '../lib/session.js'
-import { searchDungeons, getCharacters, getCharacter } from '../lib/db.js'
+import { searchDungeons, searchCraftableItems, getCharacters, getCharacter } from '../lib/db.js'
 const route = useRoute()
 const router = useRouter()
 
 const titles = {
   dashboard: 'Dashboard', kanban: 'Kanban', routes: 'Routes', hdv: 'HDV',
   'a-verifier': 'À vérifier', insights: 'Insights', craft: 'Calcul up métiers',
-  'craft-item': 'Calcul brisage item', runes: 'Prix des runes', character: 'Paramètres des personnages',
+  runes: 'Prix des runes', character: 'Paramètres des personnages',
 }
 
 // --- Recherche de donjon ---
@@ -28,6 +28,26 @@ function selectDungeon(d) {
   searchOpen.value = false
   searchQuery.value = ''
   router.push({ name: 'detail', params: { id: d.id } })
+}
+
+// --- Recherche d'item (fiche brisage) — champ séparé de la recherche
+// donjon : les deux résultats n'ont ni la même forme ni la même
+// destination, pas la peine de les fusionner dans un seul dropdown.
+const itemQuery = ref('')
+const itemResults = ref([])
+const itemSearchOpen = ref(false)
+let itemSearchTimer = null
+watch(itemQuery, (q) => {
+  clearTimeout(itemSearchTimer)
+  itemSearchTimer = setTimeout(async () => {
+    itemResults.value = q.length >= 2 ? await searchCraftableItems(q) : []
+    itemSearchOpen.value = q.length >= 2
+  }, 250)
+})
+function selectItem(it) {
+  itemSearchOpen.value = false
+  itemQuery.value = ''
+  router.push({ name: 'item-detail', params: { id: it.item_id } })
 }
 
 // --- Personnage actif / switcher ---
@@ -92,6 +112,16 @@ function onRefreshDoFocus() {
         </div>
       </div>
 
+      <div class="search-wrap">
+        <input v-model="itemQuery" type="text" placeholder="Chercher un item..." class="search-input" @focus="itemSearchOpen = itemResults.length > 0" />
+        <div v-if="itemSearchOpen" class="dropdown search-dropdown">
+          <div v-for="r in itemResults" :key="r.item_id" class="dropdown-item" @click="selectItem(r)">
+            {{ r.name }} <span class="muted">· niv. {{ r.level }}</span>
+          </div>
+          <div v-if="itemResults.length === 0" class="dropdown-empty">Aucun résultat</div>
+        </div>
+      </div>
+
       <button class="icon-only" title="DoFocus : voir scripts/refresh-dofocus.js" @click="onRefreshDoFocus">
         <span class="site-badge dofocus">F</span>
       </button>
@@ -150,7 +180,7 @@ function onRefreshDoFocus() {
 .site-badge.dofusdb { background: var(--accent); }
 .site-badge.dofocus { background: oklch(0.6 0.15 260); }
 
-.search-wrap { position: relative; width: 220px; }
+.search-wrap { position: relative; width: 180px; }
 .search-input {
   width: 100%; font-size: 13px; padding: 8px 12px; border-radius: 8px;
   border: 1px solid var(--border); outline: none; background: var(--input); color: var(--text);

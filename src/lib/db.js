@@ -501,6 +501,39 @@ export async function getLatestCoefficientsForItems(itemIds) {
   for (const row of data) if (!(row.item_id in map)) map[row.item_id] = row
   return map
 }
+// --- Prix saisis à la main sur la fiche item (craft/brisage) ---
+// Même principe que price_log côté donjons : append-only, le plus récent
+// gagne, qu'il vienne d'ici ou de cache_item_coefficients (DoFocus).
+export async function getLatestCraftItemPrice(itemId) {
+  const { data, error } = await supabase
+    .from('craft_item_price_log')
+    .select('valeur, created_at')
+    .eq('item_id', itemId)
+    .order('created_at', { ascending: false })
+    .limit(1)
+  if (error) throw error
+  return data?.[0] ?? null
+}
+export async function insertCraftItemPrice(itemId, valeur, characterId = null) {
+  const { error } = await supabase
+    .from('craft_item_price_log')
+    .insert({ item_id: itemId, valeur, character_id: characterId })
+  if (error) throw error
+}
+// Version groupée (perf), pour le top 10 : { item_id: { valeur, created_at } }
+export async function getLatestCraftItemPricesForItems(itemIds) {
+  if (itemIds.length === 0) return {}
+  const { data, error } = await supabase
+    .from('craft_item_price_log')
+    .select('item_id, valeur, created_at')
+    .in('item_id', itemIds)
+    .order('created_at', { ascending: false })
+  if (error) throw error
+  const map = {}
+  for (const row of data) if (!(row.item_id in map)) map[row.item_id] = row
+  return map
+}
+
 export async function getProfessions() {
   const { data, error } = await supabase.from('cache_professions').select('*').order('name')
   if (error) throw error
@@ -592,13 +625,18 @@ export async function searchCraftableItems(query) {
   return data
 }
 
+// maybeSingle() : même raisonnement que getDungeon() côté donjons — un id
+// d'item invalide ou plus en cache ne doit jamais planter la page (avant,
+// .single() aurait fait le même blocage infini que le bug corrigé sur
+// DetailView). L'appelant doit vérifier que le retour n'est pas null.
 export async function getCraftableItemDetail(itemId) {
   const { data: item, error } = await supabase
     .from('cache_craftable_items')
     .select('*')
     .eq('item_id', itemId)
-    .single()
+    .maybeSingle()
   if (error) throw error
+  if (!item) return null
 
   const { data: coeffs, error: e2 } = await supabase
     .from('cache_item_coefficients')
