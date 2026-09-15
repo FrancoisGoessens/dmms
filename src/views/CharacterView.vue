@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { session } from '../lib/session.js'
 import {
@@ -83,6 +83,30 @@ async function confirmNewChar() {
 const sortedDungeons = computed(() =>
   filteredDungeons.value.slice().sort((a, b) => a.niveau - b.niveau || a.name.localeCompare(b.name))
 )
+
+// Même principe que le Dashboard : grille en 2 colonnes max, qui se remplit
+// par COLONNE (de haut en bas) plutôt que par ligne, avec un nombre de
+// colonnes responsive selon la largeur d'écran.
+const columns = ref(2)
+function computeColumns() {
+  columns.value = window.innerWidth < 900 ? 1 : 2
+}
+onMounted(() => {
+  computeColumns()
+  window.addEventListener('resize', computeColumns)
+})
+onBeforeUnmount(() => window.removeEventListener('resize', computeColumns))
+
+function gridRows() {
+  return Math.max(1, Math.ceil(sortedDungeons.value.length / columns.value))
+}
+function gridStyle() {
+  return {
+    gridTemplateColumns: `repeat(${columns.value}, 1fr)`,
+    gridTemplateRows: `repeat(${gridRows()}, auto)`,
+    gridAutoFlow: 'column',
+  }
+}
 
 // --- Filtre par tranche de niveau (chips à cocher, multi-sélection) ---
 const LEVEL_BUCKETS = [
@@ -195,10 +219,20 @@ const dropMultiplier = computed(() => (current.value ? (1 + (current.value.prosp
           <div class="bucket-chip action" @click="selectNoBuckets">None</div>
         </div>
 
-        <div class="panel">
+        <div class="add-wrap">
+          <input v-model="addQuery" class="dashed-select" placeholder="+ Ajouter un donjon (nom du donjon ou du boss)" />
+          <div v-if="addResults.length" class="add-results">
+            <div v-for="d in addResults" :key="d.id" class="add-result-item" @click="onAddDungeon(d)">
+              <span class="bold">{{ d.name }}</span>
+              <span class="muted"> — {{ d.bossName }} · niv. {{ d.niveau }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel two-col" :style="gridStyle()">
           <div
             v-for="row in sortedDungeons" :key="row.dungeonId"
-            class="dungeon-row"
+            class="dungeon-row card-style"
             @click="openDetail(row.dungeonId)"
           >
             <div class="dungeon-info">
@@ -212,18 +246,8 @@ const dropMultiplier = computed(() => (current.value ? (1 + (current.value.prosp
             </div>
             <div class="remove-btn" @click.stop="onRemoveDungeon(row.dungeonId)" title="Retirer">×</div>
           </div>
-          <div v-if="sortedDungeons.length === 0" class="empty">Aucun donjon dans cette sélection.</div>
         </div>
-
-        <div class="add-wrap">
-          <input v-model="addQuery" class="dashed-select" placeholder="+ Ajouter un donjon (nom du donjon ou du boss)" />
-          <div v-if="addResults.length" class="add-results">
-            <div v-for="d in addResults" :key="d.id" class="add-result-item" @click="onAddDungeon(d)">
-              <span class="bold">{{ d.name }}</span>
-              <span class="muted"> — {{ d.bossName }} · niv. {{ d.niveau }}</span>
-            </div>
-          </div>
-        </div>
+        <div v-if="sortedDungeons.length === 0" class="panel empty">Aucun donjon dans cette sélection.</div>
       </div>
     </div>
   </div>
@@ -257,8 +281,25 @@ const dropMultiplier = computed(() => (current.value ? (1 + (current.value.prosp
 .bucket-chip.active { color: var(--accent-text); background: var(--soft-accent-bg); }
 .bucket-chip.action { font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; background: transparent; border: 1px solid var(--border); }
 
-.dungeon-row { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-bottom: 1px solid var(--border-light); cursor: pointer; }
-.dungeon-row:hover { background: var(--hover); }
+.panel.two-col {
+  background: none;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
+  display: grid;
+  /* grid-template-columns / -rows / grid-auto-flow sont posés dynamiquement
+     via :style="gridStyle()" (nombre de colonnes responsive + remplissage
+     par colonne plutôt que par ligne, comme sur le Dashboard). */
+  gap: 10px;
+}
+.dungeon-row.card-style {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.dungeon-row { display: flex; align-items: center; gap: 10px; padding: 8px 12px; cursor: pointer; }
+.dungeon-row:hover { background: var(--hover) !important; }
 .dungeon-info { flex: 1; min-width: 0; }
 .dungeon-name { font-size: 13px; font-weight: 600; line-height: 1.35; }
 .dungeon-zone { font-size: 11px; color: var(--text-secondary); line-height: 1.35; }
@@ -267,7 +308,7 @@ const dropMultiplier = computed(() => (current.value ? (1 + (current.value.prosp
 .step-value { width: 14px; text-align: center; font-weight: 700; font-size: 11px; }
 .remove-btn { width: 18px; height: 18px; border-radius: 5px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-secondary); font-size: 11px; }
 
-.add-wrap { position: relative; margin-top: 10px; }
+.add-wrap { position: relative; margin-top: 10px; margin-bottom: 10px; }
 .dashed-select { font-size: 12px; padding: 8px 12px; border-radius: 8px; border: 1px dashed var(--accent); color: var(--accent-text); outline: none; background: var(--input); width: 100%; box-sizing: border-box; }
 .add-results { position: absolute; top: 42px; left: 0; right: 0; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 12px 28px -8px rgba(0,0,0,0.25); max-height: 260px; overflow: auto; z-index: 20; }
 .add-result-item { padding: 8px 12px; font-size: 12px; cursor: pointer; }

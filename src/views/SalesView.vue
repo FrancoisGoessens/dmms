@@ -121,13 +121,13 @@ async function confirmAdd() {
         <div v-if="isVisible('soldBy')" class="right">Vendu par</div>
       </div>
       <div v-if="showAddForm" class="sales-grid sales-row" :style="{ gridTemplateColumns: gridTemplate }">
-        <input v-if="isVisible('date')" type="date" v-model="newSale.date" class="cell-input" />
-        <select v-if="isVisible('item')" v-model="newSale.itemId" class="cell-input">
+        <input v-if="isVisible('date')" type="date" v-model="newSale.date" class="cell-input" @keydown.enter="confirmAdd" />
+        <select v-if="isVisible('item')" v-model="newSale.itemId" class="cell-input" @keydown.enter="confirmAdd">
           <option value="">Item…</option>
           <option v-for="i in availableItems" :key="i.id" :value="i.id">{{ i.name }}</option>
         </select>
-        <input v-if="isVisible('qty')" type="number" v-model.number="newSale.qty" class="cell-input right" />
-        <input v-if="isVisible('unitPrice')" type="number" v-model.number="newSale.price" placeholder="prix" class="cell-input right" />
+        <input v-if="isVisible('qty')" type="number" v-model.number="newSale.qty" class="cell-input right" @keydown.enter="confirmAdd" />
+        <input v-if="isVisible('unitPrice')" type="number" v-model.number="newSale.price" placeholder="prix" class="cell-input right" @keydown.enter="confirmAdd" />
         <div v-if="isVisible('total')" class="right muted">—</div>
         <div v-if="isVisible('type')" class="form-actions">
           <div class="cancel-btn" @click="showAddForm = false">Annuler</div>
